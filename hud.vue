@@ -60,6 +60,16 @@
             v-bind:opacity="config.logo.opacity"
             v-html="config.logo.svg"
         ></logo>
+        <agenda ref="agenda" class="agenda"
+            v-bind:opacity="config.agenda.opacity"
+            v-bind:donecolorbg="config.agenda.donecolorbg"
+            v-bind:donecolorfg="config.agenda.donecolorfg"
+            v-bind:currcolorbg="config.agenda.currcolorbg"
+            v-bind:currcolorfg="config.agenda.currcolorfg"
+            v-bind:todocolorbg="config.agenda.todocolorbg"
+            v-bind:todocolorfg="config.agenda.todocolorfg"
+            v-bind:slotlist="config.agenda.slots"
+        ></agenda>
     </div>
 </template>
 
@@ -93,6 +103,13 @@ body {
         width: 150px;
         height: auto;
     }
+    > .agenda {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: auto;
+        height: calc(100% - 60px - 100px);
+    }
 }
 </style>
 
@@ -115,18 +132,44 @@ module.exports = {
         "banner":       "url:hud-widget-banner.vue",
         "title-bar":    "url:hud-widget-title.vue",
         "progress-bar": "url:hud-widget-progress.vue",
+        "agenda":       "url:hud-widget-agenda.vue",
         "logo":         "url:hud-widget-logo.vue"
     },
     created () {
+        /*  interaction for progress widget  */
         Mousetrap.bind("left", (e) => {
             huds.send(huds.id, "progress.event=prev")
         })
         Mousetrap.bind("right", (e) => {
             huds.send(huds.id, "progress.event=next")
         })
+        huds.bind("progress", [ "event" ], (key, val) => {
+            let pb = this.$refs.progressBar
+            if (val === "prev" || val === "next")
+                pb.$emit(val)
+        })
+
+        /*  interaction for title widget  */
         Mousetrap.bind("space", (e) => {
             huds.send(huds.id, "title.event=bounce")
         })
+        huds.bind("title", [ "event" ], (key, val) => {
+            let tb = this.$refs.titleBar
+            if (val === "bounce")
+                tb.$emit("bounce")
+        })
+
+        /*  interaction for agenda widget  */
+        Mousetrap.bind("a", (e) => {
+            huds.send(huds.id, "agenda.event=toggle")
+        })
+        huds.bind("agenda", [ "event" ], (key, val) => {
+            let a = this.$refs.agenda
+            if (val === "toggle")
+                a.$emit("toggle")
+        })
+
+        /*  interaction for progress widget  */
         let progress = false
         for (const banner of this.config.banner.banner) {
             Mousetrap.bind(banner.key, (e) => {
@@ -170,16 +213,16 @@ module.exports = {
                 }
             })
         }
-        huds.bind("title", [ "event" ], (key, val) => {
-            let tb = this.$refs.titleBar
-            if (val === "bounce")
-                tb.$emit("bounce")
-        })
-        huds.bind("progress", [ "event" ], (key, val) => {
+    },
+    mounted () {
+        /*  forward progress position to agenda  */
+        setTimeout(() => {
             let pb = this.$refs.progressBar
-            if (val === "prev" || val === "next")
-                pb.$emit(val)
-        })
+            let a  = this.$refs.agenda
+            pb.$on("pos", (pos) => {
+                a.$emit("pos", pos)
+            })
+        }, 500)
     }
 }
 </script>

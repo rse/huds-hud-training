@@ -66,15 +66,18 @@ module.exports = {
             if (this.pos > 0)
                 this.pos--
             this.updatex()
+            this.$emit("pos", this.pos)
         })
         this.$on("next", () => {
             if (this.pos < this.slots - 1)
                 this.pos++
             this.updatex()
+            this.$emit("pos", this.pos)
         })
     },
     mounted () {
         this.renderx()
+        this.$emit("pos", this.pos)
     },
     methods: {
         renderx () {
