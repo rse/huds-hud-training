@@ -22,13 +22,13 @@ production scenario. It is specially intended to be used with [OBS Studio](https
 and optionally the [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck)
 remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) function.
 
-This HUD permanently
-displays an animated progress bar at the bottom-left, an
-animated title bar at the bottom-right, and a static logo at
-the top-right. In addition, on-demand it displays one or more
-animated banners at the top-left. The progress bar, title bar
-and and banners can be controlled either interactively via keystrokes
-(<kbd>LEFT</kbd>/<kbd>RIGHT</kbd> for the progress bar, <kbd>SPACE</kbd>
+This HUD permanently displays an animated agenda list at the top-left,
+an animated progress bar at the bottom-left, an animated title bar at
+the bottom-right, and a static logo at the top-right. In addition,
+on-demand it displays one or more animated banners at the top-left.
+The agenda, progress bar, title bar and and banners can be controlled
+either interactively via keystrokes (<kbd>a</kbd> for the agenda,
+<kbd>LEFT</kbd>/<kbd>RIGHT</kbd> for the progress bar, <kbd>SPACE</kbd>
 for the title bar and arbitrary configured keys for the banners) or
 programmatically via HUDS' REST API.
 
@@ -111,6 +111,7 @@ Usage
     from any shell with the help of the [cURL](https://curl.haxx.se/) utility:
 
     ```sh
+	curl -D- http://127.0.0.1:9999/training/event/agenda.event=toggle
 	curl -D- http://127.0.0.1:9999/training/event/progress.event=prev
 	curl -D- http://127.0.0.1:9999/training/event/progress.event=next
 	curl -D- http://127.0.0.1:9999/training/event/title.event=bounce
