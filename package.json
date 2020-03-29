@@ -24,10 +24,10 @@
         "svg.path.js":                     "otm/svg.path.js#6981166"
     },
     "peerDependencies": {
-        "huds":                            "0.9.5"
+        "huds":                            ">=0.9.11"
     },
     "devDependencies": {
-        "huds":                            "0.9.5"
+        "huds":                            ">=0.9.11"
     },
     "scripts": {
         "huds":                            "huds",
