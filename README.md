@@ -46,8 +46,8 @@ Usage
         $ vi training.yaml  # optionally edit the training configuration
         $ npm run huds -- \
             -a 127.0.0.1 -p 9999 \
-          -U training -P training \
-          -d training:.,training.yaml
+            -U training -P training \
+            -d training:.,training.yaml
         ```
 
     -   **Option 2**: Without any installation (from distribution)
