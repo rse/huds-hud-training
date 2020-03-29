@@ -15,7 +15,7 @@ Abstract
 
 This is a Head-Up-Display (HUD) running under the [Head-Up-Display Server
 (HUDS)](https://github.com/rse/huds) for performing online trainings as Webinars.
-It acts as a HUD or "Overlay" in your video
+It acts as a HUD or "overlay" in your video
 production scenario. It is specially intended to be used with [OBS Studio](https://obsproject.com/)'s
 [CEF](https://en.wikipedia.org/wiki/Chromium_Embedded_Framework)-based
 [Browser Source](https://obsproject.com/wiki/Sources-Guide#browsersource)
