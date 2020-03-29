@@ -24,9 +24,9 @@ remote control device and its [System:Website](https://help.elgato.com/hc/en-us/
 
 This HUD permanently displays an animated agenda list at the top-left,
 an animated progress bar at the bottom-left, an animated title bar at
-the bottom-right, and a static logo at the top-right. In addition,
+the bottom-right, and an animated logo at the top-right. In addition,
 on-demand it displays one or more animated banners at the top-left.
-The agenda, progress bar, title bar and and banners can be controlled
+The agenda, progress bar, title bar and banners can be controlled
 either interactively via keystrokes (<kbd>a</kbd> for the agenda,
 <kbd>LEFT</kbd>/<kbd>RIGHT</kbd> for the progress bar, <kbd>SPACE</kbd>
 for the title bar and arbitrary configured keys for the banners) or
