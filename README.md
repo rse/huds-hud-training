@@ -37,7 +37,7 @@ Usage
    [Head-Up-Display Server (HUDS)](https://github.com/rse/huds).
    Here you have three different options:
 
-    -   Option 1: Without any installation (directly from source tree):
+    -   **Option 1**: Without any installation (directly from source tree):
 
         ```sh
         $ git clone https://github.com/rse/huds-hud-training
@@ -50,7 +50,7 @@ Usage
           -d training:.,training.yaml
         ```
 
-    -   Option 2: Without any installation (from distribution)
+    -   **Option 2**: Without any installation (from distribution)
 
         ```sh
         $ curl -LO https://github.com/rse/huds-hud-training/raw/master/training.yaml
@@ -61,7 +61,7 @@ Usage
             -d training:@huds-hud-training,training.yaml
         ```
 
-    -   Option 3: With global system installation:
+    -   **Option 3**: With global system installation:
 
         ```sh
         $ npm install -g huds huds-hud-training
@@ -74,24 +74,26 @@ Usage
         ```
 
 2.  **Start [OBS Studio](https://obsproject.com/)**:</br>
-    Start OBS Studio and add a [Browser Source](https://obsproject.com/wiki/Sources-Guide#browsersource)
-    to any scene. As the URL for the browser source use:
+    Start [OBS Studio](https://obsproject.com/) and add a [Browser
+    Source](https://obsproject.com/wiki/Sources-Guide#browsersource) to
+    any scene. As the URL for the browser source use:
 
     ```
     http://training:training@127.0.0.1:9999/training/
     ```
 
-3.  **Locally Control HUD**:<br/>
-    If you want to interact with it, right-click onto the source and
+3.  **Locally Control HUD** (Keystrokes):<br/>
+    If you want to interact with the HUD directly from within [OBS Studio](https://obsproject.com/),
+    right-click onto the browser source and
     choose "Interact". You can press <kbd>LEFT</kbd> (previous part),
     <kbd>RIGHT</kbd> (next part), <kbd>SPACE</kbd> (flash title),
     <kbd>p</kbd> (toggle Pause banner), <kbd>r</kbd> (toggle Rant
     banner) and <kbd>q</kbd> (toggle Q&A banner)
     in the interaction window.
 
-3.  **Programmatically Control HUD**:<br/>
+3.  **Remote Control HUD (Programmatically)**:<br/>
     Now you can also programmatically control the HUD by remotely triggering the events
-    from any shell with the help of the [curl(1)](https://curl.haxx.se/) utility:
+    from any shell with the help of the [cURL](https://curl.haxx.se/) utility:
 
     ```sh
 	curl -D- http://training:training@127.0.0.1:9999/training/event/progress.event=prev
@@ -102,7 +104,7 @@ Usage
 	curl -D- http://training:training@127.0.0.1:9999/training/event/banner-qna.event=toggle
     ```
 
-4.  **Remote Control HUD**:<br/>
+4.  **Remote Control HUD (Device)**:<br/>
     Optionally, trigger the events from an
     [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck)
     remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) functions.
