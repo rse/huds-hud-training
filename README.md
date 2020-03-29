@@ -23,10 +23,10 @@ and optionally the [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-
 remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) function.
 
 This HUD permanently
-displays an animated progress bar in the bottom-left corner, an
-animated title bar in the bottom-right corner, and a static logo in
-the top-right corner. In addition, on-demand it displays one or more
-animated banners in the top-left corner. The progress bar, title bar
+displays an animated progress bar at the bottom-left, an
+animated title bar at the bottom-right, and a static logo at
+the top-right. In addition, on-demand it displays one or more
+animated banners at the top-left. The progress bar, title bar
 and and banners can be controlled either interactively via keystrokes
 (<kbd>LEFT</kbd>/<kbd>RIGHT</kbd> for the progress bar, <kbd>SPACE</kbd>
 for the title bar and arbitrary configured keys for the banners) or
