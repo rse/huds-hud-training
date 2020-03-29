@@ -113,10 +113,10 @@ module.exports = {
         }
     },
     components: {
-        "banner":       "url:banner.vue",
-        "title-bar":    "url:title-bar.vue",
-        "progress-bar": "url:progress-bar.vue",
-        "logo":         "url:logo.vue"
+        "banner":       "url:hud-widget-banner.vue",
+        "title-bar":    "url:hud-widget-title.vue",
+        "progress-bar": "url:hud-widget-progress.vue",
+        "logo":         "url:hud-widget-logo.vue"
     },
     created () {
         huds.on("receive", (message) => {
