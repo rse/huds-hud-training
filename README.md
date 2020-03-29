@@ -24,6 +24,11 @@ and and banners can be controlled either interactively via keystrokes
 for the title bar and arbitrary configured keys for the banners) or
 programmatically via HUDS' REST API.
 
+Example
+-------
+
+![screenshot](screenshot.jpg)
+
 Usage
 -----
 
@@ -99,11 +104,6 @@ Usage
 	and the provided script [training-keys.sh](./training-keys.sh).
 	Just use the [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) function
 	with the generated key images, the URLs above and just let them be executed in the background.
-
-Example
--------
-
-![screenshot](screenshot.jpg)
 
 License
 -------
