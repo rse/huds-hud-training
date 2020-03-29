@@ -112,6 +112,7 @@ module.exports = {
                 autoplay: true
             })
             if (newstate) {
+                audio.error2.play()
                 tl.add({
                     easing:     "easeOutBounce",
                     translateX: [ -400, 0.0 ],
@@ -120,6 +121,7 @@ module.exports = {
                 })
             }
             else {
+                audio.error1.play()
                 tl.add({
                     easing:     "easeOutSine",
                     opacity:    [ 1.0, 0.0 ]

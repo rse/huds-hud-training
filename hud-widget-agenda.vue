@@ -130,6 +130,7 @@ module.exports = {
             let newstate = !oldstate
             if (!oldstate)
                 this.enabled = true
+            setTimeout(() => audio.swipe.play(), 500)
             let el = this.$refs.canvas
             let tl = anime.timeline({
                 targets:  el,

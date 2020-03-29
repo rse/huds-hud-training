@@ -63,14 +63,18 @@ module.exports = {
     },
     created () {
         this.$on("prev", () => {
-            if (this.pos > 0)
+            if (this.pos > 0) {
                 this.pos--
+                audio.bling.play()
+            }
             this.updatex()
             this.$emit("pos", this.pos)
         })
         this.$on("next", () => {
-            if (this.pos < this.slots - 1)
+            if (this.pos < this.slots - 1) {
                 this.pos++
+                audio.bling.play()
+            }
             this.updatex()
             this.$emit("pos", this.pos)
         })

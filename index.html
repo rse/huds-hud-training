@@ -35,6 +35,7 @@
         <script type="text/javascript" src="@http-vue-loader/src/httpVueLoader.js"></script>
         <script type="text/javascript" src="@mousetrap/mousetrap.min.js"></script>
         <script type="text/javascript" src="@animejs/lib/anime.min.js"></script>
+        <script type="text/javascript" src="@howler/dist/howler.min.js"></script>
         <script>less = { env: "production", logLevel: 0 };</script>
         <script type="text/javascript" src="@less/dist/less.min.js"></script>
         <script type="text/javascript" src="@@svgdotjs/svg.js/dist/svg.min.js"></script>
@@ -69,6 +70,12 @@
                 less.render(lessText, { globalVars: huds.config({ flat: true, sep: "-" }) }).then((result) => result.css)
             Vue.use(httpVueLoader)
             vm = new Vue({ el: "#hud", components: { "hud": "url:hud.vue" }})
+            audio = {}
+            Howler.volume(0.3)
+            audio.swipe  = new Howl({ src: [ "audio-swipe.mp3"  ], preload: true })
+            audio.bling  = new Howl({ src: [ "audio-bling.mp3"  ], preload: true })
+            audio.error1 = new Howl({ src: [ "audio-error1.mp3" ], preload: true })
+            audio.error2 = new Howl({ src: [ "audio-error2.mp3" ], preload: true })
             huds.on("open",    ()        => { console.log("HUDS: WebSocket: open") })
             huds.on("close",   ()        => { console.log("HUDS: WebSocket: close") })
             huds.on("receive", (message) => { console.log("HUDS: WebSocket: receive", JSON.stringify(message)) })

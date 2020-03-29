@@ -89,6 +89,7 @@ module.exports = {
     created () {
         this.$on("bounce", () => {
             let bar = this.$refs.bar
+            audio.bling.play()
             anime.timeline({
                 targets: bar,
                 duration: 400,

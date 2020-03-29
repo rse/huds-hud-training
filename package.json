@@ -17,6 +17,7 @@
         "typopro-web":                     "4.2.3",
         "mousetrap":                       "1.6.5",
         "animejs":                         "3.1.0",
+        "howler":                          "2.1.3",
         "@svgdotjs/svg.js":                "3.0.16",
         "@svgdotjs/svg.filter.js":         "3.0.7",
         "svg.easing.js":                   "2.0.0",
