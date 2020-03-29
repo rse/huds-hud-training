@@ -59,7 +59,6 @@ Usage
         $ vi training.yaml  # optionally edit the training configuration
         $ npm run huds -- \
             -a 127.0.0.1 -p 9999 \
-            -U training -P training \
             -d training:.,training.yaml
         ```
 
@@ -70,7 +69,6 @@ Usage
         $ vi training.yaml  # optionally edit the training configuration
         $ npx -p huds-hud-training huds \
             -a 127.0.0.1 -p 9999 \
-            -U training -P training \
             -d training:@huds-hud-training,training.yaml
         ```
 
@@ -82,7 +80,6 @@ Usage
         $ vi training.yaml  # optionally edit the training configuration
         $ huds \
             -a 127.0.0.1 -p 9999 \
-            -U training -P training \
             -d training:@huds-hud-training,training.yaml
         ```
 
@@ -97,7 +94,7 @@ Usage
     any scene. As the URL for the browser source use:
 
     ```
-    http://training:training@127.0.0.1:9999/training/
+    http://127.0.0.1:9999/training/
     ```
 
 4.  **Locally Control HUD** (Keystrokes):<br/>
@@ -114,12 +111,12 @@ Usage
     from any shell with the help of the [cURL](https://curl.haxx.se/) utility:
 
     ```sh
-	curl -D- http://training:training@127.0.0.1:9999/training/event/progress.event=prev
-	curl -D- http://training:training@127.0.0.1:9999/training/event/progress.event=next
-	curl -D- http://training:training@127.0.0.1:9999/training/event/title.event=bounce
-	curl -D- http://training:training@127.0.0.1:9999/training/event/banner-pause.event=toggle
-	curl -D- http://training:training@127.0.0.1:9999/training/event/banner-rant.event=toggle
-	curl -D- http://training:training@127.0.0.1:9999/training/event/banner-qna.event=toggle
+	curl -D- http://127.0.0.1:9999/training/event/progress.event=prev
+	curl -D- http://127.0.0.1:9999/training/event/progress.event=next
+	curl -D- http://127.0.0.1:9999/training/event/title.event=bounce
+	curl -D- http://127.0.0.1:9999/training/event/banner-pause.event=toggle
+	curl -D- http://127.0.0.1:9999/training/event/banner-rant.event=toggle
+	curl -D- http://127.0.0.1:9999/training/event/banner-qna.event=toggle
     ```
 
 6.  **Remote Control HUD (Device)**:<br/>
