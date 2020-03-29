@@ -31,7 +31,7 @@ $ npx huds -a 127.0.0.1 -p 9999 -U sample -P sample -d sample:huds/sample,huds/s
 Example
 -------
 
-![screenshot](screenshot.png)
+![screenshot](screenshot.jpg)
 
 License
 -------
