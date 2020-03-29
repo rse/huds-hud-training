@@ -35,7 +35,11 @@ programmatically via HUDS' REST API.
 Example
 -------
 
-![screenshot](screenshot.jpg)
+![screenshot-1](screenshot-1.jpg)
+
+![screenshot-2](screenshot-2.png)
+
+![screenshot-3](screenshot-3.png)
 
 Usage
 -----
