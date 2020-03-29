@@ -8,8 +8,9 @@
         "url":                             "http://engelschall.com"
     },
     "license":                             "MIT",
+    "main":                                "package.json",
     "peerDependencies": {
-        "huds":                            "0.9.3"
+        "huds":                            "0.9.5"
     },
     "dependencies": {
         "vue":                             "2.6.11",
