@@ -67,7 +67,7 @@ Usage
         ```sh
         $ curl -LO https://github.com/rse/huds-hud-training/raw/master/training.yaml
         $ vi training.yaml  # optionally edit the training configuration
-        $ npx -p huds-hud-training huds \
+        $ npx -p huds -p huds-hud-training huds \
             -a 127.0.0.1 -p 9999 \
             -d training:@huds-hud-training,training.yaml
         ```
