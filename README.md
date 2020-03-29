@@ -13,8 +13,8 @@ Training HUD for HUDS
 Abstract
 --------
 
-This is a Head-Up-Display (HUD) running under the Head-Up-Display Server
-(HUDS) for performing online trainings as Webinars. It permanently
+This is a Head-Up-Display (HUD) running under the [Head-Up-Display Server
+(HUDS)](https://github.com/rse/huds) for performing online trainings as Webinars. It permanently
 displays an animated progress bar in the bottom-left corner, an
 animated title bar in the bottom-right corner, and a static logo in
 the top-right corner. In addition, on-demand it displays one or more
@@ -32,7 +32,10 @@ Example
 Usage
 -----
 
-1. Start Training HUD:
+1. **Start Training HUD:**<br/>
+   First, install and start this training HUD with the help of the
+   [Head-Up-Display Server (HUDS)](https://github.com/rse/huds).
+   Here you have three different options:
 
     -   Option 1: Without any installation (directly from source tree):
 
@@ -70,14 +73,15 @@ Usage
             -d training:@huds-hud-training,training.yaml
         ```
 
-2.  Start [OBS Studio](https://obsproject.com/)
-    and add a [Browser Source](https://obsproject.com/wiki/Sources-Guide#browsersource)
-    to any scene. As its URL use:
+2.  **Start [OBS Studio](https://obsproject.com/)**:</br>
+    Start OBS Studio and add a [Browser Source](https://obsproject.com/wiki/Sources-Guide#browsersource)
+    to any scene. As the URL for the browser source use:
 
     ```
     http://training:training@127.0.0.1:9999/training/
     ```
 
+3.  **Locally Control HUD**:<br/>
     If you want to interact with it, right-click onto the source and
     choose "Interact". You can press <kbd>LEFT</kbd> (previous part),
     <kbd>RIGHT</kbd> (next part), <kbd>SPACE</kbd> (flash title),
@@ -85,7 +89,9 @@ Usage
     banner) and <kbd>q</kbd> (toggle Q&A banner)
     in the interaction window.
 
-3.  Now you can also remotely trigger the events from any shell with the help of [curl(1)](https://curl.haxx.se/):
+3.  **Programmatically Control HUD**:<br/>
+    Now you can also programmatically control the HUD by remotely triggering the events
+    from any shell with the help of the [curl(1)](https://curl.haxx.se/) utility:
 
     ```sh
 	curl -D- http://training:training@127.0.0.1:9999/training/event/progress.event=prev
@@ -96,7 +102,8 @@ Usage
 	curl -D- http://training:training@127.0.0.1:9999/training/event/banner-qna.event=toggle
     ```
 
-4.  Optionally, trigger the events from an
+4.  **Remote Control HUD**:<br/>
+    Optionally, trigger the events from an
     [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck)
     remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) functions.
     For this, generate key images with the help of the companion tool
