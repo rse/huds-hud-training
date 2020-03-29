@@ -14,19 +14,53 @@ Abstract
 --------
 
 This is a Head-Up-Display (HUD) running under the Head-Up-Display Server
-(HUDS) for performing online trainings as Webinars. It displays a progress bar,
-title bar and logo.
+(HUDS) for performing online trainings as Webinars. It permanently
+displays an animated progress bar in the bottom-left corner, an animated
+title bar in the bottom-right corner, and a static logo in the top-right
+corner. In addition, on-demand it displays one or more animated banners
+in the top-left corner. The progress bar, title bar and and banners can
+be controlled either interactively via keystrokes (LEFT/RIGHT for the
+progress bar, SPACE for the title bar and arbitrary configured keys for
+the banners) or programmatically via HUDS' REST API.
 
 Usage
 -----
 
-```sh
-$ git clone https://github.com/rse/huds-hud-training
-$ cd huds-hud-training
-$ npm install
-$ npm install huds
-$ npx huds -a 127.0.0.1 -p 9999 -U sample -P sample -d sample:huds/sample,huds/sample/sample.yaml
-```
+-   Without any installation (directly from source tree):
+
+    ```sh
+    $ git clone https://github.com/rse/huds-hud-training
+    $ cd huds-hud-training
+    $ npm install
+    $ vi training.yaml  # optionally edit the training configuration
+    $ npm run huds -- \
+        -a 127.0.0.1 -p 9999 \
+      -U training -P training \
+      -d training:.,training.yaml
+    ```
+
+-   Without any installation (from distribution)
+
+    ```sh
+    $ curl -LO https://github.com/rse/huds-hud-training/raw/master/training.yaml
+    $ vi training.yaml  # optionally edit the training configuration
+    $ npx -p huds-hud-training huds \
+        -a 127.0.0.1 -p 9999 \
+        -U training -P training \
+        -d training:@huds-hud-training,training.yaml
+    ```
+
+-   With global system installation:
+
+    ```sh
+    $ npm install -g huds huds-hud-training
+    $ curl -LO https://github.com/rse/huds-hud-training/raw/master/training.yaml
+    $ vi training.yaml  # optionally edit the training configuration
+    $ huds \
+        -a 127.0.0.1 -p 9999 \
+        -U training -P training \
+        -d training:@huds-hud-training,training.yaml
+    ```
 
 Example
 -------

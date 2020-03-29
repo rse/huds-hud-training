@@ -9,9 +9,6 @@
     },
     "license":                             "MIT",
     "main":                                "package.json",
-    "peerDependencies": {
-        "huds":                            "0.9.5"
-    },
     "dependencies": {
         "vue":                             "2.6.11",
         "http-vue-loader":                 "1.4.2",
@@ -25,5 +22,14 @@
         "svg.easing.js":                   "2.0.0",
         "svg.screenbbox.js":               "0.1.2",
         "svg.path.js":                     "otm/svg.path.js#6981166"
+    },
+    "peerDependencies": {
+        "huds":                            "0.9.5"
+    },
+    "devDependencies": {
+        "huds":                            "0.9.5"
+    },
+    "scripts": {
+        "huds":                            "huds"
     }
 }
