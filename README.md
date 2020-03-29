@@ -85,7 +85,7 @@ Usage
     banner) and <kbd>q</kbd> (toggle Q&A banner)
     in the interaction window.
 
-3.  Now you can also remotely trigger the events with:
+3.  Now you can also remotely trigger the events from any shell with the help of [curl(1)](https://curl.haxx.se/):
 
     ```sh
 	curl -D- http://training:training@127.0.0.1:9999/training/event/progress.event=prev
@@ -99,9 +99,9 @@ Usage
 4.  Optionally, trigger the events from an
     [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck)
     remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) functions.
-    For this generate key images with the help of the companion tool
+    For this, generate key images with the help of the companion tool
     [Stream-Deck Key-Image Generator (SDKIG)](https://github.com/rse/sdkig)
-	and the provided script [training-keys.sh](./training-keys.sh).
+	and the provided script [training-key.sh](./training-key.sh).
 	Just use the [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) function
 	with the generated key images, the URLs above and just let them be executed in the background.
 
