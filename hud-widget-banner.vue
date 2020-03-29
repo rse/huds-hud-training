@@ -112,7 +112,7 @@ module.exports = {
                 autoplay: true
             })
             if (newstate) {
-                audio.error2.play()
+                audio.swipe.play()
                 tl.add({
                     easing:     "easeOutBounce",
                     translateX: [ -400, 0.0 ],
