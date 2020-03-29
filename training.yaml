@@ -38,12 +38,6 @@ banner:
             iconcolor:  "#bb0000"
             titletext:  RANT
             titlecolor: "#000000"
-        -   name:       hint
-            key:        h
-            iconname:   exclamation-circle
-            iconcolor:  "#cc9900"
-            titletext:  HINT
-            titlecolor: "#000000"
         -   name:       qna
             key:        q
             iconname:   comments
