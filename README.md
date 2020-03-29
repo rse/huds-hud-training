@@ -32,8 +32,13 @@ Example
 Usage
 -----
 
-1. **Start Training HUD:**<br/>
-   First, install and start this training HUD with the help of the
+1. **Install Node.js:**<br/>
+   First, install the [Node.js](https://nodejs.org/) run-time and
+   its Node Package Manager (NPM) by following the instructions on the
+   [Node.js](https://nodejs.org/) website.
+
+2. **Install and Start Training HUD:**<br/>
+   Now install and start this training HUD with the help of the
    [Head-Up-Display Server (HUDS)](https://github.com/rse/huds).
    Here you have three different options:
 
@@ -73,7 +78,7 @@ Usage
             -d training:@huds-hud-training,training.yaml
         ```
 
-2.  **Start [OBS Studio](https://obsproject.com/)**:</br>
+3.  **Start [OBS Studio](https://obsproject.com/)**:</br>
     Start [OBS Studio](https://obsproject.com/) and add a [Browser
     Source](https://obsproject.com/wiki/Sources-Guide#browsersource) to
     any scene. As the URL for the browser source use:
@@ -82,7 +87,7 @@ Usage
     http://training:training@127.0.0.1:9999/training/
     ```
 
-3.  **Locally Control HUD** (Keystrokes):<br/>
+4.  **Locally Control HUD** (Keystrokes):<br/>
     If you want to interact with the HUD directly from within [OBS Studio](https://obsproject.com/),
     right-click onto the browser source and
     choose "Interact". You can press <kbd>LEFT</kbd> (previous part),
@@ -91,7 +96,7 @@ Usage
     banner) and <kbd>q</kbd> (toggle Q&A banner)
     in the interaction window.
 
-3.  **Remote Control HUD (Programmatically)**:<br/>
+5.  **Remote Control HUD (Programmatically)**:<br/>
     Now you can also programmatically control the HUD by remotely triggering the events
     from any shell with the help of the [cURL](https://curl.haxx.se/) utility:
 
@@ -104,7 +109,7 @@ Usage
 	curl -D- http://training:training@127.0.0.1:9999/training/event/banner-qna.event=toggle
     ```
 
-4.  **Remote Control HUD (Device)**:<br/>
+6.  **Remote Control HUD (Device)**:<br/>
     Optionally, trigger the events from an
     [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck)
     remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) functions.
