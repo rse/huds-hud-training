@@ -38,7 +38,8 @@ Usage
 
 2. **Install and Start Training HUD:**<br/>
    Now install and start this training HUD with the help of the
-   [Head-Up-Display Server (HUDS)](https://github.com/rse/huds).
+   [Head-Up-Display Server (HUDS)](https://github.com/rse/huds)
+   and optionally a customized [training configuration](./training.yaml).
    Here you have three different options:
 
     -   **Option 1**: Without any installation (directly from source tree):
