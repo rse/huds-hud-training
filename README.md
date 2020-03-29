@@ -32,7 +32,7 @@ Example
 Usage
 -----
 
-1. **Install Node.js:**<br/>
+1. **Install [Node.js](https://nodejs.org/):**<br/>
    First, install the [Node.js](https://nodejs.org/) run-time and
    its Node Package Manager (NPM) by following the instructions on the
    [Node.js](https://nodejs.org/) website.
