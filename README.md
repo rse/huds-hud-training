@@ -14,7 +14,16 @@ Abstract
 --------
 
 This is a Head-Up-Display (HUD) running under the [Head-Up-Display Server
-(HUDS)](https://github.com/rse/huds) for performing online trainings as Webinars. It permanently
+(HUDS)](https://github.com/rse/huds) for performing online trainings as Webinars.
+
+It acts as a HUD or "Overlay" in your video
+production scenario. It is specially intended to be used with [OBS Studio](https://obsproject.com/)'s
+[CEF](https://en.wikipedia.org/wiki/Chromium_Embedded_Framework)-based
+[Browser Source](https://obsproject.com/wiki/Sources-Guide#browsersource)
+and optionally the [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck)
+remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) function.
+
+This HUD permanently
 displays an animated progress bar in the bottom-left corner, an
 animated title bar in the bottom-right corner, and a static logo in
 the top-right corner. In addition, on-demand it displays one or more
