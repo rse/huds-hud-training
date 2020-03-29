@@ -32,15 +32,15 @@ Example
 Usage
 -----
 
-1. **Install [Node.js](https://nodejs.org/):**<br/>
-   First, install the [Node.js](https://nodejs.org/) run-time execution environment
-   by following the instructions on the [Node.js](https://nodejs.org/) website.
+1.  **Install [Node.js](https://nodejs.org/):**<br/>
+    First, install the [Node.js](https://nodejs.org/) run-time execution environment
+    by following the instructions on the [Node.js](https://nodejs.org/) website.
 
-2. **Install and Start Training HUD:**<br/>
-   Now install and start this training HUD with the help of the
-   [Head-Up-Display Server (HUDS)](https://github.com/rse/huds)
-   and optionally a customized [training configuration](./training.yaml).
-   Here you have three different options:
+2.  **Install and Start Training HUD:**<br/>
+    Now install and start this training HUD with the help of the
+    [Head-Up-Display Server (HUDS)](https://github.com/rse/huds)
+    and optionally a customized [training configuration](./training.yaml).
+    Here you have three different options:
 
     -   **Option 1**: Without any installation (directly from source tree):
 
@@ -77,6 +77,11 @@ Usage
             -U training -P training \
             -d training:@huds-hud-training,training.yaml
         ```
+
+    Hint: when customizing the [training configuration](./training.yaml)
+    feel free to both replace (for adjustment) or even completey
+    kick-out (for disabling) the `title`, `progress`, `banner` and
+    `logo` sections.
 
 3.  **Start [OBS Studio](https://obsproject.com/)**:</br>
     Start [OBS Studio](https://obsproject.com/) and add a [Browser
