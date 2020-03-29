@@ -31,6 +31,7 @@
     },
     "scripts": {
         "huds":                            "huds",
-        "start":                           "huds -a 0.0.0.0 -p 9999 -d training:.,training.yaml"
+        "start":                           "huds -a 0.0.0.0 -p 9999 -d training:.,training.yaml",
+        "test":                            "node ../huds/src/huds-server.js -a 0.0.0.0 -p 9999 -d training:.,training.yaml"
     }
 }
