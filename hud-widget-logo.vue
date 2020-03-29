@@ -33,6 +33,11 @@
 <style lang="less" scoped>
 .logo {
     opacity: var(--opacity);
+    perspective: 300px;
+    svg {
+        transform-origin: 50% 50%;
+        transform-style:  preserve-3d;
+    }
 }
 </style>
 
@@ -44,6 +49,20 @@ module.exports = {
     },
     computed: {
         style: HUDS.vueprop2cssvar()
+    },
+    mounted () {
+        let i = 0
+        setInterval(() => {
+            let tl = anime.timeline({
+                targets:  this.$el.querySelector("svg"),
+                duration: 2000,
+                easing:   "easeInOutQuad",
+            })
+            if (i++ % 2 === 0)
+                tl.add({ rotateX: [ 0, 360 ] })
+            else
+                tl.add({ rotateY: [ 0, 360 ] })
+        }, 5 * 60 * 1000)
     }
 }
 </script>
