@@ -33,9 +33,8 @@ Usage
 -----
 
 1. **Install [Node.js](https://nodejs.org/):**<br/>
-   First, install the [Node.js](https://nodejs.org/) run-time and
-   its Node Package Manager (NPM) by following the instructions on the
-   [Node.js](https://nodejs.org/) website.
+   First, install the [Node.js](https://nodejs.org/) run-time execution environment
+   by following the instructions on the [Node.js](https://nodejs.org/) website.
 
 2. **Install and Start Training HUD:**<br/>
    Now install and start this training HUD with the help of the
