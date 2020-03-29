@@ -130,7 +130,6 @@ module.exports = {
             let newstate = !oldstate
             if (!oldstate)
                 this.enabled = true
-            setTimeout(() => audio.swipe.play(), 500)
             let el = this.$refs.canvas
             let tl = anime.timeline({
                 targets:  el,
@@ -138,6 +137,7 @@ module.exports = {
                 autoplay: true
             })
             if (newstate) {
+                setTimeout(() => audio.swipe.play(), 500)
                 tl.add({
                     easing:     "easeOutSine",
                     translateX: [ -1920, 0 ],
@@ -145,6 +145,7 @@ module.exports = {
                 })
             }
             else {
+                audio.swipe.play()
                 tl.add({
                     easing:     "easeInSine",
                     translateX: [ 0, -1920 ],
