@@ -26,14 +26,14 @@
 #   Generate key images for Elgato Stream-Deck with the help of the companion tool
 #   Stream-Deck Key-Image Generator (SDKIG) <https://github.com/rse/sdkig>
 
-sdkig -b 336699 -i couch                -I 99ccff -t "PAUSE"     -T ffffff -o training-key-hud-banner-pause.png
+sdkig -b 336699 -i pause-circle         -I 99ccff -t "PAUSE"     -T ffffff -o training-key-hud-banner-pause.png
 sdkig -b bb0000 -i radiation-alt        -I ffc0c0 -t "RANT"      -T ffffff -o training-key-hud-banner-rant.png
-sdkig -b 339900 -i comments             -I c0ffc0 -t "Q&A"       -T ffffff -o training-key-hud-banner-qna.png
-
-sdkig -b 336699 -i list-alt             -I 90ccff -t "Agenda"    -T ffffff -o training-key-hud-agenda.png
+sdkig -b 996600 -i comments             -I ccaa00 -t "Q&A"       -T ffffff -o training-key-hud-banner-qna.png
 
 sdkig -b 336699 -i chevron-circle-left  -I 99ccff -t "Previous"  -T ffffff -o training-key-hud-progress-prev.png
 sdkig -b 336699 -i chevron-circle-right -I 99ccff -t "Next"      -T ffffff -o training-key-hud-progress-next.png
+
+sdkig -b 336699 -i list-alt             -I 90ccff -t "Agenda"    -T ffffff -o training-key-hud-agenda.png
 
 sdkig -b ffffff -i images               -I 000000 -t "Studio"    -T 000000 -o training-key-scene-studio-on.png
 sdkig -b 000000 -i images               -I 999999 -t "Studio"    -T c0c0c0 -o training-key-scene-studio-off.png

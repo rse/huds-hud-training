@@ -61,7 +61,7 @@ banner:
         -   name:       qna
             key:        q
             iconname:   comments
-            iconcolor:  "#339900"
+            iconcolor:  "#ccaa00"
             titletext:  "Q&A"
             titlecolor: "#000000"
 

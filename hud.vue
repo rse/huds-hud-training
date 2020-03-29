@@ -100,7 +100,6 @@ body {
 module.exports = {
     name: "hud",
     data: () => ({
-        event: "test",
         config: huds.config(),
         banner: null,
         logo: null
@@ -119,10 +118,6 @@ module.exports = {
         "logo":         "url:hud-widget-logo.vue"
     },
     created () {
-        huds.on("receive", (message) => {
-            if (message !== "")
-                this.event = message
-        })
         Mousetrap.bind("left", (e) => {
             huds.send(huds.id, "progress.event=prev")
         })
