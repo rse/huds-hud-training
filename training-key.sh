@@ -27,31 +27,30 @@
 #   Stream-Deck Key-Image Generator (SDKIG) <https://github.com/rse/sdkig>
 
 sdkig -b 336699 -i pause-circle         -I 99ccff -t "PAUSE"     -T ffffff -o training-key-hud-banner-pause.png
-sdkig -b bb0000 -i radiation-alt        -I ffc0c0 -t "RANT"      -T ffffff -o training-key-hud-banner-rant.png
-sdkig -b 996600 -i comments             -I ccaa00 -t "Q&A"       -T ffffff -o training-key-hud-banner-qna.png
+sdkig -b 336699 -i radiation-alt        -I 99ccff -t "RANT"      -T ffffff -o training-key-hud-banner-rant.png
+sdkig -b 336699 -i comments             -I 99ccff -t "Q&A"       -T ffffff -o training-key-hud-banner-qna.png
+sdkig -b 336699 -i chevron-circle-left  -I 99ccff -t "PREV"      -T ffffff -o training-key-hud-progress-prev.png
+sdkig -b 336699 -i chevron-circle-right -I 99ccff -t "NEXT"      -T ffffff -o training-key-hud-progress-next.png
+sdkig -b 336699 -i list-alt             -I 99ccff -t "AGENDA"    -T ffffff -o training-key-hud-agenda.png
 
-sdkig -b 336699 -i chevron-circle-left  -I 99ccff -t "Previous"  -T ffffff -o training-key-hud-progress-prev.png
-sdkig -b 336699 -i chevron-circle-right -I 99ccff -t "Next"      -T ffffff -o training-key-hud-progress-next.png
+sdkig -b cc9900 -i video                -I f0e0d0 -t "CAMERAS"   -T ffffff -o training-key-source-cameras-on.png
+sdkig -b 000000 -i video                -I 999999 -t "CAMERAS"   -T c0c0c0 -o training-key-source-cameras-off.png
+sdkig -b cc9900 -i microphone-alt       -I f0e0d0 -t "MICROS"    -T ffffff -o training-key-source-micros-on.png
+sdkig -b 000000 -i microphone-alt       -I 999999 -t "MICROS"    -T c0c0c0 -o training-key-source-micros-off.png
+sdkig -b cc9900 -i tablet               -I f0e0d0 -t "TABLET"    -T ffffff -o training-key-source-tablet-on.png
+sdkig -b 000000 -i tablet               -I 999999 -t "TABLET"    -T c0c0c0 -o training-key-source-tablet-off.png
+sdkig -b cc9900 -i laptop               -I f0e0d0 -t "NOTEBOOK"  -T ffffff -o training-key-source-notebook-on.png
+sdkig -b 000000 -i laptop               -I 999999 -t "NOTEBOOK"  -T c0c0c0 -o training-key-source-notebook-off.png
+sdkig -b cc9900 -i camera               -I f0e0d0 -t "NDI"       -T ffffff -o training-key-source-ndi-on.png
+sdkig -b 000000 -i camera               -I 999999 -t "NDI"       -T c0c0c0 -o training-key-source-ndi-off.png
 
-sdkig -b 336699 -i list-alt             -I 90ccff -t "Agenda"    -T ffffff -o training-key-hud-agenda.png
+sdkig -b 339900 -i images               -I c0ffa0 -t "STUDIO"    -T ffffff -o training-key-scene-studio-on.png
+sdkig -b 000000 -i images               -I 999999 -t "STUDIO"    -T c0c0c0 -o training-key-scene-studio-off.png
+sdkig -b 339900 -i image                -I c0ffa0 -t "SCREENS"   -T ffffff -o training-key-scene-screens-on.png
+sdkig -b 000000 -i image                -I 999999 -t "SCREENS"   -T c0c0c0 -o training-key-scene-screens-off.png
 
-sdkig -b ffffff -i images               -I 000000 -t "Studio"    -T 000000 -o training-key-scene-studio-on.png
-sdkig -b 000000 -i images               -I 999999 -t "Studio"    -T c0c0c0 -o training-key-scene-studio-off.png
-
-sdkig -b ffffff -i tablet               -I 000000 -t "Tablet"    -T 000000 -o training-key-scene-tablet-on.png
-sdkig -b 000000 -i tablet               -I 999999 -t "Tablet"    -T c0c0c0 -o training-key-scene-tablet-off.png
-sdkig -b ffffff -i laptop               -I 000000 -t "Notebook"  -T 000000 -o training-key-scene-notebook-on.png
-sdkig -b 000000 -i laptop               -I 999999 -t "Notebook"  -T c0c0c0 -o training-key-scene-notebook-off.png
-sdkig -b ffffff -i wifi                 -I 000000 -t "NDI"       -T 000000 -o training-key-scene-ndi-on.png
-sdkig -b 000000 -i wifi                 -I 999999 -t "NDI"       -T c0c0c0 -o training-key-scene-ndi-off.png
-
-sdkig -b ffffff -i tablet               -I 000000 -t "Tablet"    -T 000000 -o training-key-source-tablet-on.png
-sdkig -b 000000 -i tablet               -I 999999 -t "Tablet"    -T c0c0c0 -o training-key-source-tablet-off.png
-sdkig -b ffffff -i laptop               -I 000000 -t "Notebook"  -T 000000 -o training-key-source-notebook-on.png
-sdkig -b 000000 -i laptop               -I 999999 -t "Notebook"  -T c0c0c0 -o training-key-source-notebook-off.png
-sdkig -b ffffff -i wifi                 -I 000000 -t "NDI"       -T 000000 -o training-key-source-ndi-on.png
-sdkig -b 000000 -i wifi                 -I 999999 -t "NDI"       -T c0c0c0 -o training-key-source-ndi-off.png
-
-sdkig -b ff0000 -i dot-circle           -I ffffff -t "Record"    -T ffffff -o training-key-record-on.png
-sdkig -b 660000 -i dot-circle           -I ffffff -t "Record"    -T ffffff -o training-key-record-off.png
+sdkig -b ff0000 -i wifi                 -I ffe0e0 -t "STREAM"    -T ffffff -o training-key-egress-stream-on.png
+sdkig -b 000000 -i wifi                 -I 999999 -t "STREAM"    -T c0c0c0 -o training-key-egress-stream-off.png
+sdkig -b ff0000 -i dot-circle           -I ffe0e0 -t "RECORD"    -T ffffff -o training-key-egress-record-on.png
+sdkig -b 000000 -i dot-circle           -I 999999 -t "RECORD"    -T c0c0c0 -o training-key-egress-record-off.png
 
