@@ -33,15 +33,15 @@ sdkig -b 336699 -i chevron-circle-left  -I 99ccff -t "PREV"      -T ffffff -o tr
 sdkig -b 336699 -i chevron-circle-right -I 99ccff -t "NEXT"      -T ffffff -o training-key-hud-progress-next.png
 sdkig -b 336699 -i list-alt             -I 99ccff -t "AGENDA"    -T ffffff -o training-key-hud-agenda.png
 
-sdkig -b cc9900 -i video                -I f0e0d0 -t "CAMERAS"   -T ffffff -o training-key-source-cameras-on.png
+sdkig -b bb8800 -i video                -I f0e0d0 -t "CAMERAS"   -T ffffff -o training-key-source-cameras-on.png
 sdkig -b 000000 -i video                -I 999999 -t "CAMERAS"   -T c0c0c0 -o training-key-source-cameras-off.png
-sdkig -b cc9900 -i microphone-alt       -I f0e0d0 -t "MICROS"    -T ffffff -o training-key-source-micros-on.png
+sdkig -b bb8800 -i microphone-alt       -I f0e0d0 -t "MICROS"    -T ffffff -o training-key-source-micros-on.png
 sdkig -b 000000 -i microphone-alt       -I 999999 -t "MICROS"    -T c0c0c0 -o training-key-source-micros-off.png
-sdkig -b cc9900 -i tablet               -I f0e0d0 -t "TABLET"    -T ffffff -o training-key-source-tablet-on.png
+sdkig -b bb8800 -i tablet               -I f0e0d0 -t "TABLET"    -T ffffff -o training-key-source-tablet-on.png
 sdkig -b 000000 -i tablet               -I 999999 -t "TABLET"    -T c0c0c0 -o training-key-source-tablet-off.png
-sdkig -b cc9900 -i laptop               -I f0e0d0 -t "NOTEBOOK"  -T ffffff -o training-key-source-notebook-on.png
+sdkig -b bb8800 -i laptop               -I f0e0d0 -t "NOTEBOOK"  -T ffffff -o training-key-source-notebook-on.png
 sdkig -b 000000 -i laptop               -I 999999 -t "NOTEBOOK"  -T c0c0c0 -o training-key-source-notebook-off.png
-sdkig -b cc9900 -i camera               -I f0e0d0 -t "NDI"       -T ffffff -o training-key-source-ndi-on.png
+sdkig -b bb8800 -i camera               -I f0e0d0 -t "NDI"       -T ffffff -o training-key-source-ndi-on.png
 sdkig -b 000000 -i camera               -I 999999 -t "NDI"       -T c0c0c0 -o training-key-source-ndi-off.png
 
 sdkig -b 339900 -i images               -I c0ffa0 -t "STUDIO"    -T ffffff -o training-key-scene-studio-on.png
