@@ -70,6 +70,22 @@
             v-bind:todocolorfg="config.agenda.todocolorfg"
             v-bind:slotlist="config.agenda.slots"
         ></agenda>
+        <closure ref="closure" class="closure"
+            v-bind:opacity="config.closure.opacity"
+            v-bind:background="config.closure.background"
+            v-bind:beginiconname="config.closure.beginiconname"
+            v-bind:beginiconcolor="config.closure.beginiconcolor"
+            v-bind:beginhinttext="config.closure.beginhinttext"
+            v-bind:beginhintcolor="config.closure.beginhintcolor"
+            v-bind:pauseiconname="config.closure.pauseiconname"
+            v-bind:pauseiconcolor="config.closure.pauseiconcolor"
+            v-bind:pausehinttext="config.closure.pausehinttext"
+            v-bind:pausehintcolor="config.closure.pausehintcolor"
+            v-bind:endiconname="config.closure.endiconname"
+            v-bind:endiconcolor="config.closure.endiconcolor"
+            v-bind:endhinttext="config.closure.endhinttext"
+            v-bind:endhintcolor="config.closure.endhintcolor"
+        ></closure>
     </div>
 </template>
 
@@ -83,6 +99,7 @@ body {
     position: relative;
     font-family: sans-serif;
     font-size: 22pt;
+    overflow: hidden;
     > .title {
         position: absolute;
         right: 10px;
@@ -110,6 +127,11 @@ body {
         width: auto;
         height: calc(100% - 60px - 100px);
     }
+    > .closure {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 </style>
 
@@ -133,7 +155,8 @@ module.exports = {
         "title-bar":    "url:hud-widget-title.vue",
         "progress-bar": "url:hud-widget-progress.vue",
         "agenda":       "url:hud-widget-agenda.vue",
-        "logo":         "url:hud-widget-logo.vue"
+        "logo":         "url:hud-widget-logo.vue",
+        "closure":      "url:hud-widget-closure.vue"
     },
     created () {
         /*  interaction for logo */
@@ -157,6 +180,26 @@ module.exports = {
             let pb = this.$refs.progressBar
             if (val === "prev" || val === "next")
                 pb.$emit(val)
+        })
+
+        /*  interaction for closure  */
+        Mousetrap.bind("up", (e) => {
+            huds.send(huds.id, "closure.event=begin-toggle")
+        })
+        Mousetrap.bind("return", (e) => {
+            huds.send(huds.id, "closure.event=pause-toggle")
+        })
+        Mousetrap.bind("down", (e) => {
+            huds.send(huds.id, "closure.event=end-toggle")
+        })
+        huds.bind("closure", [ "event" ], (key, val) => {
+            let closure = this.$refs.closure
+            if (val === "begin-toggle")
+                closure.$emit("begin-toggle")
+            else if (val === "pause-toggle")
+                closure.$emit("pause-toggle")
+            else if (val === "end-toggle")
+                closure.$emit("end-toggle")
         })
 
         /*  interaction for title widget  */
