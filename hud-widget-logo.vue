@@ -52,7 +52,7 @@ module.exports = {
     },
     mounted () {
         let i = 0
-        setInterval(() => {
+        const animate = () => {
             let tl = anime.timeline({
                 targets:  this.$el.querySelector("svg"),
                 duration: 2000,
@@ -62,7 +62,9 @@ module.exports = {
                 tl.add({ rotateX: [ 0, 360 ] })
             else
                 tl.add({ rotateY: [ 0, 360 ] })
-        }, 5 * 60 * 1000)
+        }
+        setInterval(() => { animate() }, 5 * 60 * 1000)
+        this.$on("animate", () => { animate() })
     }
 }
 </script>

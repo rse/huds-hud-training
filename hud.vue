@@ -56,7 +56,7 @@
             v-bind:titletext="banner.titletext"
             v-bind:titlecolor="banner.titlecolor"
         ></banner>
-        <logo class="logo"
+        <logo ref="logo" class="logo"
             v-bind:opacity="config.logo.opacity"
             v-html="config.logo.svg"
         ></logo>
@@ -136,6 +136,16 @@ module.exports = {
         "logo":         "url:hud-widget-logo.vue"
     },
     created () {
+        /*  interaction for logo */
+        Mousetrap.bind("l", (e) => {
+            huds.send(huds.id, "logo.event=animate")
+        })
+        huds.bind("logo", [ "event" ], (key, val) => {
+            let logo = this.$refs.logo
+            if (val === "animate")
+                logo.$emit(val)
+        })
+
         /*  interaction for progress widget  */
         Mousetrap.bind("left", (e) => {
             huds.send(huds.id, "progress.event=prev")
