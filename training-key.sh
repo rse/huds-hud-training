@@ -33,6 +33,10 @@ sdkig -b 336699 -i chevron-circle-left  -I 99ccff -t "PREV"      -T ffffff -o tr
 sdkig -b 336699 -i chevron-circle-right -I 99ccff -t "NEXT"      -T ffffff -o training-key-hud-progress-next.png
 sdkig -b 336699 -i list-alt             -I 99ccff -t "AGENDA"    -T ffffff -o training-key-hud-agenda.png
 
+sdkig -b 336699 -i play-circle          -I 99ccff -t "BEGIN"     -T ffffff -o training-key-hud-closure-begin.png
+sdkig -b 336699 -i pause-circle         -I 99ccff -t "BEGIN"     -T ffffff -o training-key-hud-closure-pause.png
+sdkig -b 336699 -i stop-circle          -I 99ccff -t "BEGIN"     -T ffffff -o training-key-hud-closure-end.png
+
 sdkig -b bb8800 -i video                -I f0e0d0 -t "CAMERAS"   -T ffffff -o training-key-source-cameras-on.png
 sdkig -b 000000 -i video                -I 999999 -t "CAMERAS"   -T c0c0c0 -o training-key-source-cameras-off.png
 sdkig -b bb8800 -i microphone-alt       -I f0e0d0 -t "MICROS"    -T ffffff -o training-key-source-micros-on.png
