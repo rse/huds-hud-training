@@ -36,15 +36,15 @@ closure:
     opacity:            0.75
     background:         "#000000"
     beginiconname:      "play-circle"
-    beginiconcolor:     "#6699ff"
+    beginiconcolor:     "#cc0000"
     beginhinttext:      "The training will start soon.<br/>Please be patient!"
     beginhintcolor:     "#ffffff"
     pauseiconname:      "pause-circle"
-    pauseiconcolor:     "#6699ff"
+    pauseiconcolor:     "#cc0000"
     pausehinttext:      "The training is paused.<br/>Please be patient!"
     pausehintcolor:     "#ffffff"
     endiconname:        "stop-circle"
-    endiconcolor:       "#6699ff"
+    endiconcolor:       "#cc0000"
     endhinttext:        "The training already has ended.<br/>Thanks for your attention!"
     endhintcolor:       "#ffffff"
 
