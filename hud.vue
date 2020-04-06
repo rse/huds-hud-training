@@ -161,108 +161,103 @@ module.exports = {
     created () {
         /*  interaction for logo */
         Mousetrap.bind("l", (e) => {
-            huds.send(huds.id, "logo.event=animate")
+            huds.send("logo.animate")
         })
-        huds.bind("logo", [ "event" ], (key, val) => {
+        huds.bind("logo.animate", (event, data) => {
             let logo = this.$refs.logo
-            if (val === "animate")
-                logo.$emit(val)
+            logo.$emit("animate")
         })
 
         /*  interaction for progress widget  */
         Mousetrap.bind("left", (e) => {
-            huds.send(huds.id, "progress.event=prev")
+            huds.send("progress.jump", "prev")
         })
         Mousetrap.bind("right", (e) => {
-            huds.send(huds.id, "progress.event=next")
+            huds.send("progress.jump", "next")
         })
-        huds.bind("progress", [ "event" ], (key, val) => {
+        huds.bind("progress.jump", (event, data) => {
             let pb = this.$refs.progressBar
-            if (val === "prev" || val === "next")
-                pb.$emit(val)
+            if (data === "prev" || data === "next")
+                pb.$emit(data)
         })
 
         /*  interaction for closure  */
         Mousetrap.bind("up", (e) => {
-            huds.send(huds.id, "closure.event=begin-toggle")
+            huds.send("closure.begin.toggle")
         })
         Mousetrap.bind("return", (e) => {
-            huds.send(huds.id, "closure.event=pause-toggle")
+            huds.send("closure.pause.toggle")
         })
         Mousetrap.bind("down", (e) => {
-            huds.send(huds.id, "closure.event=end-toggle")
+            huds.send("closure.end.toggle")
         })
-        huds.bind("closure", [ "event" ], (key, val) => {
+        huds.bind("closure.*", (event, data) => {
             let closure = this.$refs.closure
-            if (val === "begin-toggle")
+            if (event === "closure.begin.toggle")
                 closure.$emit("begin-toggle")
-            else if (val === "pause-toggle")
+            else if (event === "closure.pause.toggle")
                 closure.$emit("pause-toggle")
-            else if (val === "end-toggle")
+            else if (event === "closure.end.toggle")
                 closure.$emit("end-toggle")
         })
 
         /*  interaction for title widget  */
         Mousetrap.bind("space", (e) => {
-            huds.send(huds.id, "title.event=bounce")
+            huds.send("title.bounce")
         })
-        huds.bind("title", [ "event" ], (key, val) => {
+        huds.bind("title.bounce", (event, data) => {
             let tb = this.$refs.titleBar
-            if (val === "bounce")
-                tb.$emit("bounce")
+            tb.$emit("bounce")
         })
 
         /*  interaction for agenda widget  */
         Mousetrap.bind("a", (e) => {
-            huds.send(huds.id, "agenda.event=toggle")
+            huds.send("agenda.toggle")
         })
-        huds.bind("agenda", [ "event" ], (key, val) => {
+        huds.bind("agenda.toggle", (event, data) => {
             let a = this.$refs.agenda
-            if (val === "toggle")
-                a.$emit("toggle")
+            a.$emit("toggle")
         })
 
         /*  interaction for progress widget  */
         let progress = false
         for (const banner of this.config.banner.banner) {
             Mousetrap.bind(banner.key, (e) => {
-                huds.send(huds.id, `banner-${banner.name}.event=toggle`)
+                huds.send(`banner.${banner.name}.toggle`)
             })
-            huds.bind(`banner-${banner.name}`, [ "event" ], (key, val) => {
-                if (val === "toggle") {
-                    if (progress)
-                        return
-                    let b = this.$refs[`banner-${banner.name}`][0]
-                    if (this.banner === b) {
-                        /*  disable ourself  */
-                        progress = true
-                        this.banner.$emit("toggle")
-                        setTimeout(() => {
-                            this.banner = null
-                            progress = false
-                        }, 1000)
-                    }
-                    else if (this.banner !== null) {
-                        /*  disable foreign, then enable ourself  */
-                        progress = true
-                        this.banner.$emit("toggle")
-                        setTimeout(() => {
-                            b.$emit("toggle")
-                            setTimeout(() => {
-                                this.banner = b
-                                progress = false
-                            }, 1000)
-                        }, 1000)
-                    }
-                    else {
-                        /*  enable ourself  */
-                        progress = true
+            huds.bind(`banner.${banner.name}.toggle`, (event, data) => {
+                if (progress)
+                    return
+                let b = this.$refs[`banner-${banner.name}`][0]
+                if (this.banner === b) {
+                    /*  disable ourself  */
+                    progress = true
+                    this.banner.$emit("toggle")
+                    setTimeout(() => {
+                        this.banner = null
+                        progress = false
+                    }, 1000)
+                }
+                else if (this.banner !== null) {
+                    /*  disable foreign, then enable ourself  */
+                    progress = true
+                    this.banner.$emit("toggle")
+                    setTimeout(() => {
                         b.$emit("toggle")
                         setTimeout(() => {
                             this.banner = b
                             progress = false
                         }, 1000)
-                    }
+                    }, 1000)
+                }
+                else {
+                    /*  enable ourself  */
+                    progress = true
+                    b.$emit("toggle")
+                    setTimeout(() => {
+                        this.banner = b
+                        progress = false
+                    }, 1000)
                 }
             })
         }
