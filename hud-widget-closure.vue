@@ -156,7 +156,7 @@ module.exports = {
             audio.tack.play()
             setTimeout(() => audio.swipe.play(), 50)
             const options = {
-                duration: 2000,
+                duration: 4000,
                 autoplay: true,
                 direction: "normal",
                 easing: "easeOutBounce",
@@ -196,10 +196,11 @@ module.exports = {
     },
     mounted () {
         const options = {
-            duration: 2000,
+            duration: 6000,
             easing:   "easeInOutQuad",
             autoplay: false,
             loop:     true,
+            delay:    2000,
             rotateY:  [ 0, 360 ]
         }
         this.beginIcon = anime({ targets: this.$refs.begin.querySelector(".icon"), ...options })

@@ -133,11 +133,12 @@ module.exports = {
             let el = this.$refs.canvas
             let tl = anime.timeline({
                 targets:  el,
-                duration: 1000,
+                duration: 3000,
                 autoplay: true
             })
             if (newstate) {
-                setTimeout(() => audio.swipe.play(), 500)
+                setTimeout(() => audio.swipe.play(), 2000)
+                setTimeout(() => audio.tack.play(), 3000)
                 tl.add({
                     easing:     "easeOutSine",
                     translateX: [ -1920, 0 ],
@@ -145,7 +146,8 @@ module.exports = {
                 })
             }
             else {
-                audio.swipe.play()
+                setTimeout(() => audio.tack.play(), 50)
+                setTimeout(() => audio.swipe.play(), 100)
                 tl.add({
                     easing:     "easeInSine",
                     translateX: [ 0, -1920 ],
