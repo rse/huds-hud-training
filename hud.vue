@@ -86,6 +86,12 @@
             v-bind:endhinttext="config.closure.endhinttext"
             v-bind:endhintcolor="config.closure.endhintcolor"
         ></closure>
+        <popup ref="popup" class="popup"
+            v-bind:opacity="config.popup.opacity"
+            v-bind:background="config.popup.background"
+            v-bind:titlecolor="config.popup.titlecolor"
+            v-bind:messagecolor="config.popup.messagecolor"
+        ></popup>
     </div>
 </template>
 
@@ -132,6 +138,11 @@ body {
         top: 0;
         left: 0;
     }
+    > .popup {
+        position: absolute;
+        bottom: 120px;
+        left: 30px;
+    }
 }
 </style>
 
@@ -156,7 +167,8 @@ module.exports = {
         "progress-bar": "url:hud-widget-progress.vue",
         "agenda":       "url:hud-widget-agenda.vue",
         "logo":         "url:hud-widget-logo.vue",
-        "closure":      "url:hud-widget-closure.vue"
+        "closure":      "url:hud-widget-closure.vue",
+        "popup":        "url:hud-widget-popup.vue"
     },
     created () {
         /*  interaction for logo */
@@ -217,6 +229,12 @@ module.exports = {
         huds.bind("agenda.toggle", (event, data) => {
             let a = this.$refs.agenda
             a.$emit("toggle")
+        })
+
+        /*  interaction for popup widget  */
+        huds.bind("popup", (event, data) => {
+            let a = this.$refs.popup
+            a.$emit("popup", data)
         })
 
         /*  interaction for progress widget  */

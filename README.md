@@ -23,14 +23,15 @@ and optionally the [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-
 remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) function.
 
 This HUD permanently displays an animated agenda list at the top-left,
-an animated progress bar at the bottom-left, an animated title bar at
-the bottom-right, an animated logo at the top-right and an animated
-full-screen closure. In addition, on-demand it displays one or more
-animated banners at the top-left. The agenda, progress bar, title bar
-and banners can be controlled either interactively via keystrokes
-(<kbd>a</kbd> for the agenda, <kbd>LEFT</kbd>/<kbd>RIGHT</kbd> for
-the progress bar, <kbd>SPACE</kbd> for the title bar and arbitrary
-configured keys for the banners) or programmatically via HUDS' REST API.
+an animated progress bar at the bottom-left, an animated title
+bar at the bottom-right, an animated logo at the top-right, an
+animated full-screen closure and an animated popup. In addition,
+on-demand it displays one or more animated banners at the top-left.
+The agenda, progress bar, title bar and banners can be controlled
+either interactively via keystrokes (<kbd>a</kbd> for the agenda,
+<kbd>LEFT</kbd>/<kbd>RIGHT</kbd> for the progress bar, <kbd>SPACE</kbd>
+for the title bar and arbitrary configured keys for the banners) or
+programmatically via HUDS' REST API.
 
 Example
 -------

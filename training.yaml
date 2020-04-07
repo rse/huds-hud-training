@@ -48,6 +48,12 @@ closure:
     endhinttext:        "The training already has ended.<br/>Thanks for your attention!"
     endhintcolor:       "#ffffff"
 
+popup:
+    opacity:            0.80
+    background:         "#336699"
+    titlecolor:         "#ffffff"
+    messagecolor:       "#f0f0f0"
+
 progress:
     opacity:            0.80
     slots:              16
