@@ -8,7 +8,8 @@
         "url":                             "http://engelschall.com"
     },
     "license":                             "MIT",
-    "main":                                "package.json",
+    "main":                                "",
+    "browser":                             "index.html",
     "dependencies": {
         "vue":                             "2.6.11",
         "http-vue-loader":                 "1.4.2",
@@ -25,10 +26,10 @@
         "svg.path.js":                     "otm/svg.path.js#6981166"
     },
     "peerDependencies": {
-        "huds":                            ">=1.1.0"
+        "huds":                            ">=1.2.0"
     },
     "devDependencies": {
-        "huds":                            ">=1.1.0"
+        "huds":                            ">=1.2.0"
     },
     "scripts": {
         "huds":                            "huds",
