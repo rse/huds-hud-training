@@ -8,7 +8,6 @@
         "url":                             "http://engelschall.com"
     },
     "license":                             "MIT",
-    "main":                                "package.json",
     "browser":                             "index.html",
     "dependencies": {
         "vue":                             "2.6.11",

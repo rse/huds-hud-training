@@ -26,15 +26,15 @@
 
 <template>
     <div v-bind:style="style" class="popup">
-        <div v-show="show" class="box" ref="box">
-            <div v-if="title" class="title">
-                {{ title }}
+        <div v-for="popup in popups" v-bind:key="popup.i" v-bind:data-i="popup.i" class="box" ref="box">
+            <div v-if="popup.title" class="title">
+                {{ popup.title }}
             </div>
-            <div v-if="message" class="message">
-                {{ message }}
+            <div v-if="popup.message" class="message">
+                {{ popup.message }}
             </div>
-            <div v-if="image" class="image">
-                <img v-bind:src="image"/>
+            <div v-if="popup.image" class="image">
+                <img v-bind:src="popup.image"/>
             </div>
         </div>
     </div>
@@ -44,13 +44,17 @@
 .popup {
     opacity: var(--opacity);
     .box {
-        display: block;
-        background-color: var(--background);
-        width: 20vw;
+        position: absolute;
+        opacity: 0;
+        left: 0;
+        margin-top: 20px;
+        width: calc(20vw - 40px);
         padding: 20px;
+        background-color: var(--background);
         border-radius: 10px;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
         .title {
             width: 100%;
             font-family: "TypoPRO Fira Sans";
@@ -88,42 +92,78 @@ module.exports = {
         imageurl:     { type: String, default: "" }
     },
     data: () => ({
-        show:    false,
-        message: null,
-        title:   null,
-        image:   null
+        popups:  []
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
     },
-    created () {
-        this.$on("popup", (data) => {
-            this.title   = data.title
-            this.message = data.message
-            this.image   = data.image
-            this.show = true
+    methods: {
+        addBox (i) {
+            const els    = this.$refs.box.sort((a, b) => parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
+            const newer  = els[0]
+            const others = els.slice(1)
             setTimeout(() => audio.bling.play(), 500)
+            let pos = 0
+            for (const el of others)
+                pos += el.clientHeight + 20
             anime({
-                targets:   this.$el,
+                targets:   newer,
                 duration:  2000,
                 autoplay:  true,
                 direction: "normal",
                 easing:    "easeOutBounce",
                 opacity:   [ 1.0, 1.0 ],
-                left:      [ -1000, 30 ]
+                bottom:    [ 1000, pos ]
+            }).finished.then(() => {
+                audio.tack.play()
             })
-            setTimeout(() => {
-                anime({
-                    targets:   this.$el,
-                    duration:  2000,
-                    autoplay:  true,
-                    direction: "normal",
-                    easing:    "easeOutSine",
-                    opacity:   [ 1.0, 0.0 ]
-                }).finished.then(() => {
-                    this.show = false
-                })
-            }, 30 * 1000)
+        },
+        removeBox () {
+            const els    = this.$refs.box.sort((a, b) => parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
+            const others = els.slice(0, els.length - 1)
+            const older  = els[els.length - 1]
+
+            let diff = older.clientHeight + 20
+            audio.error1.play()
+            anime({
+                targets:   older,
+                duration:  1000,
+                autoplay:  true,
+                direction: "normal",
+                easing:    "easeOutSine",
+                opacity:   [ 1.0, 0.0 ]
+            }).finished.then(() => {
+                this.popups.pop()
+                let i = 0
+                for (const el of others.reverse()) {
+                    let posOld = parseInt(el.style.bottom.toString().replace(/px$/, ""))
+                    let posNew = posOld - diff
+                    anime({
+                        targets:   el,
+                        duration:  2000,
+                        autoplay:  true,
+                        direction: "normal",
+                        easing:    "easeOutBounce",
+                        delay:     200 * i++,
+                        bottom:    [ posOld, posNew ]
+                    }).finished.then(() => {
+                        audio.tack.play()
+                    })
+                }
+            })
+        }
+    },
+    created () {
+        let i = 0
+        this.$on("popup-add", (data) => {
+            data.i = i++
+            this.popups.unshift(data)
+            this.$nextTick(() => {
+                this.addBox(data.i)
+            })
+        })
+        this.$on("popup-remove", () => {
+            this.removeBox()
         })
     }
 }

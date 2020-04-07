@@ -141,6 +141,8 @@ body {
     > .popup {
         position: absolute;
         bottom: 120px;
+        width: calc(20vw);
+        height: calc(100vh - 120px);
         left: 30px;
     }
 }
@@ -232,9 +234,16 @@ module.exports = {
         })
 
         /*  interaction for popup widget  */
-        huds.bind("popup", (event, data) => {
+        Mousetrap.bind("backspace", (e) => {
+            huds.send("popup.remove")
+        })
+        huds.bind("popup.add", (event, data) => {
             let a = this.$refs.popup
-            a.$emit("popup", data)
+            a.$emit("popup-add", data)
+        })
+        huds.bind("popup.remove", (event, data) => {
+            let a = this.$refs.popup
+            a.$emit("popup-remove")
         })
 
         /*  interaction for progress widget  */
