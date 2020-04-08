@@ -30,8 +30,7 @@
             <div v-if="popup.title" class="title">
                 {{ popup.title }}
             </div>
-            <div v-if="popup.message" class="message">
-                {{ popup.message }}
+            <div v-if="popup.message" class="message" v-html="popup.message">
             </div>
             <div v-if="popup.image" class="image">
                 <img v-bind:src="popup.image"/>
@@ -59,7 +58,7 @@
             width: 100%;
             font-family: "TypoPRO Fira Sans";
             font-weight: bold;
-            font-size: 24pt;
+            font-size: 20pt;
             color: var(--titlecolor);
         }
         .message {
@@ -70,7 +69,7 @@
             color: var(--messagecolor);
         }
         .image {
-            margin-top: 20px;
+            margin-top: 16px;
             border-radius: 10px;
             img {
                 max-width: 100%;
