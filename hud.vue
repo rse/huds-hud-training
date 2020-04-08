@@ -184,15 +184,17 @@ module.exports = {
 
         /*  interaction for progress widget  */
         Mousetrap.bind("left", (e) => {
-            huds.send("progress.jump", "prev")
+            huds.send("progress.prev")
         })
         Mousetrap.bind("right", (e) => {
-            huds.send("progress.jump", "next")
+            huds.send("progress.next")
         })
-        huds.bind("progress.jump", (event, data) => {
+        huds.bind("progress.*", (event, data) => {
             let pb = this.$refs.progressBar
-            if (data === "prev" || data === "next")
-                pb.$emit(data)
+            if (event === "progress.prev")
+                pb.$emit("prev")
+            else if (event === "progress.next")
+                pb.$emit("next")
         })
 
         /*  interaction for closure  */
