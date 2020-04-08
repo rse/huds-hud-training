@@ -99,7 +99,7 @@ logo:
         </svg>
 
 agenda:
-    opacity:            0.80
+    opacity:            0.90
     donecolorbg:        "#6699cc"
     donecolorfg:        "#f0f0ff"
     currcolorbg:        "#336699"
