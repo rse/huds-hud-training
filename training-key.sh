@@ -32,6 +32,11 @@ sdkig -b 336699 -i comments             -I 99ccff -t "Q&A"       -T ffffff -o tr
 sdkig -b 336699 -i chevron-circle-left  -I 99ccff -t "PREV"      -T ffffff -o training-key-hud-progress-prev.png
 sdkig -b 336699 -i chevron-circle-right -I 99ccff -t "NEXT"      -T ffffff -o training-key-hud-progress-next.png
 sdkig -b 336699 -i list-alt             -I 99ccff -t "AGENDA"    -T ffffff -o training-key-hud-agenda.png
+sdkig -b 336699 -i comment-slash        -I 99ccff -t "DISMISS"   -T ffffff -o training-key-hud-popup-remove.png
+sdkig -b 336699 -i sync-alt             -I 99ccff -t "LOGO"      -T ffffff -o training-key-hud-logo.png
+sdkig -b 336699 -i bullseye             -I 99ccff -t "TRAINING"  -T ffffff -o training-key-hud-training.png
+
+sdkig -b 336699 -i globe                -I 99ccff -t "BROWSER"   -T ffffff -o training-key-browser.png
 
 sdkig -b ff0000 -i play-circle          -I ffe0e0 -t "BEGIN"     -T ffffff -o training-key-hud-closure-begin.png
 sdkig -b ff0000 -i pause-circle         -I ffe0e0 -t "PAUSE"     -T ffffff -o training-key-hud-closure-pause.png
@@ -57,4 +62,7 @@ sdkig -b ff0000 -i wifi                 -I ffe0e0 -t "STREAM"    -T ffffff -o tr
 sdkig -b 000000 -i wifi                 -I 999999 -t "STREAM"    -T c0c0c0 -o training-key-egress-stream-off.png
 sdkig -b ff0000 -i dot-circle           -I ffe0e0 -t "RECORD"    -T ffffff -o training-key-egress-record-on.png
 sdkig -b 000000 -i dot-circle           -I 999999 -t "RECORD"    -T c0c0c0 -o training-key-egress-record-off.png
+
+sdkig -b ff0000 -i lightbulb            -I ffe0e0 -t "LIGHT"     -T ffffff -o training-key-light-on.png
+sdkig -b 000000 -i lightbulb            -I 999999 -t "LIGHT"     -T c0c0c0 -o training-key-light-off.png
 
