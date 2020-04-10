@@ -53,6 +53,7 @@ globals:
     audio:         true
     SVG:           true
     Mousetrap:     true
+    hashTagSimilarity: true
 
 rules:
     #   modified rules

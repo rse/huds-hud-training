@@ -29,6 +29,9 @@
         <div v-for="choice in choices" ref="choice" v-bind:key="choice.i" v-bind:data-i="choice.i" class="choice">
             <div class="name" v-bind:class="{ max: choice.max, invalid: choice.invalid }">
                 {{ choice.name }}
+                <div v-if="choice.similars > 0" class="similars">
+                    +{{ choice.similars }}
+                </div>
             </div>
             <div class="bar-container">
                 <div ref="bar" class="bar" v-bind:data-i="choice.i"
@@ -67,6 +70,7 @@
             overflow: hidden;
             background-color: var(--stdnamecolorbg);
             color:            var(--stdnamecolorfg);
+            position: relative;
             &.max {
                 background-color: var(--maxnamecolorbg);
                 color:            var(--maxnamecolorfg);
@@ -76,6 +80,13 @@
                 font-size: 32px;
                 font-weight: normal;
                 font-style: italic;
+            }
+            .similars {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 28px;
+                font-weight: normal;
             }
         }
         .bar-container {
@@ -92,6 +103,7 @@
                 padding: 10px 20px 10px 20px;
                 border-top-right-radius: 10px;
                 border-bottom-right-radius: 10px;
+                overflow: hidden;
                 background-color: var(--stdvotecolorbg);
                 color:            var(--stdvotecolorfg);
                 &.max {
@@ -133,77 +145,38 @@ module.exports = {
         style: HUDS.vueprop2cssvar()
     },
     methods: {
-        update () {
-            if (this.timer !== null)
-                clearTimeout(this.timer)
-            this.timer = setTimeout(() => {
-                this.recalc()
-                this.$nextTick(() => {
-                    const bars = this.$refs.bar
-                    for (const bar of bars) {
-                        let i = bar.getAttribute("data-i")
-                        let width = this.choices[i].width
-                        anime({
-                            targets:   bar,
-                            duration:  400,
-                            autoplay:  true,
-                            direction: "normal",
-                            easing:    "easeOutSine",
-                            width:     width
-                        }).finished.then(() => {
-                        })
-                    }
-                })
-            }, 500)
-        },
+        /*  recalculate the scenario  */
         recalc () {
+            let result = []
+
             /*  determine choices and types  */
-            const choices = {}
             const found = { bool: 0, digit: 0, alpha: 0, other: 0 }
             for (const person of Object.keys(this.votes)) {
                 const choice = this.votes[person]
-                if (choices[choice] === undefined)
-                    choices[choice] = 0
-                choices[choice]++
-                if (choice.match(/^(?:YES|NO)$/))
-                    found.bool++
-                else if (choice.match(/^\d+$/))
-                    found.digit++
-                else if (choice.match(/^[A-Z]$/))
-                    found.alpha++
-                else
-                    found.other++
+                if      (choice.match(/^(?:YES|NO)$/)) found.bool++
+                else if (choice.match(/^\d+$/))        found.digit++
+                else if (choice.match(/^[A-Z]$/))      found.alpha++
+                else                                   found.other++
             }
-
             const most = Object.keys(this.votes).length > 0 ?
                 Object.keys(found).sort((a, b) => found[b] - found[a])[0] : ""
-            for (const type of Object.keys(found)) {
-                if (type !== most) {
-                    found[most] += found[type]
-                    found[type] = 0
-                }
-            }
 
+            /*  dispatch according to type  */
             if (most === "bool") {
+                /*  handle boolean choices only  */
                 const choices = { yes: 0, no: 0, invalid: 0 }
                 for (const person of Object.keys(this.votes)) {
                     const choice = this.votes[person]
-                    if (choice === "YES")
-                        choices.yes++
-                    else if (choice === "NO")
-                        choices.no++
-                    else
-                        choices.invalid++
+                    if      (choice === "YES") choices.yes++
+                    else if (choice === "NO")  choices.no++
+                    else                       choices.invalid++
                 }
-                this.choices = []
-                if (choices.yes > 0)
-                    this.choices.push({ name: "Yes", voters: choices.yes })
-                if (choices.no > 0)
-                    this.choices.push({ name: "No",  voters: choices.no })
-                if (choices.invalid > 0)
-                    this.choices.push({ name: "(Invalid)", voters: choices.invalid })
+                if (choices.yes > 0)     result.push({ name: "Yes",       voters: choices.yes })
+                if (choices.no > 0)      result.push({ name: "No",        voters: choices.no })
+                if (choices.invalid > 0) result.push({ name: "(Invalid)", voters: choices.invalid })
             }
             else if (most === "digit") {
+                /*  handle digit choices only  */
                 const choices = {}
                 let invalid = 0
                 for (const person of Object.keys(this.votes)) {
@@ -216,13 +189,13 @@ module.exports = {
                     else
                         invalid++
                 }
-                this.choices = []
                 for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b)))
-                    this.choices.push({ name: choice, voters: choices[choice] })
+                    result.push({ name: choice, voters: choices[choice] })
                 if (invalid > 0)
-                    this.choices.push({ name: "(Invalid)", voters: invalid })
+                    result.push({ name: "(Invalid)", voters: invalid })
             }
             else if (most === "alpha") {
+                /*  handle alpha choices only  */
                 const choices = {}
                 let invalid = 0
                 for (const person of Object.keys(this.votes)) {
@@ -235,32 +208,50 @@ module.exports = {
                     else
                         invalid++
                 }
-                this.choices = []
                 for (const choice of Object.keys(choices).sort((a, b) => a.localeCompare(b)))
-                    this.choices.push({ name: choice, voters: choices[choice] })
+                    result.push({ name: choice, voters: choices[choice] })
                 if (invalid > 0)
-                    this.choices.push({ name: "(Invalid)", voters: invalid })
+                    result.push({ name: "(Invalid)", voters: invalid })
             }
             else {
-                const choices = {}
+                /*  handle arbitrary choices  */
+
+                /*  determine votes  */
+                let votes = {}
                 for (const person of Object.keys(this.votes)) {
-                    const choice = this.votes[person]
-                    if (choices[choice] === undefined)
-                        choices[choice] = 0
-                    choices[choice]++
+                    const vote = this.votes[person]
+                    if (votes[vote] === undefined)
+                        votes[vote] = 0
+                    votes[vote]++
                 }
-                this.choices = []
-                for (const choice of Object.keys(choices).sort((a, b) => a.localeCompare(b)))
-                    this.choices.push({ name: choice, voters: choices[choice] })
+                votes = hashTagSimilarity(votes)
+                votes = votes.sort((a, b) => {
+                    const A = Object.keys(a).sort((x, y) => a[x] - a[y])[0]
+                    const B = Object.keys(b).sort((x, y) => b[x] - b[y])[0]
+                    return A.localeCompare(B)
+                })
+
+                for (const vote of votes) {
+                    console.log(vote)
+                    const name   = Object.keys(vote).sort((x, y) => vote[x] - vote[y])[0]
+                    let voters   = 0
+                    const similars = Object.keys(vote).length - 1
+                    for (const choice of Object.keys(vote))
+                        voters += vote[choice]
+                    result.push({ name, voters, similars })
+                }
             }
 
+            /*  post-processing PASS 1: determine maximum-voted choice (winner)  */
             let max = 0
-            for (const choice of this.choices) {
+            for (const choice of result) {
                 if (max < choice.voters)
                     max = choice.voters
             }
+
+            /*  post-processing PASS 2: enrich choices  */
             let i = 0
-            for (const choice of this.choices) {
+            for (const choice of result) {
                 choice.i = i++
                 choice.width = Math.ceil((choice.voters / max) * 100) + "%"
                 if (choice.voters === max)
@@ -268,9 +259,36 @@ module.exports = {
                 if (choice.name === "(Invalid)")
                     choice.invalid = true
             }
+
+            this.choices = result
+        },
+
+        /*  update the display  */
+        update () {
+            if (this.timer !== null)
+                clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                this.recalc()
+                this.$nextTick(() => {
+                    const bars = this.$refs.bar
+                    for (const bar of bars) {
+                        const i = bar.getAttribute("data-i")
+                        const width = this.choices[i].width
+                        anime({
+                            targets:   bar,
+                            duration:  400,
+                            autoplay:  true,
+                            direction: "normal",
+                            easing:    "easeOutSine",
+                            width:     width
+                        })
+                    }
+                })
+            }, 500)
         }
     },
     created () {
+        /*  toggle votes on/off  */
         this.$on("votes-toggle", () => {
             this.show = !this.show
             if (this.show) {
@@ -281,11 +299,16 @@ module.exports = {
             else
                 audio.error1.play()
         })
+
+        /*  receive a single vote  */
         this.$on("votes-receive", ({ person, choice }) => {
             choice = choice.toUpperCase()
-            if (this.votes[person] === undefined)
+            if (this.votes[person] === undefined) {
                 this.votes[person] = choice
-            audio.bling.play()
+                audio.bling.play()
+            }
+            else
+                audio.error2.play()
             this.update()
         })
     }
