@@ -231,10 +231,8 @@ module.exports = {
             }
             for (const choice of this.choices) {
                 choice.width = `calc(${Math.ceil((choice.voters / max) * 100) + "%"} - 40px)`
-                if (choice.voters === max) {
-                    console.log("FUCK", choice)
+                if (choice.voters === max)
                     choice.max = true
-                }
             }
         }
     },
