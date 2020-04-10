@@ -27,11 +27,12 @@
 <template>
     <div v-show="show" v-bind:style="style" class="votes">
         <div v-for="choice in choices" ref="choice" v-bind:key="choice.i" v-bind:data-i="choice.i" class="choice">
-            <div class="name" v-bind:class="{ max: choice.max }">
+            <div class="name" v-bind:class="{ max: choice.max, invalid: choice.invalid }">
                 {{ choice.name }}
             </div>
             <div class="bar-container">
-                <div class="bar" v-bind:style="{ width: choice.width }" v-bind:class="{ max: choice.max }">
+                <div class="bar" v-bind:style="{ width: choice.width }"
+                    v-bind:class="{ max: choice.max, invalid: choice.invalid }">
                     <div class="voters">
                         {{ choice.voters }}
                     </div>
@@ -58,18 +59,23 @@
             flex-grow: 0;
             flex-shrink: 0;
             display: block;
-            width: 120px;
+            width: 180px;
             height: 50px;
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
             padding: 10px 20px 10px 20px;
             overflow: hidden;
-            font-weight: bold;
             background-color: var(--stdnamecolorbg);
             color:            var(--stdnamecolorfg);
             &.max {
                 background-color: var(--maxnamecolorbg);
                 color:            var(--maxnamecolorfg);
+            }
+            font-weight: bold;
+            &.invalid {
+                font-size: 32px;
+                font-weight: normal;
+                font-style: italic;
             }
         }
         .bar-container {
@@ -233,6 +239,8 @@ module.exports = {
                 choice.width = `calc(${Math.ceil((choice.voters / max) * 100) + "%"} - 40px)`
                 if (choice.voters === max)
                     choice.max = true
+                if (choice.name === "(Invalid)")
+                    choice.invalid = true
             }
         }
     },
