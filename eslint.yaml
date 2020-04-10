@@ -50,6 +50,9 @@ globals:
     HUDS:          true
     huds:          true
     anime:         true
+    audio:         true
+    SVG:           true
+    Mousetrap:     true
 
 rules:
     #   modified rules
@@ -70,8 +73,13 @@ rules:
     array-bracket-spacing:               off
     require-atomic-updates:              off
 
-    "vue/html-indent":                   [ "error", 4, { "attribute": 1, "baseIndent": 1, "closeBracket": 0, "alignAttributesVertically": true, "ignores": [] }]
+    "vue/html-indent":                   off
     "vue/v-bind-style":                  [ "error", "longform" ]
     "vue/max-attributes-per-line":       off
     "vue/html-self-closing":             off
+    "vue/no-multi-spaces":               off
+    "vue/html-closing-bracket-newline":  off
+    "vue/singleline-html-element-content-newline": off
+    "vue/no-v-html":                     off
+    quote-props:                         off
 
