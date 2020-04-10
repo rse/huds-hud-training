@@ -26,16 +26,16 @@
 
 <template>
     <div v-bind:style="style" class="agenda">
-        <div class="canvas" ref="canvas">
-            <div class="slot"
-                v-for="(slot, i) in slotlist"
+        <div ref="canvas" class="canvas">
+            <div v-for="(slot, i) in slotlist"
+                v-bind:key="slot"
                 v-bind:class="{
                     first: i === 0,
                     done:  i < pos,
                     curr:  i === pos,
                     todo:  i > pos,
-                    last:  i === slotlist.length - 1
-                }">
+                    last:  i === slotlist.length - 1 }"
+                class="slot">
                 <div class="num">{{ i+1 }}</div>
                 <div class="text">{{ slot }}</div>
             </div>
@@ -126,12 +126,12 @@ module.exports = {
             if (this.progress)
                 return
             this.progress = true
-            let oldstate = this.enabled
-            let newstate = !oldstate
+            const oldstate = this.enabled
+            const newstate = !oldstate
             if (!oldstate)
                 this.enabled = true
-            let el = this.$refs.canvas
-            let tl = anime.timeline({
+            const el = this.$refs.canvas
+            const tl = anime.timeline({
                 targets:  el,
                 duration: 3000,
                 autoplay: true
@@ -161,8 +161,8 @@ module.exports = {
         })
     },
     mounted () {
-        let el = this.$refs.canvas
-        let slots = el.querySelectorAll(".slot")
+        const el = this.$refs.canvas
+        const slots = el.querySelectorAll(".slot")
         this.slotheight = Math.ceil(this.$el.clientHeight / slots.length) + "px"
     }
 }
