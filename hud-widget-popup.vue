@@ -26,15 +26,15 @@
 
 <template>
     <div v-bind:style="style" class="popup">
-        <div v-for="popup in popups" v-bind:key="popup.i" v-bind:data-i="popup.i"
-            v-bind:class="{ box: true, [ popup.type ]: true }" ref="box">
+        <div v-for="popup in popups" ref="box" v-bind:key="popup.i" v-bind:data-i="popup.i"
+            v-bind:class="{ box: true, [ popup.type ]: true }">
             <div v-if="popup.title" class="title">
                 {{ popup.title }}
             </div>
             <div v-if="popup.message" class="message" v-html="popup.message">
             </div>
             <div v-if="popup.image" class="image">
-                <img v-bind:src="popup.image"/>
+                <img v-bind:src="popup.image" />
             </div>
         </div>
     </div>
@@ -140,7 +140,7 @@ module.exports = {
             const others = els.slice(0, els.length - 1)
             const older  = els[els.length - 1]
 
-            let diff = older.clientHeight + 20
+            const diff = older.clientHeight + 20
             audio.error1.play()
             anime({
                 targets:   older,
@@ -153,8 +153,8 @@ module.exports = {
                 this.popups.pop()
                 let i = 0
                 for (const el of others.reverse()) {
-                    let posOld = parseInt(el.style.bottom.toString().replace(/px$/, ""))
-                    let posNew = posOld - diff
+                    const posOld = parseInt(el.style.bottom.toString().replace(/px$/, ""))
+                    const posNew = posOld - diff
                     anime({
                         targets:   el,
                         duration:  2000,
