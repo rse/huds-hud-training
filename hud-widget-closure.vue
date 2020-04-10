@@ -159,7 +159,7 @@ module.exports = {
                 duration: 4000,
                 autoplay: true,
                 direction: "normal",
-                easing: "easeOutBounce",
+                easing: "easeOutBounce"
             }
             if (direction === "open") {
                 this[`${which}Show`] = true
@@ -186,9 +186,9 @@ module.exports = {
         }
         const toggle = (which) => {
             if (this[which] === "open")
-                animate(which, this.$refs[which], "close").then(() => this[which] = "close")
+                animate(which, this.$refs[which], "close").then(() => { this[which] = "close" })
             else
-                animate(which, this.$refs[which], "open").then(() => this[which] = "open")
+                animate(which, this.$refs[which], "open").then(() => { this[which] = "open" })
         }
         this.$on("begin-toggle", () => toggle("begin"))
         this.$on("pause-toggle", () => toggle("pause"))
