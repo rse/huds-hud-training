@@ -27,11 +27,11 @@
 <template>
     <div v-show="show" v-bind:style="style" class="votes">
         <div v-for="choice in choices" ref="choice" v-bind:key="choice.i" v-bind:data-i="choice.i" class="choice">
-            <div class="name">
+            <div class="name" v-bind:class="{ max: choice.max }">
                 {{ choice.name }}
             </div>
             <div class="bar-container">
-                <div class="bar" v-bind:style="{ width: choice.width }">
+                <div class="bar" v-bind:style="{ width: choice.width }" v-bind:class="{ max: choice.max }">
                     <div class="voters">
                         {{ choice.voters }}
                     </div>
@@ -65,8 +65,12 @@
             padding: 10px 20px 10px 20px;
             overflow: hidden;
             font-weight: bold;
-            background-color: var(--namecolorbg);
-            color: var(--namecolorfg);
+            background-color: var(--stdnamecolorbg);
+            color:            var(--stdnamecolorfg);
+            &.max {
+                background-color: var(--maxnamecolorbg);
+                color:            var(--maxnamecolorfg);
+            }
         }
         .bar-container {
             flex-grow: 1;
@@ -79,15 +83,19 @@
                 width: 0;
                 height: 50px;
                 position: relative;
-                background-color: var(--votecolorbg);
                 padding: 10px 20px 10px 20px;
                 border-top-right-radius: 10px;
                 border-bottom-right-radius: 10px;
+                background-color: var(--stdvotecolorbg);
+                color:            var(--stdvotecolorfg);
+                &.max {
+                    background-color: var(--maxvotecolorbg);
+                    color:            var(--maxvotecolorfg);
+                }
                 .voters {
                     position: absolute;
                     top: 10px;
                     left: 24px;
-                    color: var(--votecolorfg);
                 }
             }
         }
@@ -99,11 +107,15 @@
 module.exports = {
     name: "title-bar",
     props: {
-        opacity:      { type: Number, default: 1.0 },
-        namecolorbg:  { type: String, default: "" },
-        namecolorfg:  { type: String, default: "" },
-        votecolorbg:  { type: String, default: "" },
-        votecolorfg:  { type: String, default: "" }
+        opacity:         { type: Number, default: 1.0 },
+        maxnamecolorbg:  { type: String, default: "" },
+        maxnamecolorfg:  { type: String, default: "" },
+        stdnamecolorbg:  { type: String, default: "" },
+        stdnamecolorfg:  { type: String, default: "" },
+        maxvotecolorbg:  { type: String, default: "" },
+        maxvotecolorfg:  { type: String, default: "" },
+        stdvotecolorbg:  { type: String, default: "" },
+        stdvotecolorfg:  { type: String, default: "" }
     },
     data: () => ({
         show:    false,
@@ -219,6 +231,10 @@ module.exports = {
             }
             for (const choice of this.choices) {
                 choice.width = `calc(${Math.ceil((choice.voters / max) * 100) + "%"} - 40px)`
+                if (choice.voters === max) {
+                    console.log("FUCK", choice)
+                    choice.max = true
+                }
             }
         }
     },

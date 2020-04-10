@@ -102,10 +102,14 @@
         ></popup>
         <votes ref="votes" class="votes"
             v-bind:opacity="config.votes.opacity"
-            v-bind:namecolorbg="config.votes.namecolorbg"
-            v-bind:namecolorfg="config.votes.namecolorfg"
-            v-bind:votecolorbg="config.votes.votecolorbg"
-            v-bind:votecolorfg="config.votes.votecolorfg"
+            v-bind:maxnamecolorbg="config.votes.maxnamecolorbg"
+            v-bind:maxnamecolorfg="config.votes.maxnamecolorfg"
+            v-bind:stdnamecolorbg="config.votes.stdnamecolorbg"
+            v-bind:stdnamecolorfg="config.votes.stdnamecolorfg"
+            v-bind:maxvotecolorbg="config.votes.maxvotecolorbg"
+            v-bind:maxvotecolorfg="config.votes.maxvotecolorfg"
+            v-bind:stdvotecolorbg="config.votes.stdvotecolorbg"
+            v-bind:stdvotecolorfg="config.votes.stdvotecolorfg"
         ></votes>
     </div>
 </template>
