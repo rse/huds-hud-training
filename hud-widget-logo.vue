@@ -45,7 +45,7 @@
 module.exports = {
     name: "logo",
     props: {
-        opacity: { type: Number, default: 1.0 },
+        opacity: { type: Number, default: 1.0 }
     },
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -53,10 +53,10 @@ module.exports = {
     mounted () {
         let i = 0
         const animate = () => {
-            let tl = anime.timeline({
+            const tl = anime.timeline({
                 targets:  this.$el.querySelector("svg"),
                 duration: 2000,
-                easing:   "easeInOutQuad",
+                easing:   "easeInOutQuad"
             })
             if (i++ % 2 === 0)
                 tl.add({ rotateX: [ 0, 360 ] })
