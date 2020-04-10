@@ -350,9 +350,7 @@ module.exports = {
 
             /*  react on particular message types  */
             let m
-            if ((m = data.message.match(/^#(\S+)$/)) !== null)
-                console.log("TAG", m[1])
-            else if ((m = data.message.match(/^%(\S+)$/)) !== null) {
+            if ((m = data.message.match(/^#(\S+)$/)) !== null) {
                 const v = this.$refs.votes
                 v.$emit("votes-receive", { person: data.title, choice: m[1] })
             }
