@@ -34,7 +34,7 @@
                 <div ref="bar" class="bar" v-bind:data-i="choice.i"
                     v-bind:class="{ max: choice.max, invalid: choice.invalid }">
                     <div class="voters">
-                        {{ choice.voters }}
+                        {{ choice.max ? `${choice.voters}/${Object.keys(votes).length} (${Math.round(choice.voters/Object.keys(votes).length * 100)}%)` : choice.voters }}
                     </div>
                 </div>
             </div>
