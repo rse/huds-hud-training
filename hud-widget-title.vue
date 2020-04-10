@@ -26,7 +26,7 @@
 
 <template>
     <div v-bind:style="style" class="title-bar">
-        <div class="bar" ref="bar">
+        <div ref="bar" class="bar">
             <div class="icon">
                 <i v-bind:class="[ 'fa', 'fa-' + iconname ]"></i>
             </div>
@@ -88,9 +88,9 @@ module.exports = {
     },
     created () {
         this.$on("bounce", () => {
-            let bar = this.$refs.bar
+            const bar = this.$refs.bar
             audio.bling.play()
-            anime.timeline({
+            const tl = anime.timeline({
                 targets: bar,
                 duration: 400,
                 autoplay: true,
@@ -98,8 +98,8 @@ module.exports = {
                 loop: 3,
                 easing: "easeInOutSine"
             })
-            .add({ scaleX: 1.10, scaleY: 1.20, translateY:  0, translateX:  0 })
-            .add({ scaleX: 1.00, scaleY: 1.00, translateY:  0, translateX:  0 })
+            tl.add({ scaleX: 1.10, scaleY: 1.20, translateY:  0, translateX:  0 })
+                .add({ scaleX: 1.00, scaleY: 1.00, translateY:  0, translateX:  0 })
         })
     }
 }
