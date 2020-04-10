@@ -88,9 +88,15 @@
         ></closure>
         <popup ref="popup" class="popup"
             v-bind:opacity="config.popup.opacity"
-            v-bind:background="config.popup.background"
-            v-bind:titlecolor="config.popup.titlecolor"
-            v-bind:messagecolor="config.popup.messagecolor"
+            v-bind:questionbackground="config.popup.questionbackground"
+            v-bind:questiontitlecolor="config.popup.questiontitlecolor"
+            v-bind:questionmessagecolor="config.popup.questionmessagecolor"
+            v-bind:objectionbackground="config.popup.objectionbackground"
+            v-bind:objectiontitlecolor="config.popup.objectiontitlecolor"
+            v-bind:objectionmessagecolor="config.popup.objectionmessagecolor"
+            v-bind:commentbackground="config.popup.commentbackground"
+            v-bind:commenttitlecolor="config.popup.commenttitlecolor"
+            v-bind:commentmessagecolor="config.popup.commentmessagecolor"
         ></popup>
     </div>
 </template>
@@ -290,6 +296,46 @@ module.exports = {
                 }
             })
         }
+
+        /*  receive messages from a companion chat  */
+        huds.bind("chat", (event, data) => {
+            /*  just react on correctly structured messages  */
+            if (!(   typeof data.title   === "string" && data.title   !== ""
+                  && typeof data.message === "string" && data.message !== ""))
+                return
+
+            /*  filter message markup  */
+            data.message = data.message
+                .replace(/&nbsp;/g, " ")
+                .replace(/\s+/g, " ")
+                .replace(/^\s+/, "")
+                .replace(/\s+$/, "")
+            data.message = data.message.replace(/<([a-z][a-zA-Z0-9:-]*)(?:\s+="[^""]*")*\s*>(.*?)<\/\1>/g, (_, tag, body) => {
+                if (tag.match(/^(?:strong|em|u|s|b|i)$/))
+                    return `<${tag}>${body}</${tag}>`
+                else
+                    return body
+            })
+
+            /*  react on particular message types  */
+            let m
+            if ((m = data.message.match(/^#(\S+)$/)) !== null)
+                console.log("TAG", m[1])
+            else if ((m = data.message.match(/^%(\S+)$/)) !== null)
+                console.log("VOTE", m[1])
+            else if ((m = data.message.match(/^(.+?)\?$/)) !== null) {
+                let a = this.$refs.popup
+                a.$emit("popup-add", { ...data, type: "question" })
+            }
+            else if ((m = data.message.match(/^(.+?)!$/)) !== null) {
+                let a = this.$refs.popup
+                a.$emit("popup-add", { ...data, type: "objection" })
+            }
+            else {
+                let a = this.$refs.popup
+                a.$emit("popup-add", { ...data, type: "comment" })
+            }
+        })
     },
     mounted () {
         /*  forward progress position to agenda  */

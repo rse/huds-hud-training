@@ -23,72 +23,78 @@
 ##
 
 title:
-    opacity:            0.80
-    background:         "#336699"
-    iconname:           graduation-cap
-    iconcolor:          "#77aadd"
-    nametext:           Dr. Ralf S. Engelschall
-    namecolor:          "#e0f0ff"
-    titletext:          Grundlagen der IT-Architektur
-    titlecolor:         "#ffffff"
+    opacity:               0.80
+    background:            "#336699"
+    iconname:              graduation-cap
+    iconcolor:             "#77aadd"
+    nametext:              Dr. Ralf S. Engelschall
+    namecolor:             "#e0f0ff"
+    titletext:             Grundlagen der IT-Architektur
+    titlecolor:            "#ffffff"
 
 closure:
-    opacity:            0.75
-    background:         "#000000"
-    beginiconname:      "play-circle"
-    beginiconcolor:     "#cc0000"
-    beginhinttext:      "The training will start soon.<br/>Please be patient!"
-    beginhintcolor:     "#ffffff"
-    pauseiconname:      "pause-circle"
-    pauseiconcolor:     "#cc0000"
-    pausehinttext:      "The training is paused.<br/>Please be patient!"
-    pausehintcolor:     "#ffffff"
-    endiconname:        "stop-circle"
-    endiconcolor:       "#cc0000"
-    endhinttext:        "The training already has ended.<br/>Thanks for your attention!"
-    endhintcolor:       "#ffffff"
+    opacity:               0.75
+    background:            "#000000"
+    beginiconname:         "play-circle"
+    beginiconcolor:        "#cc0000"
+    beginhinttext:         "The training will start soon.<br/>Please be patient!"
+    beginhintcolor:        "#ffffff"
+    pauseiconname:         "pause-circle"
+    pauseiconcolor:        "#cc0000"
+    pausehinttext:         "The training is paused.<br/>Please be patient!"
+    pausehintcolor:        "#ffffff"
+    endiconname:           "stop-circle"
+    endiconcolor:          "#cc0000"
+    endhinttext:           "The training already has ended.<br/>Thanks for your attention!"
+    endhintcolor:          "#ffffff"
 
 popup:
-    opacity:            0.80
-    background:         "#336699"
-    titlecolor:         "#ffffff"
-    messagecolor:       "#f0f0f0"
+    opacity:               0.80
+    questionbackground:    "#336699"
+    questiontitlecolor:    "#e0f0ff"
+    questionmessagecolor:  "#ffffff"
+    objectionbackground:   "#333333"
+    objectiontitlecolor:   "#e0e0e0"
+    objectionmessagecolor: "#ffffff"
+    commentbackground:     "#f0f0f0"
+    commenttitlecolor:     "#333333"
+    commentmessagecolor:   "#000000"
 
 progress:
-    opacity:            0.80
-    slots:              16
-    donecolorbg:        "#6699cc"
-    donecolorfg:        "#f0f0ff"
-    currcolorbg:        "#336699"
-    currcolorfg:        "#ffffff"
-    todocolorbg:        "#f0f0f0"
-    todocolorfg:        "#999999"
+    opacity:               0.80
+    slots:                 16
+    donecolorbg:           "#6699cc"
+    donecolorfg:           "#f0f0ff"
+    currcolorbg:           "#336699"
+    currcolorfg:           "#ffffff"
+    todocolorbg:           "#f0f0f0"
+    todocolorfg:           "#999999"
 
 banner:
-    opacity:            0.80
-    background:         "#f0f0f0"
+    opacity:               0.80
+    background:            "#f0f0f0"
     banner:
-        -   name:       pause
-            key:        p
-            iconname:   pause-circle
-            iconcolor:  "#336699"
-            titletext:  PAUSE
-            titlecolor: "#000000"
-        -   name:       rant
-            key:        r
-            iconname:   radiation-alt
-            iconcolor:  "#bb0000"
-            titletext:  RANT
-            titlecolor: "#000000"
-        -   name:       qna
-            key:        q
-            iconname:   comments
-            iconcolor:  "#ccaa00"
-            titletext:  "Q&A"
-            titlecolor: "#000000"
+        -   name:          pause
+            key:           p
+            iconname:      pause-circle
+            iconcolor:     "#336699"
+            titletext:     PAUSE
+            titlecolor:    "#000000"
+        -   name:          rant
+            key:           r
+            iconname:      radiation-alt
+            iconcolor:     "#bb0000"
+            titletext:     RANT
+            titlecolor:    "#000000"
+        -   name:          qna
+            key:           q
+            iconname:      comments
+            iconcolor:     "#ccaa00"
+            titletext:     "Q&A"
+            titlecolor:    "#000000"
 
 logo:
-    opacity:            0.60
+    opacity:               0.60
     svg: |
         <svg id="msg-logo" data-name="msg-logo 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 226.3 70.78">
             <defs><style>.cls-1{fill:#fff;}</style></defs>
@@ -99,13 +105,13 @@ logo:
         </svg>
 
 agenda:
-    opacity:            0.90
-    donecolorbg:        "#6699cc"
-    donecolorfg:        "#f0f0ff"
-    currcolorbg:        "#336699"
-    currcolorfg:        "#ffffff"
-    todocolorbg:        "#f0f0f0"
-    todocolorfg:        "#999999"
+    opacity:               0.90
+    donecolorbg:           "#6699cc"
+    donecolorfg:           "#f0f0ff"
+    currcolorbg:           "#336699"
+    currcolorfg:           "#ffffff"
+    todocolorbg:           "#f0f0f0"
+    todocolorfg:           "#999999"
     slots:
         -   Lorem Ipsum 1
         -   Lorem Ipsum 2

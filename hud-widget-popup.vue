@@ -26,7 +26,8 @@
 
 <template>
     <div v-bind:style="style" class="popup">
-        <div v-for="popup in popups" v-bind:key="popup.i" v-bind:data-i="popup.i" class="box" ref="box">
+        <div v-for="popup in popups" v-bind:key="popup.i" v-bind:data-i="popup.i"
+            v-bind:class="{ box: true, [ popup.type ]: true }" ref="box">
             <div v-if="popup.title" class="title">
                 {{ popup.title }}
             </div>
@@ -49,7 +50,6 @@
         margin-top: 20px;
         width: calc(20vw - 40px);
         padding: 20px;
-        background-color: var(--background);
         border-radius: 10px;
         display: flex;
         flex-direction: column;
@@ -59,14 +59,12 @@
             font-family: "TypoPRO Fira Sans";
             font-weight: bold;
             font-size: 20pt;
-            color: var(--titlecolor);
         }
         .message {
             width: 100%;
             margin-top: 10px;
             font-family: "TypoPRO Fira Sans";
             font-size: 20pt;
-            color: var(--messagecolor);
         }
         .image {
             margin-top: 16px;
@@ -76,6 +74,21 @@
                 border-radius: 10px;
             }
         }
+        &.question {
+            background-color: var(--questionbackground);
+            .title   { color: var(--questiontitlecolor);   }
+            .message { color: var(--questionmessagecolor); }
+        }
+        &.objection {
+            background-color: var(--objectionbackground);
+            .title   { color: var(--objectiontitlecolor);   }
+            .message { color: var(--objectionmessagecolor); }
+        }
+        &.comment {
+            background-color: var(--commentbackground);
+            .title   { color: var(--commenttitlecolor);   }
+            .message { color: var(--commentmessagecolor); }
+        }
     }
 }
 </style>
@@ -84,11 +97,16 @@
 module.exports = {
     name: "title-bar",
     props: {
-        opacity:      { type: Number, default: 1.0 },
-        background:   { type: String, default: "" },
-        titlecolor:   { type: String, default: "" },
-        messagecolor: { type: String, default: "" },
-        imageurl:     { type: String, default: "" }
+        opacity:               { type: Number, default: 1.0 },
+        questionbackground:    { type: String, default: "" },
+        questiontitlecolor:    { type: String, default: "" },
+        questionmessagecolor:  { type: String, default: "" },
+        objectionbackground:   { type: String, default: "" },
+        objectiontitlecolor:   { type: String, default: "" },
+        objectionmessagecolor: { type: String, default: "" },
+        commentbackground:     { type: String, default: "" },
+        commenttitlecolor:     { type: String, default: "" },
+        commentmessagecolor:   { type: String, default: "" }
     },
     data: () => ({
         popups:  []
