@@ -167,7 +167,7 @@ body {
     > .votes {
         position: absolute;
         bottom: 120px;
-        width: calc(60vw);
+        width: calc(50vw - 30px);
         height: calc(100vh - 160px);
         left: 30px;
     }
