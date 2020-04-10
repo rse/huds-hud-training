@@ -31,7 +31,7 @@
                 {{ choice.name }}
             </div>
             <div class="bar-container">
-                <div class="bar" v-bind:style="{ width: choice.width }"
+                <div ref="bar" class="bar" v-bind:data-i="choice.i"
                     v-bind:class="{ max: choice.max, invalid: choice.invalid }">
                     <div class="voters">
                         {{ choice.voters }}
@@ -126,12 +126,36 @@ module.exports = {
     data: () => ({
         show:    false,
         choices: [],
-        votes:   {}
+        votes:   {},
+        timer:   null
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
     },
     methods: {
+        update () {
+            if (this.timer !== null)
+                clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                this.recalc()
+                this.$nextTick(() => {
+                    const bars = this.$refs.bar
+                    for (const bar of bars) {
+                        let i = bar.getAttribute("data-i")
+                        let width = this.choices[i].width
+                        anime({
+                            targets:   bar,
+                            duration:  400,
+                            autoplay:  true,
+                            direction: "normal",
+                            easing:    "easeOutSine",
+                            width:     width
+                        }).finished.then(() => {
+                        })
+                    }
+                })
+            }, 500)
+        },
         recalc () {
             /*  determine choices and types  */
             const choices = {}
@@ -235,8 +259,10 @@ module.exports = {
                 if (max < choice.voters)
                     max = choice.voters
             }
+            let i = 0
             for (const choice of this.choices) {
-                choice.width = `calc(${Math.ceil((choice.voters / max) * 100) + "%"} - 40px)`
+                choice.i = i++
+                choice.width = Math.ceil((choice.voters / max) * 100) + "%"
                 if (choice.voters === max)
                     choice.max = true
                 if (choice.name === "(Invalid)")
@@ -259,7 +285,8 @@ module.exports = {
             choice = choice.toUpperCase()
             if (this.votes[person] === undefined)
                 this.votes[person] = choice
-            this.recalc()
+            audio.bling.play()
+            this.update()
         })
     }
 }

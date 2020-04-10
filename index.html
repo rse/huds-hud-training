@@ -73,7 +73,7 @@
             audio = {}
             for (id of [ "bling", "error1", "error2", "open", "swipe", "tack" ])
                 audio[id] = new Howl({ src: [ `hud-audio-${id}.mp3` ], preload: true })
-            Howler.volume(0.3)
+            Howler.volume(0.2)
             huds.on("open",    ()        => { console.log("HUDS: WebSocket: open") })
             huds.on("close",   ()        => { console.log("HUDS: WebSocket: close") })
             huds.on("receive", (message) => { console.log("HUDS: WebSocket: receive", JSON.stringify(message)) })
