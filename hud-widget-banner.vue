@@ -25,8 +25,8 @@
 -->
 
 <template>
-    <div v-show="enabled" v-bind:style="style" class="banner" ref="banner">
-        <div class="bar" ref="bar">
+    <div v-show="enabled" ref="banner" v-bind:style="style" class="banner">
+        <div ref="bar" class="bar">
             <div class="head">
             </div>
             <div class="body">
@@ -87,7 +87,7 @@ module.exports = {
         iconname:   { type: String, default: "" },
         iconcolor:  { type: String, default: "" },
         titletext:  { type: String, default: "" },
-        titlecolor: { type: String, default: "" },
+        titlecolor: { type: String, default: "" }
     },
     data: () => ({
         enabled:  false,
@@ -101,12 +101,12 @@ module.exports = {
             if (this.progress)
                 return
             this.progress = true
-            let el = this.$refs.bar
-            let oldstate = this.enabled
-            let newstate = !oldstate
+            const el = this.$refs.bar
+            const oldstate = this.enabled
+            const newstate = !oldstate
             if (!oldstate)
                 this.enabled = true
-            let tl = anime.timeline({
+            const tl = anime.timeline({
                 targets:  el,
                 duration: 1000,
                 autoplay: true
