@@ -70,6 +70,13 @@ progress:
     todocolorbg:           "#f0f0f0"
     todocolorfg:           "#999999"
 
+votes:
+    opacity:               0.80
+    namecolorbg:           "#336699"
+    namecolorfg:           "#ffffff"
+    votecolorbg:           "#f0f0f0"
+    votecolorfg:           "#999999"
+
 banner:
     opacity:               0.80
     background:            "#f0f0f0"

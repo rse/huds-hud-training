@@ -46,11 +46,13 @@
             v-bind:todocolorbg="config.progress.todocolorbg"
             v-bind:todocolorfg="config.progress.todocolorfg"
         ></progress-bar>
-        <banner class="banner"
+        <banner
+            v-for="banner in config.banner.banner"
+            v-bind:key="banner.name"
+            v-bind:ref="'banner-' + banner.name"
+            class="banner"
             v-bind:opacity="config.banner.opacity"
             v-bind:background="config.banner.background"
-            v-for="banner in config.banner.banner"
-            v-bind:ref="'banner-' + banner.name"
             v-bind:iconname="banner.iconname"
             v-bind:iconcolor="banner.iconcolor"
             v-bind:titletext="banner.titletext"
@@ -98,6 +100,13 @@
             v-bind:commenttitlecolor="config.popup.commenttitlecolor"
             v-bind:commentmessagecolor="config.popup.commentmessagecolor"
         ></popup>
+        <votes ref="votes" class="votes"
+            v-bind:opacity="config.votes.opacity"
+            v-bind:namecolorbg="config.votes.namecolorbg"
+            v-bind:namecolorfg="config.votes.namecolorfg"
+            v-bind:votecolorbg="config.votes.votecolorbg"
+            v-bind:votecolorfg="config.votes.votecolorfg"
+        ></votes>
     </div>
 </template>
 
@@ -151,6 +160,13 @@ body {
         height: calc(100vh - 120px);
         left: 30px;
     }
+    > .votes {
+        position: absolute;
+        bottom: 120px;
+        width: calc(40vw);
+        height: calc(100vh - 160px);
+        left: 30px;
+    }
 }
 </style>
 
@@ -176,7 +192,8 @@ module.exports = {
         "agenda":       "url:hud-widget-agenda.vue",
         "logo":         "url:hud-widget-logo.vue",
         "closure":      "url:hud-widget-closure.vue",
-        "popup":        "url:hud-widget-popup.vue"
+        "popup":        "url:hud-widget-popup.vue",
+        "votes":        "url:hud-widget-votes.vue"
     },
     created () {
         /*  interaction for logo */
@@ -184,7 +201,7 @@ module.exports = {
             huds.send("logo.animate")
         })
         huds.bind("logo.animate", (event, data) => {
-            let logo = this.$refs.logo
+            const logo = this.$refs.logo
             logo.$emit("animate")
         })
 
@@ -196,7 +213,7 @@ module.exports = {
             huds.send("progress.next")
         })
         huds.bind("progress.*", (event, data) => {
-            let pb = this.$refs.progressBar
+            const pb = this.$refs.progressBar
             if (event === "progress.prev")
                 pb.$emit("prev")
             else if (event === "progress.next")
@@ -214,7 +231,7 @@ module.exports = {
             huds.send("closure.end.toggle")
         })
         huds.bind("closure.*", (event, data) => {
-            let closure = this.$refs.closure
+            const closure = this.$refs.closure
             if (event === "closure.begin.toggle")
                 closure.$emit("begin-toggle")
             else if (event === "closure.pause.toggle")
@@ -228,7 +245,7 @@ module.exports = {
             huds.send("title.bounce")
         })
         huds.bind("title.bounce", (event, data) => {
-            let tb = this.$refs.titleBar
+            const tb = this.$refs.titleBar
             tb.$emit("bounce")
         })
 
@@ -237,7 +254,7 @@ module.exports = {
             huds.send("agenda.toggle")
         })
         huds.bind("agenda.toggle", (event, data) => {
-            let a = this.$refs.agenda
+            const a = this.$refs.agenda
             a.$emit("toggle")
         })
 
@@ -246,11 +263,11 @@ module.exports = {
             huds.send("popup.remove")
         })
         huds.bind("popup.add", (event, data) => {
-            let a = this.$refs.popup
+            const a = this.$refs.popup
             a.$emit("popup-add", data)
         })
         huds.bind("popup.remove", (event, data) => {
-            let a = this.$refs.popup
+            const a = this.$refs.popup
             a.$emit("popup-remove")
         })
 
@@ -263,7 +280,7 @@ module.exports = {
             huds.bind(`banner.${banner.name}.toggle`, (event, data) => {
                 if (progress)
                     return
-                let b = this.$refs[`banner-${banner.name}`][0]
+                const b = this.$refs[`banner-${banner.name}`][0]
                 if (this.banner === b) {
                     /*  disable ourself  */
                     progress = true
@@ -297,6 +314,16 @@ module.exports = {
             })
         }
 
+        /*  interaction for votes widget  */
+        Mousetrap.bind("v", (e) => {
+            huds.send("votes.toggle")
+        })
+        huds.bind("votes.*", (event, data) => {
+            const v = this.$refs.votes
+            if (event === "votes.toggle")
+                v.$emit("votes-toggle")
+        })
+
         /*  receive messages from a companion chat  */
         huds.bind("chat", (event, data) => {
             /*  just react on correctly structured messages  */
@@ -321,18 +348,20 @@ module.exports = {
             let m
             if ((m = data.message.match(/^#(\S+)$/)) !== null)
                 console.log("TAG", m[1])
-            else if ((m = data.message.match(/^%(\S+)$/)) !== null)
-                console.log("VOTE", m[1])
+            else if ((m = data.message.match(/^%(\S+)$/)) !== null) {
+                const v = this.$refs.votes
+                v.$emit("votes-receive", { person: data.title, choice: m[1] })
+            }
             else if ((m = data.message.match(/^(.+?)\?$/)) !== null) {
-                let a = this.$refs.popup
+                const a = this.$refs.popup
                 a.$emit("popup-add", { ...data, type: "question" })
             }
             else if ((m = data.message.match(/^(.+?)!$/)) !== null) {
-                let a = this.$refs.popup
+                const a = this.$refs.popup
                 a.$emit("popup-add", { ...data, type: "objection" })
             }
             else {
-                let a = this.$refs.popup
+                const a = this.$refs.popup
                 a.$emit("popup-add", { ...data, type: "comment" })
             }
         })
@@ -340,8 +369,8 @@ module.exports = {
     mounted () {
         /*  forward progress position to agenda  */
         setTimeout(() => {
-            let pb = this.$refs.progressBar
-            let a  = this.$refs.agenda
+            const pb = this.$refs.progressBar
+            const a  = this.$refs.agenda
             pb.$on("pos", (pos) => {
                 a.$emit("pos", pos)
             })
