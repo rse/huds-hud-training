@@ -153,7 +153,7 @@ module.exports = {
                 this.svg = svg
                 const R = Math.ceil(W / 2)
 
-                /*  create background  */
+                /*  create backgrounds  */
                 const circle1 = svg.circle(R * 2).move(0, 0).fill(this.background1)
                 const circle2 = svg.circle(R * 2 - 20).move(10, 10).fill(this.background2)
                 this.svgRefs.segment1 = svg.group()
@@ -179,7 +179,7 @@ module.exports = {
                             .font({
                                 family: "TypoPRO Fira Sans",
                                 anchor: "middle",
-                                size:   (i / 5) % 3 === 0 ? 60 : 55,
+                                size:   (i / 5) % 3 === 0 ? 65 : 55,
                                 weight: (i / 5) % 3 === 0 ? "bold" : "normal"
                             })
                         g.center(R, (i / 5) % 3 === 0 ? 100 : 90)
@@ -212,10 +212,11 @@ module.exports = {
             let M = now.getMinutes()
             let S = now.getSeconds()
             let MS = now.getMilliseconds()
-
             this.svgRefs.p1.untransform().rotate((360 / 12) * (H % 12) + (360 / 12) / 60 * M, R, R)
             this.svgRefs.p2.untransform().rotate((360 / 60) * M, R, R)
             this.svgRefs.p3.untransform().rotate((360 / 60) * S + (360 / 60) / 1000 * MS, R, R)
+
+            /*  perform minute ticks  */
             if (S === 0 && !this.ticked) {
                 audio.play("click5")
                 this.ticked = true
@@ -224,65 +225,28 @@ module.exports = {
             else if (S > 0)
                 this.ticked = false
 
+            /*  redraw minute segments  */
             let deg1 = (360 / 60) * this.segFrom
             let deg2 = (360 / 60) * this.segNow
             let deg3 = (360 / 60) * this.segTo
-
             let rad1 = SVG.utils.radians(90 - deg1)
             let rad2 = SVG.utils.radians(90 - deg2)
             let rad3 = SVG.utils.radians(90 - deg3)
             let max12 = deg2 > deg1 ? (deg2 - deg1 > 180 ? 1 : 0) : (deg1 - deg2 > 180 ? 0 : 1)
             let max23 = deg3 > deg2 ? (deg3 - deg2 > 180 ? 1 : 0) : (deg2 - deg3 > 180 ? 0 : 1)
-
+            const makeSegment = (seg, rad1, rad2, max, b, col) => {
+                let x1 = R + Math.cos(rad1) * (R - b)
+                let y1 = R - Math.sin(rad1) * (R - b)
+                let x2 = R + Math.cos(rad2) * (R - b)
+                let y2 = R - Math.sin(rad2) * (R - b)
+                seg.clear()
+                seg.path().M(R, R).L(x1, y1).A(R - b, R - b, 0, max, 1, { x: x2, y: y2 }).Z().fill(col)
+            }
             let b = 10
-
-            let x1 = R + Math.cos(rad1) * R
-            let y1 = R - Math.sin(rad1) * R
-            let x2 = R + Math.cos(rad2) * R
-            let y2 = R - Math.sin(rad2) * R
-            this.svgRefs.segment1.clear()
-            this.svgRefs.segment1.path()
-                .M(R, R)
-                .L(x1, y1)
-                .A(R, R, 0, max12, 1, { x: x2, y: y2 })
-                .Z()
-                .fill("#b06820")
-
-            x1 = R + Math.cos(rad1) * (R - b)
-            y1 = R - Math.sin(rad1) * (R - b)
-            x2 = R + Math.cos(rad2) * (R - b)
-            y2 = R - Math.sin(rad2) * (R - b)
-            this.svgRefs.segment2.clear()
-            this.svgRefs.segment2.path()
-                .M(R, R)
-                .L(x1, y1)
-                .A(R - b, R - b, 0, max12, 1, { x: x2, y: y2 })
-                .Z()
-                .fill("#f4dbc2")
-
-            x1 = R + Math.cos(rad2) * R
-            y1 = R - Math.sin(rad2) * R
-            x2 = R + Math.cos(rad3) * R
-            y2 = R - Math.sin(rad3) * R
-            this.svgRefs.segment3.clear()
-            this.svgRefs.segment3.path()
-                .M(R, R)
-                .L(x1, y1)
-                .A(R, R, 0, max23, 1, { x: x2, y: y2 })
-                .Z()
-                .fill("#2068b0")
-
-            x1 = R + Math.cos(rad2) * (R - b)
-            y1 = R - Math.sin(rad2) * (R - b)
-            x2 = R + Math.cos(rad3) * (R - b)
-            y2 = R - Math.sin(rad3) * (R - b)
-            this.svgRefs.segment4.clear()
-            this.svgRefs.segment4.path()
-                .M(R, R)
-                .L(x1, y1)
-                .A(R - b, R - b, 0, max23, 1, { x: x2, y: y2 })
-                .Z()
-                .fill("#c2dbf4")
+            makeSegment(this.svgRefs.segment1, rad1, rad2, max12, 0, "#b06820")
+            makeSegment(this.svgRefs.segment2, rad1, rad2, max12, b, "#f4dbc2")
+            makeSegment(this.svgRefs.segment3, rad2, rad3, max23, 0, "#2068b0")
+            makeSegment(this.svgRefs.segment4, rad2, rad3, max23, b, "#c2dbf4")
         }
     }
 }
