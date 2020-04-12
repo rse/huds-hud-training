@@ -352,7 +352,7 @@ module.exports = {
 
         /*  interaction for timer widget  */
         Mousetrap.bind("0", (e) => { huds.send("timer.stop") })
-        Mousetrap.bind("1", (e) => { huds.send("timer.start",  1) })
+        Mousetrap.bind("1", (e) => { huds.send("timer.start",  5) })
         Mousetrap.bind("2", (e) => { huds.send("timer.start", 10) })
         Mousetrap.bind("3", (e) => { huds.send("timer.start", 15) })
         Mousetrap.bind("4", (e) => { huds.send("timer.start", 20) })
