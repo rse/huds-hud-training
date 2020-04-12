@@ -28,7 +28,6 @@ bootstrap:
 	if [ ! -d node_modules ]; then npm install; fi
 
 build: bootstrap
-	npm run build
 
 start:
 	npm start
