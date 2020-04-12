@@ -64,11 +64,15 @@ timer:
     opacity:               0.80
     background1:           "#333333"
     background2:           "#f0f0f0"
-    foreground:            "#e0e0ff"
+    ticks:                 "#333333"
+    digits:                "#666666"
     pointer1:              "#000000"
-    pointer2:              "#000000"
+    pointer2:              "#222222"
     pointer3:              "#cc3333"
-    duration:              "#6699cc"
+    segment1:              "#b06820"
+    segment2:              "#f4dbc2"
+    segment3:              "#2068b0"
+    segment4:              "#c2dbf4"
 
 progress:
     opacity:               0.80

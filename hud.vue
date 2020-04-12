@@ -115,11 +115,15 @@
             v-bind:opacity="config.timer.opacity"
             v-bind:background1="config.timer.background1"
             v-bind:background2="config.timer.background2"
-            v-bind:foreground="config.timer.foreground"
+            v-bind:ticks="config.timer.ticks"
+            v-bind:digits="config.timer.digits"
             v-bind:pointer1="config.timer.pointer1"
             v-bind:pointer2="config.timer.pointer2"
             v-bind:pointer3="config.timer.pointer3"
-            v-bind:duration="config.timer.duration"
+            v-bind:segment1="config.timer.segment1"
+            v-bind:segment2="config.timer.segment2"
+            v-bind:segment3="config.timer.segment3"
+            v-bind:segment4="config.timer.segment4"
         ></timer>
     </div>
 </template>
@@ -184,8 +188,8 @@ body {
     > .timer {
         position: absolute;
         bottom: 120px;
-        width:  600px;
-        height: 600px;
+        width:  500px;
+        height: 500px;
         left:   30px;
     }
 }

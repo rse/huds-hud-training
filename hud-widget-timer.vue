@@ -58,11 +58,15 @@ module.exports = {
         duration:    { type: Number, default: 0 },
         background1: { type: String, default: "" },
         background2: { type: String, default: "" },
-        foreground:  { type: String, default: "" },
+        ticks:       { type: String, default: "" },
+        digits:      { type: String, default: "" },
         pointer1:    { type: String, default: "" },
         pointer2:    { type: String, default: "" },
         pointer3:    { type: String, default: "" },
-        duration:    { type: String, default: "" }
+        segment1:    { type: String, default: "" },
+        segment2:    { type: String, default: "" },
+        segment3:    { type: String, default: "" },
+        segment4:    { type: String, default: "" }
     },
     data: () => ({
         config:    huds.config(),
@@ -178,13 +182,13 @@ module.exports = {
                     svg.line(0, 0, 0, l)
                         .move(R, 30)
                         .rotate((360 / 60) * i, R, R)
-                        .stroke({ color: this.background1, width: w })
+                        .stroke({ color: this.ticks, width: w })
                         .css({ "stroke-linecap": "round" })
                     if (i % 5 === 0) {
                         const g = svg.group()
                         let digit = (i / 5).toString()
                         const t = g.text(digit)
-                            .fill(this.background1)
+                            .fill(this.digits)
                             .font({
                                 family: "TypoPRO Fira Sans",
                                 anchor: "middle",
@@ -200,7 +204,7 @@ module.exports = {
                 /*  create pointers  */
                 this.svgRefs.p1 = svg.line(0, 0, 0, R - (30 + 100))
                     .move(R, 30 + 100)
-                    .stroke({ color: this.pointer1, width: 20 })
+                    .stroke({ color: this.pointer1, width: 25 })
                     .css({ "stroke-linecap": "round" })
                 this.svgRefs.p2 = svg.line(0, 0, 0, R - 30)
                     .move(R, 30)
@@ -252,10 +256,10 @@ module.exports = {
                 seg.path().M(R, R).L(x1, y1).A(R - b, R - b, 0, max, 1, { x: x2, y: y2 }).Z().fill(col)
             }
             let b = 10
-            makeSegment(this.svgRefs.segment1, rad1, rad2, max12, 0, "#b06820")
-            makeSegment(this.svgRefs.segment2, rad1, rad2, max12, b, "#f4dbc2")
-            makeSegment(this.svgRefs.segment3, rad2, rad3, max23, 0, "#2068b0")
-            makeSegment(this.svgRefs.segment4, rad2, rad3, max23, b, "#c2dbf4")
+            makeSegment(this.svgRefs.segment1, rad1, rad2, max12, 0, this.segment1)
+            makeSegment(this.svgRefs.segment2, rad1, rad2, max12, b, this.segment2)
+            makeSegment(this.svgRefs.segment3, rad2, rad3, max23, 0, this.segment3)
+            makeSegment(this.svgRefs.segment4, rad2, rad3, max23, b, this.segment4)
         }
     }
 }
