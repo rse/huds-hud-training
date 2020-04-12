@@ -112,7 +112,8 @@ module.exports = {
                 autoplay: true
             })
             if (newstate) {
-                audio.swipe.play()
+                audio.play("cannon2")
+                // audio.play("slide4") FIXME
                 tl.add({
                     easing:     "easeOutBounce",
                     translateX: [ -400, 0.0 ],
@@ -121,7 +122,7 @@ module.exports = {
                 })
             }
             else {
-                audio.error1.play()
+                audio.play("error2")
                 tl.add({
                     easing:     "easeOutSine",
                     opacity:    [ 1.0, 0.0 ]

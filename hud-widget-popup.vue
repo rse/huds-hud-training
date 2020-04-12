@@ -119,7 +119,7 @@ module.exports = {
             const els    = this.$refs.box.sort((a, b) => parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
             const newer  = els[0]
             const others = els.slice(1)
-            setTimeout(() => audio.bling.play(), 500)
+            setTimeout(() => audio.play("bling1"), 500)
             let pos = 0
             for (const el of others)
                 pos += el.clientHeight + 20
@@ -132,7 +132,7 @@ module.exports = {
                 opacity:   [ 1.0, 1.0 ],
                 bottom:    [ 1000, pos ]
             }).finished.then(() => {
-                audio.tack.play()
+                audio.play("click1")
             })
         },
         removeBox () {
@@ -141,7 +141,7 @@ module.exports = {
             const older  = els[els.length - 1]
 
             const diff = older.clientHeight + 20
-            audio.error1.play()
+            audio.play("error2")
             anime({
                 targets:   older,
                 duration:  1000,
@@ -164,7 +164,7 @@ module.exports = {
                         delay:     200 * i++,
                         bottom:    [ posOld, posNew ]
                     }).finished.then(() => {
-                        audio.tack.play()
+                        audio.play("click1")
                     })
                 }
             })

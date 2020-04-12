@@ -292,12 +292,12 @@ module.exports = {
         this.$on("votes-toggle", () => {
             this.show = !this.show
             if (this.show) {
-                audio.bling.play()
+                audio.play("bling1")
                 this.choices = []
                 this.votes   = {}
             }
             else
-                audio.error1.play()
+                audio.play("error2")
         })
 
         /*  receive a single vote  */
@@ -305,10 +305,10 @@ module.exports = {
             choice = choice.toUpperCase()
             if (this.votes[person] === undefined) {
                 this.votes[person] = choice
-                audio.bling.play()
+                audio.play("bling1")
             }
             else
-                audio.error2.play()
+                audio.play("error4")
             this.update()
         })
     }

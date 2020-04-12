@@ -137,8 +137,8 @@ module.exports = {
                 autoplay: true
             })
             if (newstate) {
-                setTimeout(() => audio.swipe.play(), 2000)
-                setTimeout(() => audio.tack.play(), 3000)
+                setTimeout(() => audio.play("whoosh3"), 2000)
+                setTimeout(() => audio.play("click1"), 3000)
                 tl.add({
                     easing:     "easeOutSine",
                     translateX: [ -1920, 0 ],
@@ -146,8 +146,8 @@ module.exports = {
                 })
             }
             else {
-                setTimeout(() => audio.tack.play(), 50)
-                setTimeout(() => audio.swipe.play(), 100)
+                setTimeout(() => audio.play("click1"), 50)
+                setTimeout(() => audio.play("whoosh3"), 100)
                 tl.add({
                     easing:     "easeInSine",
                     translateX: [ 0, -1920 ],
