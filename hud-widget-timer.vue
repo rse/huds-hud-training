@@ -231,8 +231,8 @@ module.exports = {
             let rad1 = SVG.utils.radians(90 - deg1)
             let rad2 = SVG.utils.radians(90 - deg2)
             let rad3 = SVG.utils.radians(90 - deg3)
-            let max12 = Math.abs(deg2 - deg1) > 180 ? 1 : 0
-            let max23 = Math.abs(deg3 - deg2) > 180 ? 1 : 0
+            let max12 = deg2 > deg1 ? (deg2 - deg1 > 180 ? 1 : 0) : (deg1 - deg2 > 180 ? 0 : 1)
+            let max23 = deg3 > deg2 ? (deg3 - deg2 > 180 ? 1 : 0) : (deg2 - deg3 > 180 ? 0 : 1)
 
             let b = 10
 
