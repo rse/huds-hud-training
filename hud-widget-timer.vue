@@ -114,7 +114,7 @@ module.exports = {
                     if (!this.ended) {
                         /*  end timer  */
                         this.ended = true
-                        audio.play("chime4")
+                        audio.play("scale1")
                         setTimeout(() => {
                             this.stop()
                         }, 5 * 1000)
