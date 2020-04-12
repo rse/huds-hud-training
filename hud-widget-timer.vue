@@ -103,12 +103,12 @@ module.exports = {
                 let now = Math.floor((new Date()).getTime() / 1000)
                 if (now >= this.ending) {
                     if (!this.ended) {
-                        audio.play("chime4")
                         this.ended = true
+                        audio.play("chime4")
+                        setTimeout(() => {
+                            this.stop()
+                        }, 5 * 1000)
                     }
-                    setTimeout(() => {
-                        this.stop()
-                    }, 5 * 1000)
                 }
                 this.update()
             }, 50)
@@ -128,10 +128,6 @@ module.exports = {
             })
         },
         stop () {
-            if (this.timer) {
-                clearTimeout(this.timer)
-                this.timer = null
-            }
             anime({
                 targets:   this.$refs.canvas,
                 duration:  1000,
@@ -140,6 +136,11 @@ module.exports = {
                 easing:    "easeInSine",
                 delay:     200,
                 opacity:   [ 1.0, 0.0 ]
+            }).finished.then(() => {
+                if (this.timer) {
+                    clearTimeout(this.timer)
+                    this.timer = null
+                }
             })
         },
         update () {
