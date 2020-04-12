@@ -91,18 +91,24 @@ module.exports = {
     },
     methods: {
         start (duration) {
+            /*   allow restarting the timer  */
             if (this.timer)
                 clearTimeout(this.timer)
+
+            /*  determine the duration-related information  */
             this.started   = Math.floor((new Date()).getTime() / 1000)
             this.ending    = this.started + (duration * 60)
             this.ended     = false
             this.segFrom   = Math.floor(this.started / 60) % 60
             this.segNow    = this.segFrom
             this.segTo     = Math.floor(this.ending / 60) % 60
+
+            /*  setup an update interval  */
             this.timer = setInterval(() => {
                 let now = Math.floor((new Date()).getTime() / 1000)
                 if (now >= this.ending) {
                     if (!this.ended) {
+                        /*  end timer  */
                         this.ended = true
                         audio.play("chime4")
                         setTimeout(() => {
@@ -112,6 +118,8 @@ module.exports = {
                 }
                 this.update()
             }, 50)
+
+            /*  once render timer and fly it in  */
             this.$nextTick(() => {
                 this.update()
                 audio.play("slide4")
@@ -128,6 +136,7 @@ module.exports = {
             })
         },
         stop () {
+            /*  fly timer out and stop updating  */
             anime({
                 targets:   this.$refs.canvas,
                 duration:  1000,
