@@ -147,7 +147,7 @@ module.exports = {
     methods: {
         /*  recalculate the scenario  */
         recalc () {
-            let result = []
+            const result = []
 
             /*  determine choices and types  */
             const found = { bool: 0, digit: 0, alpha: 0, other: 0 }
