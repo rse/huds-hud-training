@@ -60,6 +60,16 @@ popup:
     commenttitlecolor:     "#333333"
     commentmessagecolor:   "#000000"
 
+timer:
+    opacity:               0.80
+    background1:           "#333333"
+    background2:           "#f0f0f0"
+    foreground:            "#e0e0ff"
+    pointer1:              "#000000"
+    pointer2:              "#000000"
+    pointer3:              "#cc3333"
+    duration:              "#6699cc"
+
 progress:
     opacity:               0.80
     slots:                 16

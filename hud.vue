@@ -111,6 +111,16 @@
             v-bind:stdvotecolorbg="config.votes.stdvotecolorbg"
             v-bind:stdvotecolorfg="config.votes.stdvotecolorfg"
         ></votes>
+        <timer ref="timer" class="timer"
+            v-bind:opacity="config.timer.opacity"
+            v-bind:background1="config.timer.background1"
+            v-bind:background2="config.timer.background2"
+            v-bind:foreground="config.timer.foreground"
+            v-bind:pointer1="config.timer.pointer1"
+            v-bind:pointer2="config.timer.pointer2"
+            v-bind:pointer3="config.timer.pointer3"
+            v-bind:duration="config.timer.duration"
+        ></timer>
     </div>
 </template>
 
@@ -171,6 +181,13 @@ body {
         height: calc(100vh - 160px);
         left: 30px;
     }
+    > .timer {
+        position: absolute;
+        bottom: 120px;
+        width:  600px;
+        height: 600px;
+        left:   30px;
+    }
 }
 </style>
 
@@ -197,7 +214,8 @@ module.exports = {
         "logo":         "url:hud-widget-logo.vue",
         "closure":      "url:hud-widget-closure.vue",
         "popup":        "url:hud-widget-popup.vue",
-        "votes":        "url:hud-widget-votes.vue"
+        "votes":        "url:hud-widget-votes.vue",
+        "timer":        "url:hud-widget-timer.vue"
     },
     created () {
         /*  interaction for logo */
@@ -326,6 +344,26 @@ module.exports = {
             const v = this.$refs.votes
             if (event === "votes.toggle")
                 v.$emit("votes-toggle")
+        })
+
+        /*  interaction for timer widget  */
+        Mousetrap.bind("0", (e) => { huds.send("timer.stop") })
+        Mousetrap.bind("1", (e) => { huds.send("timer.start",  1) })
+        Mousetrap.bind("2", (e) => { huds.send("timer.start", 10) })
+        Mousetrap.bind("3", (e) => { huds.send("timer.start", 15) })
+        Mousetrap.bind("4", (e) => { huds.send("timer.start", 20) })
+        Mousetrap.bind("5", (e) => { huds.send("timer.start", 25) })
+        Mousetrap.bind("6", (e) => { huds.send("timer.start", 30) })
+        Mousetrap.bind("7", (e) => { huds.send("timer.start", 35) })
+        Mousetrap.bind("8", (e) => { huds.send("timer.start", 40) })
+        Mousetrap.bind("9", (e) => { huds.send("timer.start", 45) })
+        huds.bind("timer.start", (event, data) => {
+            const t = this.$refs.timer
+            t.$emit("start", data)
+        })
+        huds.bind("timer.stop", (event, data) => {
+            const t = this.$refs.timer
+            t.$emit("stop")
         })
 
         /*  receive messages from a companion chat  */
