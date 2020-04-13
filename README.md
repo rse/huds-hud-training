@@ -31,12 +31,117 @@ Example
 
 ![screenshot-3](screenshot-3.png)
 
+Usage
+-----
+
+1.  **Install [Node.js](https://nodejs.org/):**<br/>
+    First, install the [Node.js](https://nodejs.org/) run-time execution environment
+    by following the instructions on the [Node.js](https://nodejs.org/) website.
+
+2.  **Install and Start Training HUD:**<br/>
+    Now install and start this training HUD with the help of the
+    [Head-Up-Display Server (HUDS)](https://github.com/rse/huds)
+    and optionally a customized [training configuration](./training.yaml).
+    Here you have three different options:
+
+    -   **Option 1**: Without any installation (directly from source tree):
+
+        ```sh
+        $ git clone https://github.com/rse/huds-hud-training
+        $ cd huds-hud-training
+        $ npm install
+        $ vi training.yaml  # optionally edit the training configuration
+        $ npm run huds -- \
+            -a 127.0.0.1 -p 9999 \
+            -d training:.,training.yaml
+        ```
+
+    -   **Option 2**: Without any installation (from distribution)
+
+        ```sh
+        $ curl -LO https://github.com/rse/huds-hud-training/raw/master/training.yaml
+        $ vi training.yaml  # optionally edit the training configuration
+        $ npx -p huds -p huds-hud-training huds \
+            -a 127.0.0.1 -p 9999 \
+            -d training:@huds-hud-training,training.yaml
+        ```
+
+    -   **Option 3**: With global system installation:
+
+        ```sh
+        $ npm install -g huds huds-hud-training
+        $ curl -LO https://github.com/rse/huds-hud-training/raw/master/training.yaml
+        $ vi training.yaml  # optionally edit the training configuration
+        $ huds \
+            -a 127.0.0.1 -p 9999 \
+            -d training:@huds-hud-training,training.yaml
+        ```
+
+    Hint: when customizing the [training configuration](./training.yaml)
+    feel free to both replace (for adjustment) or even completey
+    kick-out (for disabling) the `title`, `progress`, `banner` and
+    `logo` sections.
+
+3.  **Start [OBS Studio](https://obsproject.com/)**:</br>
+    Start [OBS Studio](https://obsproject.com/) and add a [Browser
+    Source](https://obsproject.com/wiki/Sources-Guide#browsersource) to
+    any scene. As the URL for the browser source use:
+
+    ```
+    http://127.0.0.1:9999/training/
+    ```
+
+4.  **Locally Control HUD** (Keystrokes):<br/>
+    If you want to interact with the HUD directly from within [OBS Studio](https://obsproject.com/),
+    right-click onto the browser source and
+    choose "Interact". You can press <kbd>LEFT</kbd> (previous part),
+    <kbd>RIGHT</kbd> (next part), <kbd>SPACE</kbd> (flash title),
+    <kbd>p</kbd> (toggle Pause banner), <kbd>r</kbd> (toggle Rant
+    banner) and <kbd>q</kbd> (toggle Q&A banner)
+    in the interaction window.
+
+5.  **Remote Control HUD (Programmatically)**:<br/>
+    Now you can also programmatically control the HUD by remotely triggering the events
+    from any shell with the help of the [cURL](https://curl.haxx.se/) utility:
+
+    ```sh
+	curl -D- http://127.0.0.1:9999/training/event/logo.animate
+	curl -D- http://127.0.0.1:9999/training/event/title.animate
+	curl -D- http://127.0.0.1:9999/training/event/progress.prev
+	curl -D- http://127.0.0.1:9999/training/event/progress.next
+	curl -D- http://127.0.0.1:9999/training/event/agenda.toggle
+	curl -D- http://127.0.0.1:9999/training/event/latency.toggle
+	curl -D- http://127.0.0.1:9999/training/event/timer.start?data=<minutes>
+	curl -D- http://127.0.0.1:9999/training/event/timer.stop
+	curl -D- http://127.0.0.1:9999/training/event/votes.toggle
+	curl -D- http://127.0.0.1:9999/training/event/votes.receive?data={"person":"...","choice":"..."}
+	curl -D- http://127.0.0.1:9999/training/event/popup.add?data={"type":<type>,"title":"...","message":"..."[,"image":"..."]}
+	curl -D- http://127.0.0.1:9999/training/event/popup.remove
+	curl -D- http://127.0.0.1:9999/training/event/banner.pause.toggle
+	curl -D- http://127.0.0.1:9999/training/event/banner.rant.toggle
+	curl -D- http://127.0.0.1:9999/training/event/banner.qna.toggle
+	curl -D- http://127.0.0.1:9999/training/event/closure.begin.toggle
+	curl -D- http://127.0.0.1:9999/training/event/closure.pause.toggle
+	curl -D- http://127.0.0.1:9999/training/event/closure.end.toggle
+	curl -D- http://127.0.0.1:9999/training/event/chat?data={"title":"...","message":"..."[,"image":"..."]}
+    ```
+
+6.  **Remote Control HUD (Device)**:<br/>
+    Optionally, trigger the events from an
+    [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck)
+    remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) functions.
+    For this, generate key images with the help of the companion tool
+    [Stream-Deck Key-Image Generator (SDKIG)](https://github.com/rse/sdkig)
+	and the provided script [training-key.sh](./training-key.sh).
+	Just use the [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) function
+	with the generated key images, the URLs above and just let them be executed in the background.
+
 Widgets
 -------
 
 This HUD provides the following on-screen widgets:
 
--   **LOGO**:
+-   **LOGO**:<br/>
     This widget displays a logo at the top-right of the screen
     and rotationally animates it every 5 minutes automatically.
     The intention of this widget is to just provide some
@@ -184,7 +289,7 @@ This HUD provides the following on-screen widgets:
     or programmatically with the remote HUDS events
     `timer.stop` and `timer.start?data=[123456789]`.
 
--   **VOTES**:
+-   **VOTES**:<br/>
     This widget displays voting results at the bottom-left corner of the
     screen. The intention of this widget is to allow the attendees to
     give votes during the training which are anonymously shown by the
@@ -313,111 +418,6 @@ This HUD provides the following on-screen widgets:
     closure) or programmatically with the remote HUDS events
     `closure.begin.toggle`, `closure.pause.toggle`
     and `closure.end.toggle`.
-
-Usage
------
-
-1.  **Install [Node.js](https://nodejs.org/):**<br/>
-    First, install the [Node.js](https://nodejs.org/) run-time execution environment
-    by following the instructions on the [Node.js](https://nodejs.org/) website.
-
-2.  **Install and Start Training HUD:**<br/>
-    Now install and start this training HUD with the help of the
-    [Head-Up-Display Server (HUDS)](https://github.com/rse/huds)
-    and optionally a customized [training configuration](./training.yaml).
-    Here you have three different options:
-
-    -   **Option 1**: Without any installation (directly from source tree):
-
-        ```sh
-        $ git clone https://github.com/rse/huds-hud-training
-        $ cd huds-hud-training
-        $ npm install
-        $ vi training.yaml  # optionally edit the training configuration
-        $ npm run huds -- \
-            -a 127.0.0.1 -p 9999 \
-            -d training:.,training.yaml
-        ```
-
-    -   **Option 2**: Without any installation (from distribution)
-
-        ```sh
-        $ curl -LO https://github.com/rse/huds-hud-training/raw/master/training.yaml
-        $ vi training.yaml  # optionally edit the training configuration
-        $ npx -p huds -p huds-hud-training huds \
-            -a 127.0.0.1 -p 9999 \
-            -d training:@huds-hud-training,training.yaml
-        ```
-
-    -   **Option 3**: With global system installation:
-
-        ```sh
-        $ npm install -g huds huds-hud-training
-        $ curl -LO https://github.com/rse/huds-hud-training/raw/master/training.yaml
-        $ vi training.yaml  # optionally edit the training configuration
-        $ huds \
-            -a 127.0.0.1 -p 9999 \
-            -d training:@huds-hud-training,training.yaml
-        ```
-
-    Hint: when customizing the [training configuration](./training.yaml)
-    feel free to both replace (for adjustment) or even completey
-    kick-out (for disabling) the `title`, `progress`, `banner` and
-    `logo` sections.
-
-3.  **Start [OBS Studio](https://obsproject.com/)**:</br>
-    Start [OBS Studio](https://obsproject.com/) and add a [Browser
-    Source](https://obsproject.com/wiki/Sources-Guide#browsersource) to
-    any scene. As the URL for the browser source use:
-
-    ```
-    http://127.0.0.1:9999/training/
-    ```
-
-4.  **Locally Control HUD** (Keystrokes):<br/>
-    If you want to interact with the HUD directly from within [OBS Studio](https://obsproject.com/),
-    right-click onto the browser source and
-    choose "Interact". You can press <kbd>LEFT</kbd> (previous part),
-    <kbd>RIGHT</kbd> (next part), <kbd>SPACE</kbd> (flash title),
-    <kbd>p</kbd> (toggle Pause banner), <kbd>r</kbd> (toggle Rant
-    banner) and <kbd>q</kbd> (toggle Q&A banner)
-    in the interaction window.
-
-5.  **Remote Control HUD (Programmatically)**:<br/>
-    Now you can also programmatically control the HUD by remotely triggering the events
-    from any shell with the help of the [cURL](https://curl.haxx.se/) utility:
-
-    ```sh
-	curl -D- http://127.0.0.1:9999/training/event/logo.animate
-	curl -D- http://127.0.0.1:9999/training/event/title.animate
-	curl -D- http://127.0.0.1:9999/training/event/progress.prev
-	curl -D- http://127.0.0.1:9999/training/event/progress.next
-	curl -D- http://127.0.0.1:9999/training/event/agenda.toggle
-	curl -D- http://127.0.0.1:9999/training/event/latency.toggle
-	curl -D- http://127.0.0.1:9999/training/event/timer.start?data=<minutes>
-	curl -D- http://127.0.0.1:9999/training/event/timer.stop
-	curl -D- http://127.0.0.1:9999/training/event/votes.toggle
-	curl -D- http://127.0.0.1:9999/training/event/votes.receive?data={"person":"...","choice":"..."}
-	curl -D- http://127.0.0.1:9999/training/event/popup.add?data={"type":<type>,"title":"...","message":"..."[,"image":"..."]}
-	curl -D- http://127.0.0.1:9999/training/event/popup.remove
-	curl -D- http://127.0.0.1:9999/training/event/banner.pause.toggle
-	curl -D- http://127.0.0.1:9999/training/event/banner.rant.toggle
-	curl -D- http://127.0.0.1:9999/training/event/banner.qna.toggle
-	curl -D- http://127.0.0.1:9999/training/event/closure.begin.toggle
-	curl -D- http://127.0.0.1:9999/training/event/closure.pause.toggle
-	curl -D- http://127.0.0.1:9999/training/event/closure.end.toggle
-	curl -D- http://127.0.0.1:9999/training/event/chat?data={"title":"...","message":"..."[,"image":"..."]}
-    ```
-
-6.  **Remote Control HUD (Device)**:<br/>
-    Optionally, trigger the events from an
-    [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck)
-    remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) functions.
-    For this, generate key images with the help of the companion tool
-    [Stream-Deck Key-Image Generator (SDKIG)](https://github.com/rse/sdkig)
-	and the provided script [training-key.sh](./training-key.sh).
-	Just use the [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) function
-	with the generated key images, the URLs above and just let them be executed in the background.
 
 License
 -------
