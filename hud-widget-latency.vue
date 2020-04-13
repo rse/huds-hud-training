@@ -27,7 +27,17 @@
 <template>
     <div v-if="show" v-bind:style="style" class="latency">
         <div class="time">
-            {{ time }}
+            <div class="title">
+                Upstream/Downstream Time
+            </div>
+            <div class="send">
+                {{ time }}
+                <i class="icon fa fa-arrow-alt-circle-right"></i>
+            </div>
+            <div class="recv">
+                --:--:--.-
+                <i class="icon fa fa-arrow-alt-circle-left"></i>
+            </div>
         </div>
     </div>
 </template>
@@ -35,12 +45,31 @@
 <style lang="less" scoped>
 .latency {
     opacity: var(--opacity);
+    border-radius: 10px;
+    background-color: var(--background);
+    padding: 12px 20px 12px 20px;
+    color: var(--foreground);
     .time {
-        background-color: var(--background);
-        color: var(--foreground);
-        padding: 4px 10px 4px 10px;
-        font-family: "TypoPRO DejaVu Sans Mono";
-        font-size: 24pt;
+        .title {
+            font-family: "TypoPRO Fira Sans";
+            font-size: 14pt;
+        }
+        .recv {
+            font-family: "TypoPRO DejaVu Sans Mono";
+            font-size: 24pt;
+            margin-top: 6px;
+            .icon {
+                color: var(--iconcolor);
+            }
+        }
+        .send {
+            font-family: "TypoPRO DejaVu Sans Mono";
+            font-size: 24pt;
+            margin-top: 6px;
+            .icon {
+                color: var(--iconcolor);
+            }
+        }
     }
 }
 </style>
@@ -51,7 +80,8 @@ module.exports = {
     props: {
         opacity:    { type: Number, default: 1.0 },
         background: { type: String, default: "" },
-        foreground: { type: String, default: "" }
+        foreground: { type: String, default: "" },
+        iconcolor:  { type: String, default: "" }
     },
     data: () => ({
         show:  false,

@@ -131,6 +131,7 @@
             v-bind:opacity="config.latency.opacity"
             v-bind:background="config.latency.background"
             v-bind:foreground="config.latency.foreground"
+            v-bind:iconcolor="config.latency.iconcolor"
         ></latency>
     </div>
 </template>
@@ -206,8 +207,8 @@ body {
     }
     > .latency {
         position: absolute;
-        top:    100px;
-        right:  30px;
+        bottom: 120px;
+        left:   30px;
     }
 }
 </style>

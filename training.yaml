@@ -133,6 +133,7 @@ latency:
     opacity:               0.80
     background:            "#336699"
     foreground:            "#ffffff"
+    iconcolor:             "#77aadd"
 
 agenda:
     opacity:               0.90
