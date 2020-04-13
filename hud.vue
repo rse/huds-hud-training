@@ -371,6 +371,8 @@ module.exports = {
             const v = this.$refs.votes
             if (event === "votes.toggle")
                 v.$emit("votes-toggle")
+            else if (event === "votes.receive")
+                v.$emit("votes-receive", data)
         })
 
         /*  interaction for timer widget  */
