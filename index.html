@@ -84,7 +84,7 @@
             /*  initialize sound loops  */
             let slp = new SoundLP({ basedir: "@@rse/soundlp" })
             soundlp = new Howl({ ...slp.config(), loop: true, preload: true })
-            soundlp.volume(0.3)
+            soundlp.volume(0.2)
 
             /*  initialize user interface  */
             httpVueLoader.langProcessor.less = (lessText) =>
