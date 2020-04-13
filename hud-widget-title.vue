@@ -87,7 +87,7 @@ module.exports = {
         style: HUDS.vueprop2cssvar()
     },
     created () {
-        this.$on("bounce", () => {
+        this.$on("animate", () => {
             const bar = this.$refs.bar
             soundfx.play("bling1")
             const tl = anime.timeline({

@@ -282,11 +282,11 @@ module.exports = {
 
         /*  interaction for title widget  */
         Mousetrap.bind("space", (e) => {
-            huds.send("title.bounce")
+            huds.send("title.animate")
         })
-        huds.bind("title.bounce", (event, data) => {
+        huds.bind("title.animate", (event, data) => {
             const tb = this.$refs.titleBar
-            tb.$emit("bounce")
+            tb.$emit("animate")
         })
 
         /*  interaction for agenda widget  */
