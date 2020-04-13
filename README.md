@@ -29,8 +29,6 @@ Example
 
 ![screenshot-2](screenshot-2.png)
 
-![screenshot-3](screenshot-3.png)
-
 Usage
 -----
 
