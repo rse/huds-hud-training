@@ -40,11 +40,11 @@ closure:
     beginhinttext:         "The training will start soon.<br/>Please be patient!"
     beginhintcolor:        "#ffffff"
     pauseiconname:         "pause-circle"
-    pauseiconcolor:        "#cc0000"
+    pauseiconcolor:        "#336699"
     pausehinttext:         "The training is paused.<br/>Please be patient!"
     pausehintcolor:        "#ffffff"
     endiconname:           "stop-circle"
-    endiconcolor:          "#cc0000"
+    endiconcolor:          "#b06820"
     endhinttext:           "The training already has ended.<br/>Thanks for your attention!"
     endhintcolor:          "#ffffff"
 
