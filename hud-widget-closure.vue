@@ -153,8 +153,8 @@ module.exports = {
             let promise
             const left  = el.querySelector(".left")
             const right = el.querySelector(".right")
-            audio.play("click1")
-            setTimeout(() => audio.play("whoosh2"), 50)
+            audio.play("click7")
+            setTimeout(() => audio.play("whoosh2"), 500)
             const options = {
                 duration: 4000,
                 autoplay: true,
@@ -180,7 +180,7 @@ module.exports = {
                 ])
             }
             promise.then(() => {
-                audio.play("click1")
+                audio.play("click7")
             })
             return promise
         }
