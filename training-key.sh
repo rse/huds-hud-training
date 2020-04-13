@@ -42,6 +42,10 @@ sdkig -b 336699 -i clock                -I 99ccff -t "TIMER-15"  -T ffffff -o tr
 sdkig -b 336699 -i clock                -I 99ccff -t "TIMER-45"  -T ffffff -o training-key-hud-timer-45.png
 sdkig -b 996633 -i clock                -I eebb88 -t "TIMER-0"   -T ffffff -o training-key-hud-timer-0.png
 
+sdkig -b 996633 -i cloud-upload-alt     -I eebb88 -t "LTCY-UP"   -T ffffff -o training-key-hud-latency-upstream.png
+sdkig -b 996633 -i cloud-download-alt   -I eebb88 -t "LTCY-DOWN" -T ffffff -o training-key-hud-latency-downstream-on.png
+sdkig -b 000000 -i cloud-download-alt   -I 999999 -t "LTCY-DOWN" -T c0c0c0 -o training-key-hud-latency-downstream-off.png
+
 sdkig -b 336699 -i globe                -I 99ccff -t "BROWSER"   -T ffffff -o training-key-browser.png
 
 sdkig -b ff0000 -i play-circle          -I ffe0e0 -t "BEGIN"     -T ffffff -o training-key-hud-closure-begin.png
