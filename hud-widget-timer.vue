@@ -128,6 +128,8 @@ module.exports = {
             this.$nextTick(() => {
                 this.update()
                 soundfx.play("slide4")
+                if (this.soundid)
+                    soundlp.stop(this.soundid)
                 this.soundid = soundlp.play("piano2")
                 soundlp.rate(0.8, this.soundid)
                 soundlp.volume(0.2, this.soundid)
@@ -146,9 +148,14 @@ module.exports = {
         },
         stop () {
             /*  fly timer out and stop updating  */
-            soundlp.fade(0.2, 0.0, 2 * 1000, this.soundid)
-            soundlp.once("fade", () => soundlp.stop(this.soundid), this.soundid)
-            soundfx.play("whoosh2")
+            if (this.soundid) {
+                soundlp.fade(0.2, 0.0, 2 * 1000, this.soundid)
+                soundlp.once("fade", () => {
+                    soundlp.stop(this.soundid)
+                    this.soundid = 0
+                }, this.soundid)
+                soundfx.play("whoosh2")
+            }
             anime({
                 targets:   this.$refs.canvas,
                 duration:  2000,
