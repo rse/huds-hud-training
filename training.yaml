@@ -62,7 +62,7 @@ popup:
 
 timer:
     opacity:               0.80
-    background1:           "#333333"
+    background1:           "#555555"
     background2:           "#f0f0f0"
     ticks:                 "#333333"
     digits:                "#666666"
