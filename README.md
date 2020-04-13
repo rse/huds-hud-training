@@ -14,24 +14,13 @@ Abstract
 --------
 
 This is a Head-Up-Display (HUD) running under the [Head-Up-Display Server
-(HUDS)](https://github.com/rse/huds) for performing online trainings as Webinars.
+(HUDS)](https://github.com/rse/huds) for performing online trainings as broadcasted live-video streams.
 It acts as a HUD or "overlay" in your video
 production scenario. It is specially intended to be used with [OBS Studio](https://obsproject.com/)'s
 [CEF](https://en.wikipedia.org/wiki/Chromium_Embedded_Framework)-based
 [Browser Source](https://obsproject.com/wiki/Sources-Guide#browsersource)
 and optionally the [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck)
 remote control device and its [System:Website](https://help.elgato.com/hc/en-us/articles/360028234471-Elgato-Stream-Deck-System-Actions) function.
-
-This HUD permanently displays an animated agenda list at the top-left,
-an animated progress bar at the bottom-left, an animated title
-bar at the bottom-right, an animated logo at the top-right, an
-animated full-screen closure and an animated popup. In addition,
-on-demand it displays one or more animated banners at the top-left.
-The agenda, progress bar, title bar and banners can be controlled
-either interactively via keystrokes (<kbd>a</kbd> for the agenda,
-<kbd>LEFT</kbd>/<kbd>RIGHT</kbd> for the progress bar, <kbd>SPACE</kbd>
-for the title bar and arbitrary configured keys for the banners) or
-programmatically via HUDS' REST API.
 
 Example
 -------
@@ -41,6 +30,289 @@ Example
 ![screenshot-2](screenshot-2.png)
 
 ![screenshot-3](screenshot-3.png)
+
+Widgets
+-------
+
+This HUD provides the following on-screen widgets:
+
+-   **LOGO**:
+    This widget displays a logo at the top-right of the screen
+    and rotationally animates it every 5 minutes automatically.
+    The intention of this widget is to just provide some
+    vendor/employer-related branding. The widget has to be configured
+    with...
+
+    ```yaml
+    logo:
+        opacity:               0.60
+        svg: |
+            <svg>[...]</svg>
+    ```
+
+    ...and can be manually animated interactively with the keystroke
+    <kbd>l</kbd> or programmatically with the remote HUDS event
+    `logo.animate`.
+
+-   **TITLE**:<br/>
+    This widget displays a title bar at the bottom-right of the
+    Thscreen. e intention of this widget is to just provide some
+    Thtraining-specific branding. e widget has to be configured with...
+
+    ```yaml
+    title:
+        opacity:               0.80
+        background:            "#336699"
+        iconname:              graduation-cap
+        iconcolor:             "#77aadd"
+        nametext:              Dr. Ralf S. Engelschall
+        namecolor:             "#e0f0ff"
+        titletext:             Grundlagen der IT-Architektur
+        titlecolor:            "#ffffff"
+    ```
+
+    ...and can be manually animated interactively with the keystroke
+    <kbd>SPACE</kbd> or programmatically with the remote HUDS event
+    `title.animate`.
+
+-   **PROGRESS**:<br/>
+    This widget displays a permanently visible progress bar at the
+    bottom-left of the screen. The intention of this widget is to allow
+    the attendees to see the current training progress at any time. The
+    widget has to be configured with...
+
+    ```yaml
+    progress:
+        opacity:               0.80
+        slots:                 16
+        donecolorbg:           "#6699cc"
+        donecolorfg:           "#f0f0ff"
+        currcolorbg:           "#336699"
+        currcolorfg:           "#ffffff"
+        todocolorbg:           "#f0f0f0"
+        todocolorfg:           "#999999"
+    ```
+
+    ...and is controlled interactively with the keystrokes
+    <kbd>LEFT</kbd> (previous slot) and <kbd>RIGHT</kbd>
+    (next slot) or programmatically with the remote HUDS events
+    `progress.prev` (previous slot) and
+    `progress.next` (next slot).
+
+-   **AGENDA**:<br/>
+    This widget displays a training agenda list at the left border of
+    the screen. The intention of this widget is to allow the attendees
+    to regularly see the agenda slots and current training progress
+    during the training. The widget has to be configured with...
+
+    ```yaml
+    agenda:
+        opacity:               0.90
+        donecolorbg:           "#6699cc"
+        donecolorfg:           "#f0f0ff"
+        currcolorbg:           "#336699"
+        currcolorfg:           "#ffffff"
+        todocolorbg:           "#f0f0f0"
+        todocolorfg:           "#999999"
+        slots:
+            -   Agenda point 1
+            -   Agenda point 2
+            [...]
+    ```
+
+    ...and is toggled interactively with the keystroke
+    <kbd>a</kbd> or programmatically with the remote HUDS event
+    `agenda.toggle`.
+
+-   **LATENCY**:<br/>
+    This widget displays a latency timer at the bottom-right
+    corner of the screen. The intention of this widget is to allow
+    one to determine the network latency, i.e., the lag between
+    uploading/upstreaming the video stream (a the trainer side) and
+    the downloading/downstreaming of the video stream (usually at the
+    attendee side). For this it displays the current (upstreaming)
+    time and keeps space for the downstreaming time, which has to be
+    overlayed separately to the HUD in OBS Studio through an RTMP
+    downstream Media Source. It has to be configured with...
+
+    ```yaml
+    latency:
+        opacity:               0.80
+        background:            "#336699"
+        foreground:            "#ffffff"
+        iconcolor:             "#77aadd"
+    ```
+
+    ...and is toggled interactively with the keystroke
+    <kbd>!</kbd> or programmatically with the remote HUDS event
+    `latency.toggle`.
+
+-   **TIMER**:<br/>
+    This widget displays a combined wall clock and stopwatch at the
+    bottom-left corner of the screen. The intention of this widget is
+    to allow the trainer to raise a pause for a certain amount of time
+    and clearly indicate the remaining time to the attendees. It has to
+    be configured with...
+
+    ```yaml
+    timer:
+        opacity:               0.80
+        background1:           "#555555"
+        background2:           "#f0f0f0"
+        ticks:                 "#333333"
+        digits:                "#666666"
+        pointer1:              "#000000"
+        pointer2:              "#222222"
+        pointer3:              "#cc3333"
+        segment1:              "#b06820"
+        segment2:              "#f4dbc2"
+        segment3:              "#2068b0"
+        segment4:              "#c2dbf4"
+    ```
+
+    ...and is controlled interactively with the keystrokes
+    <kbd>0</kbd> (stop timer manually),
+    <kbd>1</kbd> (start 5-minute timer),
+    <kbd>2</kbd> (start 10-minute timer),
+    <kbd>3</kbd> (start 15-minute timer),
+    <kbd>4</kbd> (start 20-minute timer),
+    <kbd>5</kbd> (start 25-minute timer),
+    <kbd>6</kbd> (start 30-minute timer),
+    <kbd>7</kbd> (start 35-minute timer),
+    <kbd>8</kbd> (start 40-minute timer) and
+    <kbd>9</kbd> (start 45-minute timer),
+    or programmatically with the remote HUDS events
+    `timer.stop` and `timer.start?data=[123456789]`.
+
+-   **VOTES**:
+    This widget displays voting results at the bottom-left corner of the
+    screen. The intention of this widget is to allow the attendees to
+    give votes during the training which are anonymously shown by the
+    trainer. It has to be configured with...
+
+    ```yaml
+    votes:
+        opacity:               0.80
+        maxnamecolorbg:        "#336699"
+        maxnamecolorfg:        "#ffffff"
+        stdnamecolorbg:        "#6699cc"
+        stdnamecolorfg:        "#ffffff"
+        maxvotecolorbg:        "#ffffff"
+        maxvotecolorfg:        "#666666"
+        stdvotecolorbg:        "#f0f0f0"
+        stdvotecolorfg:        "#999999"
+    ```
+
+    ...and is toggled interactively with the keystroke <kbd>v</kbd> or
+    programmatically with the remote HUDS event `votes.toggle`. The
+    votes of the attendees are extracted from `#xxx` tags of `message`
+    fields in data received with the remote HUDS event `chat` (usually
+    injected into HUDS via MQTT through the integration of a companion
+    chat system).
+
+-   **POPUP**:<br/>
+    This widget displays popups at the bottom-left corner of the
+    screen. The intention of this widget is to let attendees raise
+    questions, objections and comments during the training.
+    It has to be configured with...
+
+    ```yaml
+    popup:
+        opacity:               0.80
+        questionbackground:    "#336699"
+        questiontitlecolor:    "#e0f0ff"
+        questionmessagecolor:  "#ffffff"
+        objectionbackground:   "#333333"
+        objectiontitlecolor:   "#e0e0e0"
+        objectionmessagecolor: "#ffffff"
+        commentbackground:     "#f0f0f0"
+        commenttitlecolor:     "#333333"
+        commentmessagecolor:   "#000000"
+    ```
+
+    ...and is controlled interactively with the keystroke
+    <kbd>BACKSPACE</kbd> (for removing the lowest/oldest popup) or
+    programmatically with the remote HUDS event `popup.remove`. The
+    popups of the attendees are extracted from `message` fields in data
+    received with the remote HUDS event `chat` (usually injected into
+    HUDS via MQTT through the integration of a companion chat system). A
+    message ending in "?" is considered a question. a message ending in
+    "!" is considered an objection and everything else is considered a
+    comment. In addition to the HUDS event `chat` one can also use the
+    `popup.add` event with the data `{ type, title, message, image? }`
+    to add a popup.
+
+-   **BANNER**:<br/>
+    This widget displays arbitrary banners at the top-left corner of the
+    screen. The intention of this widget is to flag special parts of the
+    training, ensure that the right expectations for the attendees and
+    allow one to also easily recognize the flagged parts in a potential
+    video recording of the training. It has to be configured with...
+
+    ```yaml
+    banner:
+        opacity:               0.80
+        background:            "#f0f0f0"
+        banner:
+            -   name:          pause
+                key:           p
+                iconname:      pause-circle
+                iconcolor:     "#336699"
+                titletext:     PAUSE
+                titlecolor:    "#000000"
+            -   name:          rant
+                key:           r
+                iconname:      radiation-alt
+                iconcolor:     "#bb0000"
+                titletext:     RANT
+                titlecolor:    "#000000"
+            -   name:          qna
+                key:           q
+                iconname:      comments
+                iconcolor:     "#ccaa00"
+                titletext:     "Q&A"
+                titlecolor:    "#000000"
+    ```
+
+    ...and is controlled interactively with the configured
+    keystrokes (in the example <kbd>a</kbd>, <kbd>r</kbd> and
+    <kbd>q</kbd>) or programmatically with the remote HUDS events
+    `banner.<i>name</i>.toggle` (in the example with the
+    names `pause`, `rant` and `qna`).
+
+-   **CLOSURE**:<br/>
+    This widget displays three partly-transparent full-screen closures.
+    The intention of this widget is clearly indicate the begin phase
+    (the time before the training starts but where the video streaming
+    has to be ensured to work), the pause phases (the time the trainer
+    is away from the video stream) and the end phase (the time after
+    the training ended but where the video streaming is still sent).
+    It has to be configured with...
+
+    ```yaml
+    closure:
+        opacity:               0.75
+        background:            "#000000"
+        beginiconname:         "play-circle"
+        beginiconcolor:        "#b06820"
+        beginhinttext:         "The training will start soon.<br/>Please be patient!"
+        beginhintcolor:        "#ffffff"
+        pauseiconname:         "pause-circle"
+        pauseiconcolor:        "#336699"
+        pausehinttext:         "The training is paused.<br/>Please be patient!"
+        pausehintcolor:        "#ffffff"
+        endiconname:           "stop-circle"
+        endiconcolor:          "#b06820"
+        endhinttext:           "The training already has ended.<br/>Thanks for your attention!"
+        endhintcolor:          "#ffffff"
+    ```
+
+    ...and is controlled interactively with the keystrokes
+    <kbd>UP</kbd> (for begin closure), <kbd>RETURN</kbd>
+    (for pause closure) and <kbd>DOWN</kbd> (for end
+    closure) or programmatically with the remote HUDS events
+    `closure.begin.toggle`, `closure.pause.toggle`
+    and `closure.end.toggle`.
 
 Usage
 -----
@@ -116,13 +388,25 @@ Usage
     from any shell with the help of the [cURL](https://curl.haxx.se/) utility:
 
     ```sh
-	curl -D- http://127.0.0.1:9999/training/event/agenda.event=toggle
-	curl -D- http://127.0.0.1:9999/training/event/progress.event=prev
-	curl -D- http://127.0.0.1:9999/training/event/progress.event=next
-	curl -D- http://127.0.0.1:9999/training/event/title.event=bounce
-	curl -D- http://127.0.0.1:9999/training/event/banner-pause.event=toggle
-	curl -D- http://127.0.0.1:9999/training/event/banner-rant.event=toggle
-	curl -D- http://127.0.0.1:9999/training/event/banner-qna.event=toggle
+	curl -D- http://127.0.0.1:9999/training/event/logo.animate
+	curl -D- http://127.0.0.1:9999/training/event/title.animate
+	curl -D- http://127.0.0.1:9999/training/event/progress.prev
+	curl -D- http://127.0.0.1:9999/training/event/progress.next
+	curl -D- http://127.0.0.1:9999/training/event/agenda.toggle
+	curl -D- http://127.0.0.1:9999/training/event/latency.toggle
+	curl -D- http://127.0.0.1:9999/training/event/timer.start?data=<minutes>
+	curl -D- http://127.0.0.1:9999/training/event/timer.stop
+	curl -D- http://127.0.0.1:9999/training/event/votes.toggle
+	curl -D- http://127.0.0.1:9999/training/event/votes.receive?data={"person":"...","choice":"..."}
+	curl -D- http://127.0.0.1:9999/training/event/popup.add?data={"type":<type>,"title":"...","message":"..."[,"image":"..."]}
+	curl -D- http://127.0.0.1:9999/training/event/popup.remove
+	curl -D- http://127.0.0.1:9999/training/event/banner.pause.toggle
+	curl -D- http://127.0.0.1:9999/training/event/banner.rant.toggle
+	curl -D- http://127.0.0.1:9999/training/event/banner.qna.toggle
+	curl -D- http://127.0.0.1:9999/training/event/closure.begin.toggle
+	curl -D- http://127.0.0.1:9999/training/event/closure.pause.toggle
+	curl -D- http://127.0.0.1:9999/training/event/closure.end.toggle
+	curl -D- http://127.0.0.1:9999/training/event/chat?data={"title":"...","message":"..."[,"image":"..."]}
     ```
 
 6.  **Remote Control HUD (Device)**:<br/>
