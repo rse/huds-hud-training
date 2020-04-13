@@ -32,9 +32,15 @@ sdkig -b 336699 -i comments             -I 99ccff -t "Q&A"       -T ffffff -o tr
 sdkig -b 336699 -i chevron-circle-left  -I 99ccff -t "PREV"      -T ffffff -o training-key-hud-progress-prev.png
 sdkig -b 336699 -i chevron-circle-right -I 99ccff -t "NEXT"      -T ffffff -o training-key-hud-progress-next.png
 sdkig -b 336699 -i list-alt             -I 99ccff -t "AGENDA"    -T ffffff -o training-key-hud-agenda.png
-sdkig -b 336699 -i comment-slash        -I 99ccff -t "DISMISS"   -T ffffff -o training-key-hud-popup-remove.png
+sdkig -b 996633 -i comment-slash        -I eebb88 -t "DISMISS"   -T ffffff -o training-key-hud-popup-remove.png
 sdkig -b 336699 -i sync-alt             -I 99ccff -t "LOGO"      -T ffffff -o training-key-hud-logo.png
 sdkig -b 336699 -i bullseye             -I 99ccff -t "TRAINING"  -T ffffff -o training-key-hud-training.png
+sdkig -b 336699 -i poll-h               -I 99ccff -t "VOTE"      -T ffffff -o training-key-hud-vote.png
+sdkig -b 336699 -i clock                -I 99ccff -t "TIMER-5"   -T ffffff -o training-key-hud-timer-5.png
+sdkig -b 336699 -i clock                -I 99ccff -t "TIMER-10"  -T ffffff -o training-key-hud-timer-10.png
+sdkig -b 336699 -i clock                -I 99ccff -t "TIMER-15"  -T ffffff -o training-key-hud-timer-15.png
+sdkig -b 336699 -i clock                -I 99ccff -t "TIMER-45"  -T ffffff -o training-key-hud-timer-45.png
+sdkig -b 996633 -i clock                -I eebb88 -t "TIMER-0"   -T ffffff -o training-key-hud-timer-0.png
 
 sdkig -b 336699 -i globe                -I 99ccff -t "BROWSER"   -T ffffff -o training-key-browser.png
 
