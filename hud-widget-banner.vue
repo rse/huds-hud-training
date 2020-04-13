@@ -113,7 +113,6 @@ module.exports = {
             })
             if (newstate) {
                 audio.play("cannon2")
-                // audio.play("slide4") FIXME
                 tl.add({
                     easing:     "easeOutBounce",
                     translateX: [ -400, 0.0 ],
@@ -122,7 +121,7 @@ module.exports = {
                 })
             }
             else {
-                audio.play("error2")
+                audio.play("whoosh2")
                 tl.add({
                     easing:     "easeOutSine",
                     opacity:    [ 1.0, 0.0 ]

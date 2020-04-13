@@ -292,12 +292,12 @@ module.exports = {
         this.$on("votes-toggle", () => {
             this.show = !this.show
             if (this.show) {
-                audio.play("bling1")
+                audio.play("beep3")
                 this.choices = []
                 this.votes   = {}
             }
             else
-                audio.play("error2")
+                audio.play("whoosh2")
         })
 
         /*  receive a single vote  */
@@ -308,7 +308,7 @@ module.exports = {
                 audio.play("bling1")
             }
             else
-                audio.play("error4")
+                audio.play("error3")
             this.update()
         })
     }

@@ -53,6 +53,7 @@ module.exports = {
     mounted () {
         let i = 0
         const animate = () => {
+            audio.play("whoosh2")
             const tl = anime.timeline({
                 targets:  this.$el.querySelector("svg"),
                 duration: 2000,

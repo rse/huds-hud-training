@@ -119,7 +119,7 @@ module.exports = {
             const els    = this.$refs.box.sort((a, b) => parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
             const newer  = els[0]
             const others = els.slice(1)
-            setTimeout(() => audio.play("bling1"), 500)
+            audio.play("bling1")
             let pos = 0
             for (const el of others)
                 pos += el.clientHeight + 20
@@ -141,7 +141,7 @@ module.exports = {
             const older  = els[els.length - 1]
 
             const diff = older.clientHeight + 20
-            audio.play("error2")
+            audio.play("whoosh2")
             anime({
                 targets:   older,
                 duration:  1000,
