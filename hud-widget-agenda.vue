@@ -54,7 +54,7 @@
         flex-direction: column;
         .slot {
             height: var(--slotheight);
-            margin-bottom: 4px;
+            margin-bottom: 1px;
             font-family: "TypoPRO Fira Sans";
             font-size: calc(var(--slotheight) * 0.70);
             display: flex;
@@ -133,28 +133,29 @@ module.exports = {
             const el = this.$refs.canvas
             const tl = anime.timeline({
                 targets:  el,
-                duration: 3000,
+                duration: 1000,
                 autoplay: true
             })
             if (newstate) {
-                setTimeout(() => audio.play("whoosh3"), 2000)
-                setTimeout(() => audio.play("click1"), 3000)
+                setTimeout(() => audio.play("whoosh3"), 200)
                 tl.add({
-                    easing:     "easeOutSine",
-                    translateX: [ -1920, 0 ],
+                    easing:     "cubicBezier(0.570, 0.000, 0.340, 1.390)",
+                    translateX: [ -(20 + this.$el.clientWidth), 0 ],
                     opacity:    [ 1.0, 1.0 ]
                 })
             }
             else {
                 setTimeout(() => audio.play("click1"), 50)
-                setTimeout(() => audio.play("whoosh3"), 100)
+                setTimeout(() => audio.play("whoosh3"), 500)
                 tl.add({
-                    easing:     "easeInSine",
-                    translateX: [ 0, -1920 ],
-                    opacity:    [ 1.0, 0.0 ]
+                    easing:     "cubicBezier(0.625, -0.480, 0.505, 1.000)",
+                    translateX: [ 0, - (20 + this.$el.clientWidth) ],
+                    opacity:    [ 1.0, 1.0 ]
                 })
             }
             tl.finished.then(() => {
+                if (newstate)
+                    audio.play("click1")
                 this.enabled  = newstate
                 this.progress = false
             })
