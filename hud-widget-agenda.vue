@@ -137,7 +137,7 @@ module.exports = {
                 autoplay: true
             })
             if (newstate) {
-                setTimeout(() => audio.play("whoosh3"), 200)
+                setTimeout(() => soundfx.play("whoosh3"), 200)
                 tl.add({
                     easing:     "cubicBezier(0.570, 0.000, 0.340, 1.390)",
                     translateX: [ -(20 + this.$el.clientWidth), 0 ],
@@ -145,8 +145,8 @@ module.exports = {
                 })
             }
             else {
-                setTimeout(() => audio.play("click1"), 50)
-                setTimeout(() => audio.play("whoosh3"), 500)
+                setTimeout(() => soundfx.play("click1"), 50)
+                setTimeout(() => soundfx.play("whoosh3"), 500)
                 tl.add({
                     easing:     "cubicBezier(0.625, -0.480, 0.505, 1.000)",
                     translateX: [ 0, - (20 + this.$el.clientWidth) ],
@@ -155,7 +155,7 @@ module.exports = {
             }
             tl.finished.then(() => {
                 if (newstate)
-                    audio.play("click1")
+                    soundfx.play("click1")
                 this.enabled  = newstate
                 this.progress = false
             })

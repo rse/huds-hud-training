@@ -50,7 +50,8 @@ globals:
     HUDS:          true
     huds:          true
     anime:         true
-    audio:         true
+    soundfx:       true
+    soundlp:       true
     SVG:           true
     Mousetrap:     true
     hashTagSimilarity: true

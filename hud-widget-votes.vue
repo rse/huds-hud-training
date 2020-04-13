@@ -281,7 +281,7 @@ module.exports = {
                         }
                     }
                     if (changes) {
-                        audio.play("slide1")
+                        soundfx.play("slide1")
                         for (const bar of bars) {
                             const i = bar.getAttribute("data-i")
                             const width = this.choices[i].width
@@ -304,12 +304,12 @@ module.exports = {
         this.$on("votes-toggle", () => {
             this.show = !this.show
             if (this.show) {
-                audio.play("beep3")
+                soundfx.play("beep3")
                 this.choices = []
                 this.votes   = {}
             }
             else
-                audio.play("whoosh2")
+                soundfx.play("whoosh2")
         })
 
         /*  receive a single vote  */
@@ -317,10 +317,10 @@ module.exports = {
             choice = choice.toUpperCase()
             if (this.votes[person] === undefined) {
                 this.votes[person] = choice
-                audio.play("beep1")
+                soundfx.play("beep1")
             }
             else
-                audio.play("error4")
+                soundfx.play("error4")
             this.update()
         })
     }

@@ -114,7 +114,7 @@ module.exports = {
                     if (!this.ended) {
                         /*  end timer  */
                         this.ended = true
-                        audio.play("scale1")
+                        soundfx.play("scale1")
                         setTimeout(() => {
                             this.stop()
                         }, 5 * 1000)
@@ -126,7 +126,7 @@ module.exports = {
             /*  once render timer and fly it in  */
             this.$nextTick(() => {
                 this.update()
-                audio.play("slide4")
+                soundfx.play("slide4")
                 anime({
                     targets:   this.$refs.canvas,
                     duration:  1000,
@@ -231,7 +231,7 @@ module.exports = {
 
             /*  perform minute ticks  */
             if (S === 0 && !this.ticked) {
-                audio.play("click5")
+                soundfx.play("click5")
                 this.ticked = true
                 this.segNow = M
             }

@@ -112,7 +112,7 @@ module.exports = {
                 autoplay: true
             })
             if (newstate) {
-                audio.play("cannon2")
+                soundfx.play("cannon2")
                 tl.add({
                     easing:     "easeOutBounce",
                     translateX: [ -400, 0.0 ],
@@ -121,7 +121,7 @@ module.exports = {
                 })
             }
             else {
-                audio.play("whoosh2")
+                soundfx.play("whoosh2")
                 tl.add({
                     easing:     "easeOutSine",
                     opacity:    [ 1.0, 0.0 ]

@@ -65,7 +65,7 @@ module.exports = {
         this.$on("prev", () => {
             if (this.pos > 0) {
                 this.pos--
-                audio.play("bling1")
+                soundfx.play("bling1")
             }
             this.updatex()
             this.$emit("pos", this.pos)
@@ -73,7 +73,7 @@ module.exports = {
         this.$on("next", () => {
             if (this.pos < this.slots - 1) {
                 this.pos++
-                audio.play("bling1")
+                soundfx.play("bling1")
             }
             this.updatex()
             this.$emit("pos", this.pos)

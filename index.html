@@ -48,6 +48,7 @@
         <link rel="stylesheet" type="text/css" href="@typopro-web/web/TypoPRO-FiraSans/TypoPRO-FiraSans.css">
         <script type="text/javascript" src="@hashtag-similarity/lib/hashtag-similarity.browser.js"></script>
         <script type="text/javascript" src="@@rse/soundfx/soundfx.browser.js"></script>
+        <script type="text/javascript" src="@@rse/soundlp/soundlp.browser.js"></script>
     </head>
     <body>
         <div id="hud">
@@ -67,19 +68,29 @@
             }
         </style>
         <script>
+            /*  initialize backend communication  */
             huds = new HUDS()
-            httpVueLoader.langProcessor.less = (lessText) =>
-                less.render(lessText, { globalVars: huds.config({ flat: true, sep: "-" }) }).then((result) => result.css)
-            Vue.use(httpVueLoader)
-            vm = new Vue({ el: "#hud", components: { "hud": "url:hud.vue" }})
-            soundfx = new SoundFX({ basedir: "@@rse/soundfx" })
-            audio = new Howl({ ...soundfx.config(), preload: true })
-            Howler.volume(0.2)
             huds.on("open",    ()        => { console.log("HUDS: WebSocket: open") })
             huds.on("close",   ()        => { console.log("HUDS: WebSocket: close") })
             huds.on("receive", (message) => { console.log("HUDS: WebSocket: receive", JSON.stringify(message)) })
             huds.on("error",   (error)   => { console.log("HUDS: WebSocket: error", error) })
             huds.connect()
+
+            /*  initialize sound effects  */
+            let sfx = new SoundFX({ basedir: "@@rse/soundfx" })
+            soundfx = new Howl({ ...sfx.config(), preload: true })
+            soundfx.volume(0.4)
+
+            /*  initialize sound loops  */
+            let slp = new SoundLP({ basedir: "@@rse/soundlp" })
+            soundlp = new Howl({ ...slp.config(), loop: true, preload: true })
+            soundlp.volume(0.3)
+
+            /*  initialize user interface  */
+            httpVueLoader.langProcessor.less = (lessText) =>
+                less.render(lessText, { globalVars: huds.config({ flat: true, sep: "-" }) }).then((result) => result.css)
+            Vue.use(httpVueLoader)
+            vm = new Vue({ el: "#hud", components: { "hud": "url:hud.vue" }})
         </script>
     </body>
 </html>
