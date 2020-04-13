@@ -127,6 +127,11 @@
             v-bind:segment3="config.timer.segment3"
             v-bind:segment4="config.timer.segment4"
         ></timer>
+        <latency ref="latency" class="latency"
+            v-bind:opacity="config.latency.opacity"
+            v-bind:background="config.latency.background"
+            v-bind:foreground="config.latency.foreground"
+        ></latency>
     </div>
 </template>
 
@@ -199,6 +204,11 @@ body {
         height: 500px;
         left:   30px;
     }
+    > .latency {
+        position: absolute;
+        top:    100px;
+        right:  30px;
+    }
 }
 </style>
 
@@ -221,7 +231,8 @@ module.exports = {
         "closure":      "url:hud-widget-closure.vue",
         "popup":        "url:hud-widget-popup.vue",
         "votes":        "url:hud-widget-votes.vue",
-        "timer":        "url:hud-widget-timer.vue"
+        "timer":        "url:hud-widget-timer.vue",
+        "latency":      "url:hud-widget-latency.vue"
     },
     created () {
         /*  interaction for logo */
@@ -297,6 +308,15 @@ module.exports = {
         huds.bind("popup.remove", (event, data) => {
             const a = this.$refs.popup
             a.$emit("popup-remove")
+        })
+
+        /*  interaction for latency widget  */
+        Mousetrap.bind("!", (e) => {
+            huds.send("latency.toggle")
+        })
+        huds.bind("latency.toggle", (event, data) => {
+            const l = this.$refs.latency
+            l.$emit("toggle")
         })
 
         /*  interaction for progress widget  */
