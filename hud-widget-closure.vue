@@ -143,7 +143,8 @@ module.exports = {
         pauseIcon: null,
         end:       "open",
         endShow:   false,
-        endIcon:   null
+        endIcon:   null,
+        soundid:   0,
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -163,6 +164,10 @@ module.exports = {
             }
             if (direction === "open") {
                 this[`${which}Show`] = true
+                if (this.soundid) {
+                    soundlp.fade(1.0, 0.0, 4 * 1000, this.soundid)
+                    soundlp.once("fade", () => soundlp.stop(this.soundid), this.soundid)
+                }
                 promise = Promise.all([
                     anime({ ...options, targets: left,  left:  [ 0, "-50%" ] }).finished,
                     anime({ ...options, targets: right, right: [ 0, "-50%" ] }).finished
@@ -178,6 +183,8 @@ module.exports = {
                     anime({ ...options, targets: left,  left:  [ "-50%", 0 ] }).finished,
                     anime({ ...options, targets: right, right: [ "-50%", 0 ] }).finished
                 ])
+                this.soundid = soundlp.play("piano5")
+                soundlp.fade(0.0, 1.0, 4 * 1000, this.soundid)
             }
             promise.then(() => {
                 soundfx.play("click7")

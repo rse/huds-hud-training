@@ -147,9 +147,7 @@ module.exports = {
         stop () {
             /*  fly timer out and stop updating  */
             soundlp.fade(0.2, 0.0, 2 * 1000, this.soundid)
-            soundlp.once("fade", () => {
-                soundlp.stop()
-            })
+            soundlp.once("fade", () => soundlp.stop(this.soundid), this.soundid)
             soundfx.play("whoosh2")
             anime({
                 targets:   this.$refs.canvas,
