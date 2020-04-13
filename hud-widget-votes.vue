@@ -271,17 +271,29 @@ module.exports = {
                 this.recalc()
                 this.$nextTick(() => {
                     const bars = this.$refs.bar
+                    let changes = false
                     for (const bar of bars) {
                         const i = bar.getAttribute("data-i")
                         const width = this.choices[i].width
-                        anime({
-                            targets:   bar,
-                            duration:  400,
-                            autoplay:  true,
-                            direction: "normal",
-                            easing:    "easeOutSine",
-                            width:     width
-                        })
+                        if (width !== bar.style.width) {
+                            changes = true
+                            break
+                        }
+                    }
+                    if (changes) {
+                        audio.play("slide1")
+                        for (const bar of bars) {
+                            const i = bar.getAttribute("data-i")
+                            const width = this.choices[i].width
+                            anime({
+                                targets:   bar,
+                                duration:  400,
+                                autoplay:  true,
+                                direction: "normal",
+                                easing:    "easeOutSine",
+                                width:     width
+                            })
+                        }
                     }
                 })
             }, 500)
@@ -305,10 +317,10 @@ module.exports = {
             choice = choice.toUpperCase()
             if (this.votes[person] === undefined) {
                 this.votes[person] = choice
-                audio.play("bling1")
+                audio.play("beep6")
             }
             else
-                audio.play("error3")
+                audio.play("error4")
             this.update()
         })
     }
