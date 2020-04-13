@@ -26,7 +26,7 @@
 
 <template>
     <div v-bind:style="style" class="timer">
-        <div class="canvas" ref="canvas">
+        <div ref="canvas" class="canvas">
             <div ref="svg" class="svg">
             </div>
         </div>
@@ -109,7 +109,7 @@ module.exports = {
 
             /*  setup an update interval  */
             this.timer = setInterval(() => {
-                let now = Math.floor((new Date()).getTime() / 1000)
+                const now = Math.floor((new Date()).getTime() / 1000)
                 if (now >= this.ending) {
                     if (!this.ended) {
                         /*  end timer  */
@@ -135,7 +135,7 @@ module.exports = {
                     easing:    "easeOutBounce",
                     delay:     200,
                     bottom:    [ 1000, 0 ],
-                    opacity:   [ 1.0, 1.0 ],
+                    opacity:   [ 1.0, 1.0 ]
                 })
             })
         },
@@ -167,18 +167,18 @@ module.exports = {
                 const R = Math.ceil(W / 2)
 
                 /*  create backgrounds  */
-                const circle1 = svg.circle(R * 2).move(0, 0).fill(this.background1)
-                const circle2 = svg.circle(R * 2 - 20).move(10, 10).fill(this.background2)
+                svg.circle(R * 2).move(0, 0).fill(this.background1)
+                svg.circle(R * 2 - 20).move(10, 10).fill(this.background2)
                 this.svgRefs.segment1 = svg.group()
                 this.svgRefs.segment2 = svg.group()
                 this.svgRefs.segment3 = svg.group()
                 this.svgRefs.segment4 = svg.group()
-                const circle3 = svg.circle(40).move(R - 20, R - 20).fill(this.background1)
+                svg.circle(40).move(R - 20, R - 20).fill(this.background1)
 
                 /*  create tick lines  */
                 for (let i = 1; i <= 60; i++) {
-                    let w = i % 15 === 0 ? 8 : (i % 5 === 0 ? 8 : 2)
-                    let l = i % 15 === 0 ? 30 : (i % 5 === 0 ? 20 : 20)
+                    const w = i % 15 === 0 ? 8 : (i % 5 === 0 ? 8 : 2)
+                    const l = i % 15 === 0 ? 30 : (i % 5 === 0 ? 20 : 20)
                     svg.line(0, 0, 0, l)
                         .move(R, 30)
                         .rotate((360 / 60) * i, R, R)
@@ -186,7 +186,7 @@ module.exports = {
                         .css({ "stroke-linecap": "round" })
                     if (i % 5 === 0) {
                         const g = svg.group()
-                        let digit = (i / 5).toString()
+                        const digit = (i / 5).toString()
                         const t = g.text(digit)
                             .fill(this.digits)
                             .font({
@@ -220,11 +220,11 @@ module.exports = {
             const el = this.$refs.svg
             const W = el.clientWidth
             const R = Math.ceil(W / 2)
-            let now = new Date()
-            let H = now.getHours()
-            let M = now.getMinutes()
-            let S = now.getSeconds()
-            let MS = now.getMilliseconds()
+            const now = new Date()
+            const H = now.getHours()
+            const M = now.getMinutes()
+            const S = now.getSeconds()
+            const MS = now.getMilliseconds()
             this.svgRefs.p1.untransform().rotate((360 / 12) * (H % 12) + (360 / 12) / 60 * M, R, R)
             this.svgRefs.p2.untransform().rotate((360 / 60) * M, R, R)
             this.svgRefs.p3.untransform().rotate((360 / 60) * S + (360 / 60) / 1000 * MS, R, R)
@@ -239,23 +239,23 @@ module.exports = {
                 this.ticked = false
 
             /*  redraw minute segments  */
-            let deg1 = (360 / 60) * this.segFrom
-            let deg2 = (360 / 60) * this.segNow
-            let deg3 = (360 / 60) * this.segTo
-            let rad1 = SVG.utils.radians(90 - deg1)
-            let rad2 = SVG.utils.radians(90 - deg2)
-            let rad3 = SVG.utils.radians(90 - deg3)
-            let max12 = deg2 > deg1 ? (deg2 - deg1 > 180 ? 1 : 0) : (deg1 - deg2 > 180 ? 0 : 1)
-            let max23 = deg3 > deg2 ? (deg3 - deg2 > 180 ? 1 : 0) : (deg2 - deg3 > 180 ? 0 : 1)
+            const deg1 = (360 / 60) * this.segFrom
+            const deg2 = (360 / 60) * this.segNow
+            const deg3 = (360 / 60) * this.segTo
+            const rad1 = SVG.utils.radians(90 - deg1)
+            const rad2 = SVG.utils.radians(90 - deg2)
+            const rad3 = SVG.utils.radians(90 - deg3)
+            const max12 = deg2 > deg1 ? (deg2 - deg1 > 180 ? 1 : 0) : (deg1 - deg2 > 180 ? 0 : 1)
+            const max23 = deg3 > deg2 ? (deg3 - deg2 > 180 ? 1 : 0) : (deg2 - deg3 > 180 ? 0 : 1)
             const makeSegment = (seg, rad1, rad2, max, b, col) => {
-                let x1 = R + Math.cos(rad1) * (R - b)
-                let y1 = R - Math.sin(rad1) * (R - b)
-                let x2 = R + Math.cos(rad2) * (R - b)
-                let y2 = R - Math.sin(rad2) * (R - b)
+                const x1 = R + Math.cos(rad1) * (R - b)
+                const y1 = R - Math.sin(rad1) * (R - b)
+                const x2 = R + Math.cos(rad2) * (R - b)
+                const y2 = R - Math.sin(rad2) * (R - b)
                 seg.clear()
                 seg.path().M(R, R).L(x1, y1).A(R - b, R - b, 0, max, 1, { x: x2, y: y2 }).Z().fill(col)
             }
-            let b = 10
+            const b = 10
             makeSegment(this.svgRefs.segment1, rad1, rad2, max12, 0, this.segment1)
             makeSegment(this.svgRefs.segment2, rad1, rad2, max12, b, this.segment2)
             makeSegment(this.svgRefs.segment3, rad2, rad3, max23, 0, this.segment3)
