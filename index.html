@@ -74,7 +74,7 @@
             vm = new Vue({ el: "#hud", components: { "hud": "url:hud.vue" }})
             soundfx = new SoundFX({ basedir: "@@rse/soundfx" })
             audio = new Howl({ ...soundfx.config(), preload: true })
-            Howler.volume(0.5)
+            Howler.volume(0.3)
             huds.on("open",    ()        => { console.log("HUDS: WebSocket: open") })
             huds.on("close",   ()        => { console.log("HUDS: WebSocket: close") })
             huds.on("receive", (message) => { console.log("HUDS: WebSocket: receive", JSON.stringify(message)) })

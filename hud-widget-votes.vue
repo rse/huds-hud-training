@@ -317,7 +317,7 @@ module.exports = {
             choice = choice.toUpperCase()
             if (this.votes[person] === undefined) {
                 this.votes[person] = choice
-                audio.play("beep6")
+                audio.play("beep1")
             }
             else
                 audio.play("error4")
