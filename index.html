@@ -78,13 +78,11 @@
 
             /*  initialize sound effects  */
             let sfx = new SoundFX({ basedir: "@@rse/soundfx" })
-            soundfx = new Howl({ ...sfx.config(), preload: true })
-            soundfx.volume(0.4)
+            soundfx = new Howl({ ...sfx.config(), volume: 0.4, preload: true })
 
             /*  initialize sound loops  */
             let slp = new SoundLP({ basedir: "@@rse/soundlp" })
-            soundlp = new Howl({ ...slp.config(), loop: true, preload: true })
-            soundlp.volume(0.2)
+            soundlp = new Howl({ ...slp.config(), loop: true, volume: 0.4, preload: true })
 
             /*  initialize user interface  */
             httpVueLoader.langProcessor.less = (lessText) =>

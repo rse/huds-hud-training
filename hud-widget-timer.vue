@@ -78,7 +78,8 @@ module.exports = {
         ticked:    false,
         ended:     false,
         svg:       null,
-        svgRefs:   {}
+        svgRefs:   {},
+        soundid:   0
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -127,6 +128,10 @@ module.exports = {
             this.$nextTick(() => {
                 this.update()
                 soundfx.play("slide4")
+                this.soundid = soundlp.play("piano2")
+                soundlp.rate(0.8, this.soundid)
+                soundlp.volume(0.2, this.soundid)
+                soundlp.fade(0.0, 0.2, 5 * 1000, this.soundid)
                 anime({
                     targets:   this.$refs.canvas,
                     duration:  1000,
@@ -141,9 +146,14 @@ module.exports = {
         },
         stop () {
             /*  fly timer out and stop updating  */
+            soundlp.fade(0.2, 0.0, 2 * 1000, this.soundid)
+            soundlp.once("fade", () => {
+                soundlp.stop()
+            })
+            soundfx.play("whoosh2")
             anime({
                 targets:   this.$refs.canvas,
-                duration:  1000,
+                duration:  2000,
                 autoplay:  true,
                 direction: "normal",
                 easing:    "easeInSine",
