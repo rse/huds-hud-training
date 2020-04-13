@@ -25,7 +25,9 @@
 -->
 
 <template>
-    <div v-bind:style="style" class="hud">
+    <div class="hud">
+        <background v-if="debug" ref="background" class="background"
+        ></background>
         <title-bar ref="titleBar" class="title"
             v-bind:opacity="config.title.opacity"
             v-bind:background="config.title.background"
@@ -130,7 +132,7 @@
 
 <style lang="less" scoped>
 body {
-    background-color: var(--background);
+    background-color: transparent;
 }
 .hud {
     width: 100vw;
@@ -139,6 +141,11 @@ body {
     font-family: sans-serif;
     font-size: 22pt;
     overflow: hidden;
+    > .background {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+    }
     > .title {
         position: absolute;
         right: 10px;
@@ -200,17 +207,12 @@ module.exports = {
     name: "hud",
     data: () => ({
         config: huds.config(),
+        debug:  huds.options.debug,
         banner: null,
-        logo: null
+        logo:   null
     }),
-    computed: {
-        style: () => {
-            return {
-                background: huds.options.debug ? "#999999" : "transparent"
-            }
-        }
-    },
     components: {
+        "background":   "url:hud-widget-background.vue",
         "banner":       "url:hud-widget-banner.vue",
         "title-bar":    "url:hud-widget-title.vue",
         "progress-bar": "url:hud-widget-progress.vue",
@@ -418,7 +420,7 @@ module.exports = {
             pb.$on("pos", (pos) => {
                 a.$emit("pos", pos)
             })
-        }, 500)
+        }, 1500)
     }
 }
 </script>
