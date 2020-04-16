@@ -51,6 +51,7 @@ module.exports = {
         style: HUDS.vueprop2cssvar()
     },
     mounted () {
+        /*  animate the logo  */
         let i = 0
         const animate = () => {
             const tl = anime.timeline({
@@ -59,10 +60,14 @@ module.exports = {
                 easing:   "easeInOutQuad"
             })
             if (i++ % 2 === 0)
+                /*  rotate around the X-axis  */
                 tl.add({ rotateX: [ 0, 360 ] })
             else
+                /*  rotate around the Y-axis  */
                 tl.add({ rotateY: [ 0, 360 ] })
         }
+
+        /*  animate every 5 minutes or on manual request  */
         setInterval(() => { animate() }, 5 * 60 * 1000)
         this.$on("animate", () => { animate() })
     }

@@ -87,6 +87,7 @@ module.exports = {
         style: HUDS.vueprop2cssvar()
     },
     created () {
+        /*  allow the title to be manually animated  */
         this.$on("animate", () => {
             const bar = this.$refs.bar
             soundfx.play("bling1")

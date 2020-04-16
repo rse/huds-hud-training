@@ -115,14 +115,23 @@ module.exports = {
         style: HUDS.vueprop2cssvar()
     },
     methods: {
+        /*  add a popup box  */
         addBox (i) {
-            const els    = this.$refs.box.sort((a, b) => parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
+            /*  determine DOM elements  */
+            const els = this.$refs.box.sort((a, b) =>
+                parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
             const newer  = els[0]
             const others = els.slice(1)
+
+            /*  indicate coming popup  */
             soundfx.play("bling1")
+
+            /*  find target position on popup stack  */
             let pos = 0
             for (const el of others)
                 pos += el.clientHeight + 20
+
+            /*  animate into target position on popup stack  */
             anime({
                 targets:   newer,
                 duration:  2000,
@@ -132,16 +141,26 @@ module.exports = {
                 opacity:   [ 1.0, 1.0 ],
                 bottom:    [ 1000, pos ]
             }).finished.then(() => {
+                /*  indicate the reaching of the target position  */
                 soundfx.play("click1")
             })
         },
+
+        /*  remove a popup box  */
         removeBox () {
-            const els    = this.$refs.box.sort((a, b) => parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
+            /*  determine DOM elements  */
+            const els = this.$refs.box.sort((a, b) =>
+                parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
             const others = els.slice(0, els.length - 1)
             const older  = els[els.length - 1]
 
-            const diff = older.clientHeight + 20
+            /*  indicate going popup  */
             soundfx.play("whoosh2")
+
+            /*  determine height of popup to remove  */
+            const diff = older.clientHeight + 20
+
+            /*  fade out the popup  */
             anime({
                 targets:   older,
                 duration:  1000,
@@ -150,11 +169,17 @@ module.exports = {
                 easing:    "easeOutSine",
                 opacity:   [ 1.0, 0.0 ]
             }).finished.then(() => {
+                /*  remove from popups  */
                 this.popups.pop()
+
+                /*  animate all the remaining popups into their new target position  */
                 let i = 0
                 for (const el of others.reverse()) {
+                    /*  determine old and new position  */
                     const posOld = parseInt(el.style.bottom.toString().replace(/px$/, ""))
                     const posNew = posOld - diff
+
+                    /*  shift popup into new position  */
                     anime({
                         targets:   el,
                         duration:  2000,
@@ -164,6 +189,7 @@ module.exports = {
                         delay:     200 * i++,
                         bottom:    [ posOld, posNew ]
                     }).finished.then(() => {
+                        /*  indicate the reaching of the target position  */
                         soundfx.play("click1")
                     })
                 }
@@ -171,6 +197,7 @@ module.exports = {
         }
     },
     created () {
+        /*  allow a new popup to be added  */
         let i = 0
         this.$on("popup-add", (data) => {
             data.i = i++
@@ -179,6 +206,8 @@ module.exports = {
                 this.addBox(data.i)
             })
         })
+
+        /*  allow the oldest popup to be removed  */
         this.$on("popup-remove", () => {
             this.removeBox()
         })

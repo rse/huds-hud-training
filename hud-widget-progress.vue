@@ -62,12 +62,13 @@ module.exports = {
         style: HUDS.vueprop2cssvar()
     },
     created () {
+        /*  allow the user to go to previous and next slot  */
         this.$on("prev", () => {
             if (this.pos > 0) {
                 this.pos--
                 soundfx.play("bling1")
             }
-            this.updatex()
+            this.update()
             this.$emit("pos", this.pos)
         })
         this.$on("next", () => {
@@ -75,65 +76,105 @@ module.exports = {
                 this.pos++
                 soundfx.play("bling1")
             }
-            this.updatex()
+            this.update()
             this.$emit("pos", this.pos)
         })
     },
     mounted () {
-        this.renderx()
+        /*  render once initially  */
+        this.render()
+
+        /*  emit our current position (for agenda widget)  */
         this.$emit("pos", this.pos)
     },
     methods: {
-        renderx () {
+        /*  initially render the progress bar  */
+        render () {
+            /*  establish SVG canvas  */
             const el = this.$refs.svg
             const W = el.clientWidth
             const H = el.clientHeight
             const svg = SVG().addTo(el).size(W, H)
             this.svg = svg
-            this.box = []
+
+            /*  determine the box sizes  */
             const b = 20
             const d = 4
             const w = Math.floor((W - b * 2) / this.slots) - d
             const h = H - b * 2
+
+            /*  create the progress bar boxes  */
+            this.box = []
             for (let i = this.slots - 1; i >= 0; i--) {
+                /*  determine box parameters  */
                 const x = i * (w + d)
                 const y = 0
                 const r = Math.floor(h * 0.15)
-                const n = svg.nested().move(x, y).size(w + b * 2, h + b * 2)
+
+                /*  create SVG group  */
+                const n = svg.nested()
+                    .move(x, y)
+                    .size(w + b * 2, h + b * 2)
                 const g = n.group()
-                const p = g.path().M(r, 0).L(w - r, 0)
+
+                /*  draw the box  */
+                const p = g.path()
+                    .M(r, 0)
+                    .L(w - r, 0)
                 if (i === this.slots - 1)
-                    p.Q(w, 0, w, r).L(w, h - r).Q(w, h, w - r, h)
+                    p.Q(w, 0, w, r)
+                        .L(w, h - r)
+                        .Q(w, h, w - r, h)
                 else
-                    p.Q(w, r / 4, w, r).L(w + r, h / 2).L(w, h - r).Q(w, h - r / 4, w - r, h)
+                    p.Q(w, r / 4, w, r)
+                        .L(w + r, h / 2)
+                        .L(w, h - r)
+                        .Q(w, h - r / 4, w - r, h)
                 p.L(r, h)
                 if (i === 0)
-                    p.Q(0, h, 0, h - r).L(0, r).Q(0, 0, r, 0)
+                    p.Q(0, h, 0, h - r)
+                        .L(0, r)
+                        .Q(0, 0, r, 0)
                 else
-                    p.Q(0, h, 0, h - r).L(r, h / 2).L(0, r).Q(0, 0, r, 0)
+                    p.Q(0, h, 0, h - r)
+                        .L(r, h / 2)
+                        .L(0, r)
+                        .Q(0, 0, r, 0)
                 p.Z()
+                p.move(b, b)
+
+                /*  create box text  */
                 const t = g.text((i + 1).toString())
                     .font({ family: "TypoPRO Fira Sans", size: h * 0.75, anchor: "middle" })
-                p.move(b, b)
                 t.move(b, b)
                 t.center(b + w / 2, b + h / 2)
+
+                /*  remember box  */
                 this.box.unshift({ n, g, p, t })
             }
-            this.updatex()
+
+            /*  force an initial update  */
+            this.update()
         },
-        updatex () {
+
+        /*  update the progress bar on changes  */
+        update () {
             for (let i = this.slots - 1; i >= 0; i--) {
                 const { n, g, p, t } = this.box[i]
                 if (i < this.pos) {
+                    /*  update all done boxes  */
                     p.fill(this.donecolorbg)
                     t.fill(this.donecolorfg)
                         .font({ weight: "normal" })
                 }
                 else if (i === this.pos) {
+                    /*  update current box  */
                     n.front()
                     p.fill(this.currcolorbg)
                     t.fill(this.currcolorfg)
                         .font({ weight: 900 })
+
+                    /*  animate the current box  */
                     const tl = anime.timeline({
                         targets: g.node,
                         duration: 400,
@@ -149,6 +190,7 @@ module.exports = {
                         .finished.then(() => {})
                 }
                 else {
+                    /*  update all todo boxes  */
                     p.fill(this.todocolorbg)
                     t.fill(this.todocolorfg)
                         .font({ weight: "normal" })

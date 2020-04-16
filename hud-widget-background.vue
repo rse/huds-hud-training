@@ -52,18 +52,22 @@ module.exports = {
         style: HUDS.vueprop2cssvar()
     },
     mounted () {
-        this.renderx()
+        this.render()
     },
     methods: {
-        renderx () {
+        render () {
+            /*  create an SVG canvas  */
             const el = this.$refs.svg
             const W = el.clientWidth
             const H = el.clientHeight
             const svg = SVG().addTo(el).size(W, H)
+
+            /*  render the grid  */
             const G = 40
             for (let i = 0; i < Math.ceil(W / G); i++)
                 for (let j = 0; j < Math.ceil(H / G); j++)
-                    svg.rect(G, G).move(G * i, G * j).fill((i + j % 2) % 2 === 0 ? "#909090" : "#a0a0a0")
+                    svg.rect(G, G).move(G * i, G * j)
+                        .fill((i + j % 2) % 2 === 0 ? "#909090" : "#a0a0a0")
         }
     }
 }

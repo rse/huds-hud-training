@@ -150,19 +150,28 @@ module.exports = {
         style: HUDS.vueprop2cssvar()
     },
     created () {
+        /*  animate a particular closure to open or close  */
         const animate = (which, el, direction) => {
-            let promise
+            /*  determine references to left and right parts  */
             const left  = el.querySelector(".left")
             const right = el.querySelector(".right")
+
+            /*  play an initial sound effect  */
             soundfx.play("click7")
             setTimeout(() => soundfx.play("whoosh2"), 500)
+
+            /*  shared animation options  */
             const options = {
                 duration: 4000,
                 autoplay: true,
                 direction: "normal",
                 easing: "easeOutBounce"
             }
+
+            /*  distinguish animations  */
+            let promise
             if (direction === "open") {
+                /*  animate into open state  */
                 this[`${which}Show`] = true
                 if (this.soundid) {
                     soundlp.fade(1.0, 0.0, 4 * 1000, this.soundid)
@@ -177,6 +186,7 @@ module.exports = {
                 })
             }
             else if (direction === "close") {
+                /*  animate into close state  */
                 this[`${which}Show`] = true
                 this[`${which}Icon`].play()
                 promise = Promise.all([
@@ -191,17 +201,24 @@ module.exports = {
             })
             return promise
         }
+
+        /*  toggle a particular closure  */
         const toggle = (which) => {
             if (this[which] === "open")
-                animate(which, this.$refs[which], "close").then(() => { this[which] = "close" })
+                animate(which, this.$refs[which], "close")
+                    .then(() => { this[which] = "close" })
             else
-                animate(which, this.$refs[which], "open").then(() => { this[which] = "open" })
+                animate(which, this.$refs[which], "open")
+                    .then(() => { this[which] = "open" })
         }
+
+        /*  allow all three closures to be toggled  */
         this.$on("begin-toggle", () => toggle("begin"))
         this.$on("pause-toggle", () => toggle("pause"))
         this.$on("end-toggle",   () => toggle("end"))
     },
     mounted () {
+        /*  create the animated icons  */
         const options = {
             duration: 6000,
             easing:   "easeInOutQuad",

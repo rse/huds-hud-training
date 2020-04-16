@@ -97,21 +97,28 @@ module.exports = {
         style: HUDS.vueprop2cssvar()
     },
     created () {
+        /*  toggle banner on/off  */
         this.$on("toggle", () => {
+            /*  do nothing if we are still progressing  */
             if (this.progress)
                 return
             this.progress = true
+
+            /*  determine old/new state  */
             const el = this.$refs.bar
             const oldstate = this.enabled
             const newstate = !oldstate
             if (!oldstate)
                 this.enabled = true
+
+            /*  animate the banner  */
             const tl = anime.timeline({
                 targets:  el,
                 duration: 1000,
                 autoplay: true
             })
             if (newstate) {
+                /*  toggle banner on  */
                 soundfx.play("cannon2")
                 tl.add({
                     easing:     "easeOutBounce",
@@ -121,6 +128,7 @@ module.exports = {
                 })
             }
             else {
+                /*  toggle banner off  */
                 soundfx.play("whoosh2")
                 tl.add({
                     easing:     "easeOutSine",

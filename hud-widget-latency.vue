@@ -93,13 +93,16 @@ module.exports = {
     },
     methods: {
         start () {
+            /*  start widget  */
             if (this.timer !== null)
                 clearTimeout(this.timer)
             this.timer = setInterval(() => {
+                /*  update current time  */
                 this.time = moment().format("HH:mm:ss.S")
             }, 100)
         },
         stop () {
+            /*  stop widget  */
             if (this.timer !== null) {
                 clearTimeout(this.timer)
                 this.timer = null
@@ -107,6 +110,7 @@ module.exports = {
         }
     },
     mounted () {
+        /*  toggle the latency information on/off  */
         this.$on("toggle", () => {
             this.show = !this.show
             if (this.show)

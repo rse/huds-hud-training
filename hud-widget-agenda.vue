@@ -120,17 +120,25 @@ module.exports = {
         style: HUDS.vueprop2cssvar()
     },
     created () {
+        /*  receive particular agenda position (from progress bar)  */
         this.$on("pos", (pos) => {
             this.pos = pos
         })
+
+        /*  toggle agenda on/off  */
         this.$on("toggle", () => {
+            /*  do nothing if we are still progressing  */
             if (this.progress)
                 return
             this.progress = true
+
+            /*  determine old and new toggle state  */
             const oldstate = this.enabled
             const newstate = !oldstate
             if (!oldstate)
                 this.enabled = true
+
+            /*  create the on/off animation  */
             const el = this.$refs.canvas
             const tl = anime.timeline({
                 targets:  el,
@@ -138,6 +146,7 @@ module.exports = {
                 autoplay: true
             })
             if (newstate) {
+                /*  toggle agenda on  */
                 setTimeout(() => soundfx.play("whoosh3"), 200)
                 tl.add({
                     easing:     "cubicBezier(0.570, 0.000, 0.340, 1.390)",
@@ -146,6 +155,7 @@ module.exports = {
                 })
             }
             else {
+                /*  toggle agenda off  */
                 setTimeout(() => soundfx.play("click1"), 50)
                 setTimeout(() => soundfx.play("whoosh3"), 500)
                 tl.add({
@@ -163,6 +173,7 @@ module.exports = {
         })
     },
     mounted () {
+        /*  dynamically determine height of an agenda slot  */
         const el = this.$refs.canvas
         const slots = el.querySelectorAll(".slot")
         let height = Math.ceil(this.$el.clientHeight / slots.length)
