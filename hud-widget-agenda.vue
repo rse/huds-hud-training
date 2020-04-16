@@ -55,7 +55,7 @@
         justify-content: flex-end;
         .slot {
             height: var(--slotheight);
-            margin-bottom: 1px;
+            margin-bottom: 2px;
             font-family: "TypoPRO Fira Sans";
             font-size: calc(var(--slotheight) * 0.70);
             display: flex;
