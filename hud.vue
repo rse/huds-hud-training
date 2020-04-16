@@ -112,6 +112,7 @@
             v-bind:maxvotecolorfg="config.votes.maxvotecolorfg"
             v-bind:stdvotecolorbg="config.votes.stdvotecolorbg"
             v-bind:stdvotecolorfg="config.votes.stdvotecolorfg"
+            v-bind:hint="config.votes.hint"
         ></votes>
         <timer ref="timer" class="timer"
             v-bind:opacity="config.timer.opacity"

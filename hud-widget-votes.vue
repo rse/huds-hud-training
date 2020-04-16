@@ -26,6 +26,8 @@
 
 <template>
     <div v-show="show" v-bind:style="style" class="votes">
+        <div v-if="choices.length === 0" class="await" v-html="hint">
+        </div>
         <div v-for="choice in choices" ref="choice" v-bind:key="choice.i" v-bind:data-i="choice.i" class="choice">
             <div class="name" v-bind:class="{ max: choice.max, invalid: choice.invalid }">
                 {{ choice.name }}
@@ -51,6 +53,19 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    .await {
+        font-family: "TypoPRO Fira Sans";
+        font-size: 32px;
+        border-radius: 10px;
+        padding: 10px 20px 10px 20px;
+        background-color: var(--stdvotecolorbg);
+        color:            var(--stdvotecolorfg);
+        kbd {
+            border-radius: 4px;
+            border: 1px solid var(--stdvotecolorfg);
+            padding: 0 8px 0 8px;
+        }
+    }
     .choice {
         margin-top: 10px;
         display: flex;
@@ -133,7 +148,8 @@ module.exports = {
         maxvotecolorbg:  { type: String, default: "" },
         maxvotecolorfg:  { type: String, default: "" },
         stdvotecolorbg:  { type: String, default: "" },
-        stdvotecolorfg:  { type: String, default: "" }
+        stdvotecolorfg:  { type: String, default: "" },
+        hint:            { type: String, default: "" }
     },
     data: () => ({
         show:    false,
@@ -232,7 +248,6 @@ module.exports = {
                 })
 
                 for (const vote of votes) {
-                    console.log(vote)
                     const name   = Object.keys(vote).sort((x, y) => vote[x] - vote[y])[0]
                     let voters   = 0
                     const similars = Object.keys(vote).length - 1
