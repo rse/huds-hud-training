@@ -52,6 +52,7 @@
         margin: 20px;
         display: flex;
         flex-direction: column;
+        justify-content: flex-end;
         .slot {
             height: var(--slotheight);
             margin-bottom: 1px;
@@ -164,7 +165,10 @@ module.exports = {
     mounted () {
         const el = this.$refs.canvas
         const slots = el.querySelectorAll(".slot")
-        this.slotheight = Math.ceil(this.$el.clientHeight / slots.length) + "px"
+        let height = Math.ceil(this.$el.clientHeight / slots.length)
+        if (height > 50)
+            height = 50
+        this.slotheight = height + "px"
     }
 }
 </script>
