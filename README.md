@@ -159,8 +159,8 @@ This HUD provides the following on-screen widgets:
 
 -   **TITLE**:<br/>
     This widget displays a title bar at the bottom-right of the
-    Thscreen. e intention of this widget is to just provide some
-    Thtraining-specific branding. e widget has to be configured with...
+    screen. The intention of this widget is to just provide some
+    training-specific branding. The widget has to be configured with...
 
     ```yaml
     title:
@@ -177,6 +177,26 @@ This HUD provides the following on-screen widgets:
     ...and can be manually animated interactively with the keystroke
     <kbd>SPACE</kbd> or programmatically with the remote HUDS event
     `title.animate`.
+
+-   **ATTENDANCE**:<br/>
+    This widget displays a short box at the bottom-right of the screen
+    with the number of attendees. The intention of this widget is to
+    just provide some audience size information. The widget has to be
+    configured with...
+
+    ```yaml
+    attendance:
+        opacity:               0.80
+        background:            "#6699cc"
+        iconcolor:             "#99ccff"
+        textcolor:             "#e0f0ff"
+    ```
+
+    ...and can be manually animated interactively with the keystroke
+    <kbd>t</kbd> or programmatically with the remote HUDS event
+    `attendance.animate`. The number of attendees is tracked by the
+    remote HUDS event `attendance` (usually injected into HUDS via MQTT
+    through the integration of a companion message queue system).
 
 -   **PROGRESS**:<br/>
     This widget displays a permanently visible progress bar at the
