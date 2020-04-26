@@ -449,6 +449,15 @@ module.exports = {
             }
         })
 
+        /*  allow attendance widget to be interactively controlled  */
+        Mousetrap.bind("t", (e) => {
+            huds.send("attendance.animate")
+        })
+        huds.bind("attendance.animate", () => {
+            const a = this.$refs.attendance
+            a.$emit("animate")
+        })
+
         /*  receive messages from the attendance channel  */
         huds.bind("attendance", (event, data) => {
             console.log("HUD", event, data)
