@@ -38,6 +38,12 @@
             v-bind:titletext="config.title.titletext"
             v-bind:titlecolor="config.title.titlecolor"
         ></title-bar>
+        <attendance ref="attendance" class="attendance"
+            v-bind:opacity="config.attendance.opacity"
+            v-bind:background="config.attendance.background"
+            v-bind:iconcolor="config.attendance.iconcolor"
+            v-bind:textcolor="config.attendance.textcolor"
+        ></attendance>
         <progress-bar ref="progressBar" class="progress"
             v-bind:opacity="config.progress.opacity"
             v-bind:slots="config.progress.slots"
@@ -74,22 +80,6 @@
             v-bind:todocolorfg="config.agenda.todocolorfg"
             v-bind:slotlist="config.agenda.slots"
         ></agenda>
-        <closure ref="closure" class="closure"
-            v-bind:opacity="config.closure.opacity"
-            v-bind:background="config.closure.background"
-            v-bind:beginiconname="config.closure.beginiconname"
-            v-bind:beginiconcolor="config.closure.beginiconcolor"
-            v-bind:beginhinttext="config.closure.beginhinttext"
-            v-bind:beginhintcolor="config.closure.beginhintcolor"
-            v-bind:pauseiconname="config.closure.pauseiconname"
-            v-bind:pauseiconcolor="config.closure.pauseiconcolor"
-            v-bind:pausehinttext="config.closure.pausehinttext"
-            v-bind:pausehintcolor="config.closure.pausehintcolor"
-            v-bind:endiconname="config.closure.endiconname"
-            v-bind:endiconcolor="config.closure.endiconcolor"
-            v-bind:endhinttext="config.closure.endhinttext"
-            v-bind:endhintcolor="config.closure.endhintcolor"
-        ></closure>
         <popup ref="popup" class="popup"
             v-bind:opacity="config.popup.opacity"
             v-bind:questionbackground="config.popup.questionbackground"
@@ -134,6 +124,22 @@
             v-bind:foreground="config.latency.foreground"
             v-bind:iconcolor="config.latency.iconcolor"
         ></latency>
+        <closure ref="closure" class="closure"
+            v-bind:opacity="config.closure.opacity"
+            v-bind:background="config.closure.background"
+            v-bind:beginiconname="config.closure.beginiconname"
+            v-bind:beginiconcolor="config.closure.beginiconcolor"
+            v-bind:beginhinttext="config.closure.beginhinttext"
+            v-bind:beginhintcolor="config.closure.beginhintcolor"
+            v-bind:pauseiconname="config.closure.pauseiconname"
+            v-bind:pauseiconcolor="config.closure.pauseiconcolor"
+            v-bind:pausehinttext="config.closure.pausehinttext"
+            v-bind:pausehintcolor="config.closure.pausehintcolor"
+            v-bind:endiconname="config.closure.endiconname"
+            v-bind:endiconcolor="config.closure.endiconcolor"
+            v-bind:endhinttext="config.closure.endhinttext"
+            v-bind:endhintcolor="config.closure.endhintcolor"
+        ></closure>
     </div>
 </template>
 
@@ -153,17 +159,23 @@ body {
         width: 100vw;
         height: 100vh;
     }
-    > .title {
+    > .attendance {
         position: absolute;
         right: 10px;
         bottom: 10px;
-        width: 30%;
+        width: 200px;
+    }
+    > .title {
+        position: absolute;
+        right: 190px;
+        bottom: 10px;
+        width: 540px;
     }
     > .progress {
         position: absolute;
         bottom: 10px;
         left: 10px;
-        width: 70%;
+        width: calc(100% - 705px);
         height: 100px;
     }
     > .logo {
@@ -227,6 +239,7 @@ module.exports = {
         "background":   "url:hud-widget-background.vue",
         "banner":       "url:hud-widget-banner.vue",
         "title-bar":    "url:hud-widget-title.vue",
+        "attendance":   "url:hud-widget-attendance.vue",
         "progress-bar": "url:hud-widget-progress.vue",
         "agenda":       "url:hud-widget-agenda.vue",
         "logo":         "url:hud-widget-logo.vue",
@@ -434,6 +447,17 @@ module.exports = {
                 const a = this.$refs.popup
                 a.$emit("popup-add", { ...data, type: "comment" })
             }
+        })
+
+        /*  receive messages from the attendance channel  */
+        huds.bind("attendance", (event, data) => {
+            console.log("HUD", event, data)
+            /*  just react on correctly structured messages  */
+            if (!(   typeof data.client  === "string" && data.client !== ""
+                  && typeof data.event   === "string" && data.event  !== ""))
+                return
+            const a = this.$refs.attendance
+            a.$emit("attendance", data)
         })
     },
     mounted () {

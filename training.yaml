@@ -32,6 +32,12 @@ title:
     titletext:             Grundlagen der IT-Architektur
     titlecolor:            "#ffffff"
 
+attendance:
+    opacity:               0.80
+    background:            "#6699cc"
+    iconcolor:             "#99ccff"
+    textcolor:             "#e0f0ff"
+
 closure:
     opacity:               0.75
     background:            "#000000"
