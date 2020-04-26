@@ -34,8 +34,8 @@ title:
 
 attendance:
     opacity:               0.80
-    background:            "#6699cc"
-    iconcolor:             "#99ccff"
+    background:            "#336699"
+    iconcolor:             "#77aadd"
     textcolor:             "#e0f0ff"
 
 closure:
