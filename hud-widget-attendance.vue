@@ -41,6 +41,7 @@
 .attendance {
     opacity: var(--opacity);
     .bar {
+        height: 54px;
         margin: 20px;
         border-radius: 8px;
         padding: 4px;
@@ -49,14 +50,17 @@
         display: flex;
         flex-direction: row;
         .icon {
+            padding-top: 4px;
             padding-right: 20px;
             color: var(--iconcolor);
-            font-size: 35pt;
+            font-size: 30pt;
         }
         .text {
+            padding-top: 6px;
+            padding-left: 4px;
             font-family: "TypoPRO Fira Sans";
             font-weight: normal;
-            font-size: 32pt;
+            font-size: 24pt;
             color: var(--textcolor);
         }
     }

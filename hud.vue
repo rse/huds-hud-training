@@ -163,11 +163,11 @@ body {
         position: absolute;
         right: 10px;
         bottom: 10px;
-        width: 200px;
+        width: 180px;
     }
     > .title {
         position: absolute;
-        right: 190px;
+        right: 170px;
         bottom: 10px;
         width: 540px;
     }
@@ -175,7 +175,7 @@ body {
         position: absolute;
         bottom: 10px;
         left: 10px;
-        width: calc(100% - 705px);
+        width: calc(100% - 695px);
         height: 100px;
     }
     > .logo {

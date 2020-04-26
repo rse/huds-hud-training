@@ -145,9 +145,9 @@ module.exports = {
 
                 /*  create box text  */
                 const t = g.text((i + 1).toString())
-                    .font({ family: "TypoPRO Fira Sans", size: h * 0.75, anchor: "middle" })
+                    .font({ family: "TypoPRO Fira Sans", size: h * 0.50, anchor: "middle" })
                 t.move(b, b)
-                t.center(b + w / 2, b + h / 2)
+                t.center(b + w / 2 + 3, b + h / 2)
 
                 /*  remember box  */
                 this.box.unshift({ n, g, p, t })
