@@ -100,7 +100,7 @@ votes:
     maxvotecolorfg:        "#666666"
     stdvotecolorbg:        "#f0f0f0"
     stdvotecolorfg:        "#999999"
-    hint:                  "Please give your vote by sending a message with <kbd>#</kbd> <i>Your-Vote-Text</i> <kbd>RETURN</kbd>"
+    hint:                  "Please give your vote by sending a message with<br/><kbd>#</kbd> <kbd><i>Your-Vote-Text</i></kbd> <kbd>RETURN</kbd>"
 
 banner:
     opacity:               0.80

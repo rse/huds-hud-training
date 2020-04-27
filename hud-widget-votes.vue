@@ -77,7 +77,7 @@
             flex-grow: 0;
             flex-shrink: 0;
             display: block;
-            width: 240px;
+            width: 350px;
             height: 50px;
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
