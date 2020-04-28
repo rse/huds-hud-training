@@ -28,13 +28,11 @@
     <div v-bind:style="style" class="popup">
         <div v-for="popup in popups" ref="box" v-bind:key="popup.i" v-bind:data-i="popup.i"
             v-bind:class="{ box: true, [ popup.type ]: true }">
+            <img v-if="popup.image" class="image" v-bind:src="popup.image"/>
             <div v-if="popup.title" class="title">
                 {{ popup.title }}
             </div>
             <div v-if="popup.message" class="message" v-html="popup.message">
-            </div>
-            <div v-if="popup.image" class="image">
-                <img v-bind:src="popup.image" />
             </div>
         </div>
     </div>
@@ -48,32 +46,28 @@
         opacity: 0;
         left: 0;
         margin-top: 20px;
-        width: calc(20vw - 40px);
+        width: calc(500px);
         padding: 20px;
         border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
+        .image {
+            float: right;
+            width: 150px;
+            margin-bottom: 16px;
+            margin-left: 32px;
+            border-radius: 10px;
+        }
         .title {
-            width: 100%;
+            display: block;
             font-family: "TypoPRO Fira Sans";
             font-weight: bold;
             font-size: 20pt;
         }
         .message {
+            display: block;
             width: 100%;
             margin-top: 10px;
             font-family: "TypoPRO Fira Sans";
             font-size: 20pt;
-        }
-        .image {
-            margin-top: 16px;
-            border-radius: 10px;
-            img {
-                width: 100%;
-                max-width: 100%;
-                border-radius: 10px;
-            }
         }
         &.question {
             background-color: var(--questionbackground);
