@@ -295,7 +295,7 @@ module.exports = {
         })
 
         /*  interaction for title widget  */
-        Mousetrap.bind("space", (e) => {
+        Mousetrap.bind("t", (e) => {
             huds.send("title.animate")
         })
         huds.bind("title.animate", (event, data) => {
@@ -323,6 +323,13 @@ module.exports = {
         huds.bind("popup.remove", (event, data) => {
             const a = this.$refs.popup
             a.$emit("popup-remove")
+        })
+        Mousetrap.bind("space", (e) => {
+            huds.send("popup.play")
+        })
+        huds.bind("popup.play", (event, data) => {
+            const a = this.$refs.popup
+            a.$emit("popup-play")
         })
 
         /*  interaction for latency widget  */
@@ -412,8 +419,8 @@ module.exports = {
         /*  receive messages from a companion chat  */
         huds.bind("chat", (event, data) => {
             /*  just react on correctly structured messages  */
-            if (!(   typeof data.title   === "string" && data.title   !== ""
-                  && typeof data.message === "string" && data.message !== ""))
+            if (!(   (typeof data.title === "string" && data.title !== "")
+                  && (typeof data.message === "string")                   ))
                 return
 
             /*  filter message markup  */
@@ -450,7 +457,7 @@ module.exports = {
         })
 
         /*  allow attendance widget to be interactively controlled  */
-        Mousetrap.bind("t", (e) => {
+        Mousetrap.bind("v", (e) => {
             huds.send("attendance.animate")
         })
         huds.bind("attendance.animate", () => {

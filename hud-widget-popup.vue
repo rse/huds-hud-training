@@ -32,7 +32,10 @@
             <div v-if="popup.title" class="title">
                 {{ popup.title }}
             </div>
-            <div v-if="popup.message" class="message" v-html="popup.message">
+            <div v-if="popup.audio" v-bind:class="{ audio: true, audioOnly: popup.message === '' }">
+                <i class="fa fa-play-circle"></i>
+            </div>
+            <div v-if="popup.message !== ''" class="message" v-html="popup.message">
             </div>
         </div>
     </div>
@@ -62,6 +65,17 @@
             font-weight: bold;
             font-size: 20pt;
         }
+        .audio {
+            float: left;
+            display: inline-block;
+            font-size: 40pt;
+            margin-right: 12px;
+            margin-top: 10px;
+            margin-bottom: 2px;
+        }
+        .audio.audioOnly {
+            font-size: 80pt;
+        }
         .message {
             display: block;
             width: 100%;
@@ -72,16 +86,19 @@
         &.question {
             background-color: var(--questionbackground);
             .title   { color: var(--questiontitlecolor);   }
+            .audio   { color: var(--questionmessagecolor); }
             .message { color: var(--questionmessagecolor); }
         }
         &.objection {
             background-color: var(--objectionbackground);
             .title   { color: var(--objectiontitlecolor);   }
+            .audio   { color: var(--objectionmessagecolor); }
             .message { color: var(--objectionmessagecolor); }
         }
         &.comment {
             background-color: var(--commentbackground);
             .title   { color: var(--commenttitlecolor);   }
+            .audio   { color: var(--commentmessagecolor); }
             .message { color: var(--commentmessagecolor); }
         }
     }
@@ -139,6 +156,18 @@ module.exports = {
                 /*  indicate the reaching of the target position  */
                 soundfx.play("click1")
             })
+        },
+
+        /*  play audio of a popup box  */
+        playBox () {
+            if (this.popups.length === 0)
+                return
+            let data = this.popups[this.popups.length - 1]
+            if (data.audio === undefined || data.audio === null)
+                return
+            let audioElement = new Audio()
+            audioElement.src = data.audio
+            audioElement.play()
         },
 
         /*  remove a popup box  */
@@ -200,6 +229,11 @@ module.exports = {
             this.$nextTick(() => {
                 this.addBox(data.i)
             })
+        })
+
+        /*  allow audio of oldest popup to be played  */
+        this.$on("popup-play", () => {
+            this.playBox()
         })
 
         /*  allow the oldest popup to be removed  */
