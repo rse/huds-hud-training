@@ -38,6 +38,32 @@ attendance:
     iconcolor:             "#77aadd"
     textcolor:             "#e0f0ff"
 
+feedback:
+    opacity:               0.80
+    background:            "#333333"
+    iconcolor:             "#d08840"
+    badgecolor:            "#666666"
+    textcolor:             "#ffffff"
+
+feeling:
+    opacity:               0.80
+    background:            "#333333"
+    textcolor:             "#c0c0c0"
+    q1color:               "#999999"
+    q2color:               "#c0c0c0"
+    q3color:               "#c0c0c0"
+    q4color:               "#999999"
+    c1color:               "#a05810"
+    c2color:               "#b06820"
+    c3color:               "#c0c0c0"
+    c4color:               "#b06820"
+    c5color:               "#a05810"
+    m1color:               "#a05810"
+    m2color:               "#b06820"
+    m3color:               "#c0c0c0"
+    m4color:               "#336699"
+    m5color:               "#225588"
+
 closure:
     opacity:               0.75
     background:            "#000000"

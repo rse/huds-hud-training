@@ -38,12 +38,38 @@
             v-bind:titletext="config.title.titletext"
             v-bind:titlecolor="config.title.titlecolor"
         ></title-bar>
+        <feedback ref="feedback" class="feedback"
+            v-bind:opacity="config.feedback.opacity"
+            v-bind:background="config.feedback.background"
+            v-bind:iconcolor="config.feedback.iconcolor"
+            v-bind:badgecolor="config.feedback.badgecolor"
+            v-bind:textcolor="config.feedback.textcolor"
+        ></feedback>
         <attendance ref="attendance" class="attendance"
             v-bind:opacity="config.attendance.opacity"
             v-bind:background="config.attendance.background"
             v-bind:iconcolor="config.attendance.iconcolor"
             v-bind:textcolor="config.attendance.textcolor"
         ></attendance>
+        <feeling ref="feeling" class="feeling"
+            v-bind:opacity="config.feeling.opacity"
+            v-bind:background="config.feeling.background"
+            v-bind:textcolor="config.feeling.textcolor"
+            v-bind:q1color="config.feeling.q1color"
+            v-bind:q2color="config.feeling.q2color"
+            v-bind:q3color="config.feeling.q3color"
+            v-bind:q4color="config.feeling.q4color"
+            v-bind:c1color="config.feeling.c1color"
+            v-bind:c2color="config.feeling.c2color"
+            v-bind:c3color="config.feeling.c3color"
+            v-bind:c4color="config.feeling.c4color"
+            v-bind:c5color="config.feeling.c5color"
+            v-bind:m1color="config.feeling.m1color"
+            v-bind:m2color="config.feeling.m2color"
+            v-bind:m3color="config.feeling.m3color"
+            v-bind:m4color="config.feeling.m4color"
+            v-bind:m5color="config.feeling.m5color"
+        ></feeling>
         <progress-bar ref="progressBar" class="progress"
             v-bind:opacity="config.progress.opacity"
             v-bind:slots="config.progress.slots"
@@ -165,10 +191,22 @@ body {
         bottom: 10px;
         width: 180px;
     }
+    > .feedback {
+        position: absolute;
+        right: 10px;
+        bottom: 80px;
+        width: 180px;
+    }
     > .title {
         position: absolute;
         right: 170px;
         bottom: 10px;
+        width: 540px;
+    }
+    > .feeling {
+        position: absolute;
+        right: 170px;
+        bottom: 80px;
         width: 540px;
     }
     > .progress {
@@ -240,6 +278,8 @@ module.exports = {
         "banner":       "url:hud-widget-banner.vue",
         "title-bar":    "url:hud-widget-title.vue",
         "attendance":   "url:hud-widget-attendance.vue",
+        "feedback":     "url:hud-widget-feedback.vue",
+        "feeling":      "url:hud-widget-feeling.vue",
         "progress-bar": "url:hud-widget-progress.vue",
         "agenda":       "url:hud-widget-agenda.vue",
         "logo":         "url:hud-widget-logo.vue",
@@ -467,13 +507,42 @@ module.exports = {
 
         /*  receive messages from the attendance channel  */
         huds.bind("attendance", (event, data) => {
-            console.log("HUD", event, data)
             /*  just react on correctly structured messages  */
             if (!(   typeof data.client  === "string" && data.client !== ""
                   && typeof data.event   === "string" && data.event  !== ""))
                 return
             const a = this.$refs.attendance
             a.$emit("attendance", data)
+        })
+
+        /*  receive messages from the feedback channel  */
+        huds.bind("feedback", (event, data) => {
+            /*  just react on correctly structured messages  */
+            if (!(   typeof data.client    === "string" && data.client  !== ""
+                  && typeof data.type      === "string" && data.type    !== ""))
+                return
+            const f = this.$refs.feedback
+            f.$emit("event", data)
+        })
+
+        /*  allow feeling widget to be interactively controlled  */
+        Mousetrap.bind("f", (e) => {
+            huds.send("feeling.toggle")
+        })
+        huds.bind("feeling.toggle", () => {
+            const f = this.$refs.feeling
+            f.$emit("toggle")
+        })
+
+        /*  receive messages from the attendance channel  */
+        huds.bind("feeling", (event, data) => {
+            /*  just react on correctly structured messages  */
+            if (!(   typeof data.client    === "string" && data.client    !== ""
+                  && typeof data.challenge === "string" && data.challenge !== ""
+                  && typeof data.mood      === "string" && data.mood      !== ""))
+                return
+            const f = this.$refs.feeling
+            f.$emit("event", data)
         })
     },
     mounted () {
