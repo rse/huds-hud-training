@@ -100,7 +100,7 @@ module.exports = {
                 (refresh usually every 30s, but we accept also up to 60s)  */
             const now = (new Date()).getTime()
             for (const client of Object.keys(this.seen)) {
-                let seen = this.seen[client]
+                const seen = this.seen[client]
                 if (seen + ((60 + 4) * 1000) < now)
                     delete this.seen[client]
             }

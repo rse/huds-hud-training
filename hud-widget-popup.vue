@@ -28,7 +28,7 @@
     <div v-bind:style="style" class="popup">
         <div v-for="popup in popups" ref="box" v-bind:key="popup.i" v-bind:data-i="popup.i"
             v-bind:class="{ box: true, [ popup.type ]: true }">
-            <img v-if="popup.image" class="image" v-bind:src="popup.image"/>
+            <img v-if="popup.image" class="image" v-bind:src="popup.image" />
             <div v-if="popup.title" class="title">
                 {{ popup.title }}
             </div>
@@ -162,10 +162,10 @@ module.exports = {
         playBox () {
             if (this.popups.length === 0)
                 return
-            let data = this.popups[this.popups.length - 1]
+            const data = this.popups[this.popups.length - 1]
             if (data.audio === undefined || data.audio === null)
                 return
-            let audioElement = new Audio()
+            const audioElement = new Audio()
             audioElement.src = data.audio
             audioElement.play()
         },

@@ -55,6 +55,8 @@ globals:
     SVG:           true
     Mousetrap:     true
     hashTagSimilarity: true
+    moment:        true
+    Audio:         true
 
 rules:
     #   modified rules

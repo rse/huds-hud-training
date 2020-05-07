@@ -160,7 +160,7 @@ module.exports = {
                 setTimeout(() => soundfx.play("whoosh3"), 500)
                 tl.add({
                     easing:     "cubicBezier(0.625, -0.480, 0.505, 1.000)",
-                    translateX: [ 0, - (20 + this.$el.clientWidth) ],
+                    translateX: [ 0, -(20 + this.$el.clientWidth) ],
                     opacity:    [ 1.0, 1.0 ]
                 })
             }

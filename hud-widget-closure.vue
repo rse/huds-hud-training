@@ -144,7 +144,7 @@ module.exports = {
         end:       "open",
         endShow:   false,
         endIcon:   null,
-        soundid:   0,
+        soundid:   0
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
