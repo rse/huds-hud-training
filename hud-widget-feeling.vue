@@ -28,11 +28,12 @@
     <div v-bind:style="style" class="feeling">
         <div v-show="show" class="bar">
             <div class="feeling challenge">
-                <div class="boxplot">
-                    <div ref="cq1" class="q1"></div>
-                    <div ref="cq2" class="q2"></div>
-                    <div ref="cq3" class="q3"></div>
-                    <div ref="cq4" class="q4"></div>
+                <div class="cols">
+                    <div data-type="challenge" data-val="1" class="col"></div>
+                    <div data-type="challenge" data-val="2" class="col"></div>
+                    <div data-type="challenge" data-val="3" class="col"></div>
+                    <div data-type="challenge" data-val="4" class="col"></div>
+                    <div data-type="challenge" data-val="5" class="col"></div>
                 </div>
                 <div class="legend">
                     <div class="l1"></div>
@@ -46,11 +47,12 @@
                 </div>
             </div>
             <div class="feeling mood">
-                <div class="boxplot">
-                    <div ref="mq1" class="q1"></div>
-                    <div ref="mq2" class="q2"></div>
-                    <div ref="mq3" class="q3"></div>
-                    <div ref="mq4" class="q4"></div>
+                <div class="cols">
+                    <div data-type="mood" data-val="1" class="col"></div>
+                    <div data-type="mood" data-val="2" class="col"></div>
+                    <div data-type="mood" data-val="3" class="col"></div>
+                    <div data-type="mood" data-val="4" class="col"></div>
+                    <div data-type="mood" data-val="5" class="col"></div>
                 </div>
                 <div class="legend">
                     <div class="l1"></div>
@@ -71,33 +73,35 @@
 .feeling {
     opacity: var(--opacity);
     .bar {
-        height: 64px;
         margin: 20px;
         border-radius: 8px;
-        padding: 4px;
+        padding: 8px;
         background-color: var(--background);
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
         .feeling {
-            border: 1px solid red;
             width: calc(50% - 20px);
             display: flex;
             flex-direction: column;
             align-items: center;
-            .boxplot {
+            .cols {
                 width: 100%;
-                height: 30px;
+                min-height: 140px;
+                max-height: 140px;
+                height: 100px;
+                margin-bottom: 5px;
                 display: flex;
                 flex-direction: row;
-                .q1 { background-color: var(--q1color); }
-                .q2 { background-color: var(--q2color); }
-                .q3 { background-color: var(--q3color); }
-                .q4 { background-color: var(--q4color); }
-                .q1, .q2, .q3, .q4 {
-                    height: 30px;
-                    min-height: 30px;
-                    border: 1px solid white;
+                align-items: flex-end;
+                .col {
+                    width: 20%;
+                    background-color: var(--barcolor);
+                    margin-right: 2px;
+                    border-radius: 4px;
+                }
+                .col:last-child {
+                    margin-right: 0px;
                 }
             }
             .legend {
@@ -118,7 +122,7 @@
                     .l2 { background-color: var(--c2color); }
                     .l3 { background-color: var(--c3color); }
                     .l4 { background-color: var(--c4color); }
-                    .l5 { background-color: var(--c4color); }
+                    .l5 { background-color: var(--c5color); }
                 }
             }
             &.mood {
@@ -127,10 +131,11 @@
                     .l2 { background-color: var(--m2color); }
                     .l3 { background-color: var(--m3color); }
                     .l4 { background-color: var(--m4color); }
-                    .l5 { background-color: var(--m4color); }
+                    .l5 { background-color: var(--m5color); }
                 }
             }
             .name {
+                margin-top: 6px;
                 font-family: "TypoPRO Fira Sans";
                 font-weight: normal;
                 font-size: 14pt;
@@ -148,10 +153,7 @@ module.exports = {
         opacity:    { type: Number, default: 1.0 },
         background: { type: String, default: "" },
         textcolor:  { type: String, default: "" },
-        q1color:    { type: String, default: "" },
-        q2color:    { type: String, default: "" },
-        q3color:    { type: String, default: "" },
-        q4color:    { type: String, default: "" },
+        barcolor:   { type: String, default: "" },
         c1color:    { type: String, default: "" },
         c2color:    { type: String, default: "" },
         c3color:    { type: String, default: "" },
@@ -164,24 +166,127 @@ module.exports = {
         m5color:    { type: String, default: "" }
     },
     data: () => ({
-        show: false
+        show:     false,
+        feelings: {},
+        cols:     {},
+        timer:    null
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
     },
+    methods: {
+        /*  recalculate the feelings  */
+        recalc () {
+            const recalcFeeling = (name) => {
+                this.cols[name] = {}
+                for (let val = 1; val <= 5; val++)
+                    this.cols[name][val] = { count: 0, heigth: 0 }
+
+                /*  determine feelings  */
+                let total = 0
+                for (const client of Object.keys(this.feelings)) {
+                    total++
+                    const val = this.feelings[client][name]
+                    this.cols[name][val].count++
+                }
+
+                /*  determine heights  */
+                for (let val = 1; val <= 5; val++) {
+                    this.cols[name][val].height = (total === 0 ? "0%" : Math.ceil(
+                        (this.cols[name][val].count / total) * 100
+                    ) + "%")
+                }
+            }
+            recalcFeeling("challenge")
+            recalcFeeling("mood")
+        },
+
+        /*  update the display  */
+        update () {
+            if (this.timer !== null)
+                clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                this.recalc()
+                this.$nextTick(() => {
+                    if (!this.$refs || !this.show)
+                        return
+
+                    /*  determine columns  */
+                    const cols = this.$el.getElementsByClassName("col")
+
+                    /*  detect whether any changes in the column heights are necessary  */
+                    let changes = false
+                    for (const col of cols) {
+                        const type = col.getAttribute("data-type")
+                        const val  = col.getAttribute("data-val")
+                        const height = this.cols[type][val].height
+                        if (height !== col.style.height) {
+                            changes = true
+                            break
+                        }
+                    }
+
+                    /*  in case of changes, animate columns to their target heights  */
+                    if (changes) {
+                        soundfx.play("slide1")
+                        for (const col of cols) {
+                            const type = col.getAttribute("data-type")
+                            const val  = col.getAttribute("data-val")
+                            const height = this.cols[type][val].height
+                            if (height !== col.style.height) {
+                                anime({
+                                    targets:   col,
+                                    duration:  400,
+                                    autoplay:  true,
+                                    direction: "normal",
+                                    easing:    "easeOutSine",
+                                    height:    height
+                                })
+                            }
+                        }
+                    }
+                })
+            }, 500)
+        }
+    },
     created () {
         /*  receive the feedback events  */
         this.$on("event", (data) => {
+            this.feelings[data.client] = {
+                seen:      (new Date()).getTime(),
+                challenge: data.challenge,
+                mood:      data.mood
+            }
+            this.update()
         })
+
+        /*  expire feedbacks  */
+        this.timer = setInterval(() => {
+            /*  expire feelings not seen recently  */
+            const now = (new Date()).getTime()
+            for (const client of Object.keys(this.feelings)) {
+                const seen = this.feelings[client].seen
+                if (seen + ((10 * 60 * 1000) + 4) < now)
+                    delete this.feelings[client]
+            }
+            this.update()
+        }, 2 * 1000)
 
         /*  toggle the widget  */
         this.$on("toggle", () => {
             this.show = !this.show
-            if (this.show)
+            if (this.show) {
+                this.update()
                 soundfx.play("beep3")
+            }
             else
                 soundfx.play("whoosh2")
         })
+    },
+    mounted () {
+        /*  initialize heights  */
+        for (const col of this.$el.getElementsByClassName("col"))
+            col.style.height = "0%"
     }
 }
 </script>

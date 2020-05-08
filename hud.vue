@@ -55,10 +55,7 @@
             v-bind:opacity="config.feeling.opacity"
             v-bind:background="config.feeling.background"
             v-bind:textcolor="config.feeling.textcolor"
-            v-bind:q1color="config.feeling.q1color"
-            v-bind:q2color="config.feeling.q2color"
-            v-bind:q3color="config.feeling.q3color"
-            v-bind:q4color="config.feeling.q4color"
+            v-bind:barcolor="config.feeling.barcolor"
             v-bind:c1color="config.feeling.c1color"
             v-bind:c2color="config.feeling.c2color"
             v-bind:c3color="config.feeling.c3color"
@@ -537,9 +534,8 @@ module.exports = {
         /*  receive messages from the attendance channel  */
         huds.bind("feeling", (event, data) => {
             /*  just react on correctly structured messages  */
-            if (!(   typeof data.client    === "string" && data.client    !== ""
-                  && typeof data.challenge === "string" && data.challenge !== ""
-                  && typeof data.mood      === "string" && data.mood      !== ""))
+            if (!(   typeof data.client    === "string" && data.client !== ""
+                  && typeof data.challenge === "number" && typeof data.mood === "number"))
                 return
             const f = this.$refs.feeling
             f.$emit("event", data)
