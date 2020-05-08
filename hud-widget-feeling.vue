@@ -90,6 +90,7 @@
                 min-height: 120px;
                 max-height: 120px;
                 height: 120px;
+                margin-top: 8px;
                 margin-bottom: 5px;
                 display: flex;
                 flex-direction: row;
@@ -188,7 +189,8 @@ module.exports = {
                 5: { count: 0, height: 0 }
             }
         },
-        timer:    null
+        timer1: null,
+        timer2: null
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -207,10 +209,16 @@ module.exports = {
                     this.cols[name][val].count++
                 }
 
-                /*  determine heights  */
+                /*  determine maximum count  */
+                let max = 0
+                for (let val = 1; val <= 5; val++)
+                    if (max < this.cols[name][val].count)
+                        max = this.cols[name][val].count
+
+                /*  determine individual heights  */
                 for (let val = 1; val <= 5; val++) {
-                    this.cols[name][val].height = (total === 0 ? "0%" : Math.ceil(
-                        (this.cols[name][val].count / total) * 100
+                    this.cols[name][val].height = (max === 0 ? "0%" : Math.ceil(
+                        (this.cols[name][val].count / max) * 100
                     ) + "%")
                 }
             }
@@ -220,9 +228,10 @@ module.exports = {
 
         /*  update the display  */
         update () {
-            if (this.timer !== null)
-                clearTimeout(this.timer)
-            this.timer = setTimeout(() => {
+            console.log("update")
+            if (this.timer2 !== null)
+                clearTimeout(this.timer2)
+            this.timer2 = setTimeout(() => {
                 this.recalc()
                 this.$nextTick(() => {
                     if (!this.$refs || !this.show)
@@ -274,11 +283,10 @@ module.exports = {
                 challenge: data.challenge,
                 mood:      data.mood
             }
-            this.update()
         })
 
         /*  expire feedbacks  */
-        this.timer = setInterval(() => {
+        this.timer1 = setInterval(() => {
             /*  expire feelings not seen recently  */
             const now = (new Date()).getTime()
             for (const client of Object.keys(this.feelings)) {
