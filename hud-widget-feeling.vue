@@ -228,7 +228,6 @@ module.exports = {
 
         /*  update the display  */
         update () {
-            console.log("update")
             if (this.timer2 !== null)
                 clearTimeout(this.timer2)
             this.timer2 = setTimeout(() => {
