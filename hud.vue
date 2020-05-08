@@ -55,6 +55,7 @@
             v-bind:opacity="config.feeling.opacity"
             v-bind:background="config.feeling.background"
             v-bind:textcolor="config.feeling.textcolor"
+            v-bind:legendcolor="config.feeling.legendcolor"
             v-bind:barcolor="config.feeling.barcolor"
             v-bind:c1color="config.feeling.c1color"
             v-bind:c2color="config.feeling.c2color"

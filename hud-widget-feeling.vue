@@ -36,11 +36,11 @@
                     <div data-type="challenge" data-val="5" class="col"></div>
                 </div>
                 <div class="legend">
-                    <div class="l1"></div>
-                    <div class="l2"></div>
-                    <div class="l3"></div>
-                    <div class="l4"></div>
-                    <div class="l5"></div>
+                    <div class="l1">{{ cols.challenge[1].count }}</div>
+                    <div class="l2">{{ cols.challenge[2].count }}</div>
+                    <div class="l3">{{ cols.challenge[3].count }}</div>
+                    <div class="l4">{{ cols.challenge[4].count }}</div>
+                    <div class="l5">{{ cols.challenge[5].count }}</div>
                 </div>
                 <div class="name">
                     Your Challenge
@@ -55,11 +55,11 @@
                     <div data-type="mood" data-val="5" class="col"></div>
                 </div>
                 <div class="legend">
-                    <div class="l1"></div>
-                    <div class="l2"></div>
-                    <div class="l3"></div>
-                    <div class="l4"></div>
-                    <div class="l5"></div>
+                    <div class="l1">{{ cols.mood[1].count }}</div>
+                    <div class="l2">{{ cols.mood[2].count }}</div>
+                    <div class="l3">{{ cols.mood[3].count }}</div>
+                    <div class="l4">{{ cols.mood[4].count }}</div>
+                    <div class="l5">{{ cols.mood[5].count }}</div>
                 </div>
                 <div class="name">
                     Your Mood
@@ -81,15 +81,15 @@
         flex-direction: row;
         justify-content: space-evenly;
         .feeling {
-            width: calc(50% - 20px);
+            width: calc(50% - 40px);
             display: flex;
             flex-direction: column;
             align-items: center;
             .cols {
                 width: 100%;
-                min-height: 140px;
-                max-height: 140px;
-                height: 100px;
+                min-height: 120px;
+                max-height: 120px;
+                height: 120px;
                 margin-bottom: 5px;
                 display: flex;
                 flex-direction: row;
@@ -97,7 +97,7 @@
                 .col {
                     width: 20%;
                     background-color: var(--barcolor);
-                    margin-right: 2px;
+                    margin-right: 4px;
                     border-radius: 4px;
                 }
                 .col:last-child {
@@ -106,14 +106,17 @@
             }
             .legend {
                 width: 100%;
-                height: 10px;
-                min-height: 10px;
+                height: 24px;
                 display: flex;
                 flex-direction: row;
                 .l1, .l2, .l3, .l4, .l5 {
-                    height: 10px;
-                    min-height: 10px;
+                    height: 24px;
                     width: 20%;
+                    font-family: "TypoPRO Fira Sans";
+                    font-weight: normal;
+                    font-size: 14pt;
+                    color: var(--legendcolor);
+                    text-align: center;
                 }
             }
             &.challenge {
@@ -150,25 +153,41 @@
 module.exports = {
     name: "feeling",
     props: {
-        opacity:    { type: Number, default: 1.0 },
-        background: { type: String, default: "" },
-        textcolor:  { type: String, default: "" },
-        barcolor:   { type: String, default: "" },
-        c1color:    { type: String, default: "" },
-        c2color:    { type: String, default: "" },
-        c3color:    { type: String, default: "" },
-        c4color:    { type: String, default: "" },
-        c5color:    { type: String, default: "" },
-        m1color:    { type: String, default: "" },
-        m2color:    { type: String, default: "" },
-        m3color:    { type: String, default: "" },
-        m4color:    { type: String, default: "" },
-        m5color:    { type: String, default: "" }
+        opacity:     { type: Number, default: 1.0 },
+        background:  { type: String, default: "" },
+        textcolor:   { type: String, default: "" },
+        legendcolor: { type: String, default: "" },
+        barcolor:    { type: String, default: "" },
+        c1color:     { type: String, default: "" },
+        c2color:     { type: String, default: "" },
+        c3color:     { type: String, default: "" },
+        c4color:     { type: String, default: "" },
+        c5color:     { type: String, default: "" },
+        m1color:     { type: String, default: "" },
+        m2color:     { type: String, default: "" },
+        m3color:     { type: String, default: "" },
+        m4color:     { type: String, default: "" },
+        m5color:     { type: String, default: "" }
     },
     data: () => ({
         show:     false,
         feelings: {},
-        cols:     {},
+        cols:     {
+            challenge: {
+                1: { count: 0, height: 0 },
+                2: { count: 0, height: 0 },
+                3: { count: 0, height: 0 },
+                4: { count: 0, height: 0 },
+                5: { count: 0, height: 0 }
+            },
+            mood: {
+                1: { count: 0, height: 0 },
+                2: { count: 0, height: 0 },
+                3: { count: 0, height: 0 },
+                4: { count: 0, height: 0 },
+                5: { count: 0, height: 0 }
+            }
+        },
         timer:    null
     }),
     computed: {
@@ -178,12 +197,10 @@ module.exports = {
         /*  recalculate the feelings  */
         recalc () {
             const recalcFeeling = (name) => {
-                this.cols[name] = {}
-                for (let val = 1; val <= 5; val++)
-                    this.cols[name][val] = { count: 0, heigth: 0 }
-
                 /*  determine feelings  */
                 let total = 0
+                for (let val = 1; val <= 5; val++)
+                    this.cols[name][val].count = 0
                 for (const client of Object.keys(this.feelings)) {
                     total++
                     const val = this.feelings[client][name]
