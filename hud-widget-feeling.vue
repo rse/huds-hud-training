@@ -43,7 +43,7 @@
                     <div class="l5">{{ cols.challenge[5].count }}</div>
                 </div>
                 <div class="name">
-                    Your Challenge
+                    Your Challenges
                 </div>
             </div>
             <div class="feeling mood">
@@ -62,7 +62,7 @@
                     <div class="l5">{{ cols.mood[5].count }}</div>
                 </div>
                 <div class="name">
-                    Your Mood
+                    Your Moods
                 </div>
             </div>
         </div>
