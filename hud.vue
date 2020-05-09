@@ -189,12 +189,6 @@ body {
         bottom: 10px;
         width: 180px;
     }
-    > .feedback {
-        position: absolute;
-        right: 10px;
-        bottom: 80px;
-        width: 180px;
-    }
     > .title {
         position: absolute;
         right: 170px;
@@ -220,6 +214,12 @@ body {
         right: 30px;
         width: 150px;
         height: auto;
+    }
+    > .feedback {
+        position: absolute;
+        right: 50px;
+        bottom: 90px;
+        width: 400px;
     }
     > .agenda {
         position: absolute;

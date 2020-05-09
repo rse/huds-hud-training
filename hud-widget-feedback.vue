@@ -26,21 +26,21 @@
 
 <template>
     <div v-bind:style="style" class="feedback">
-        <div ref="bar" class="bar">
-            <div v-show="smiles > 0" class="feedback-item">
+        <div v-show="shown" class="feedback-container">
+            <div
+                v-for="item of items"
+                v-bind:key="item.type"
+                ref="item"
+                v-bind:data-type="item.type"
+                class="item">
+                <div class="icon-bg">
+                    <i class="fa fa-circle"></i>
+                </div>
                 <div class="icon">
-                    <i class="fa fa-smile"></i>
+                    <i v-bind:class="[ 'fa', 'fa-' + item.icon ]"></i>
                 </div>
                 <div class="badge">
-                    {{ smiles }}
-                </div>
-            </div>
-            <div v-show="frowns > 0" class="feedback-item">
-                <div class="icon">
-                    <i class="fa fa-angry"></i>
-                </div>
-                <div class="badge">
-                    {{ frowns }}
+                    {{ item.count }}
                 </div>
             </div>
         </div>
@@ -50,42 +50,46 @@
 <style lang="less" scoped>
 .feedback {
     opacity: var(--opacity);
-    .bar {
-        position: absolute;
-        bottom: 0;
-        opacity: 0;
-        width: 120px;
-        height: 54px;
-        margin: 20px;
-        border-radius: 8px;
-        padding: 5px 10px 3px 10px;
-        background-color: var(--background);
+    position: relative;
+    .feedback-container {
+        width: 400px;
+        height: 990px;
         display: flex;
         flex-direction: row;
-        justify-content: center;
-        .feedback-item {
-            width: 50px;
-            height: 50px;
+        justify-content: flex-end;
+        align-items: flex-end;
+        .item {
+            width: 100px;
+            height: 100px;
             position: relative;
+            .icon-bg {
+                opacity: 0.5;
+                position: absolute;
+                left: 0px;
+                bottom: 0px;
+                color: #000000;
+                font-size: 100px;
+            }
             .icon {
                 position: absolute;
                 left: 0px;
                 bottom: 0px;
                 color: var(--iconcolor);
-                font-size: 30pt;
+                font-size: 100px;
             }
             .badge {
                 position: absolute;
                 right: 0px;
                 top: 0px;
-                width: 20px;
+                width: 30px;
+                height: 30px;
                 text-align: center;
-                border-radius: 5px;
+                border-radius: 15px;
                 padding-top: 0px;
                 padding-left: 0px;
                 font-family: "TypoPRO Fira Sans";
                 font-weight: normal;
-                font-size: 14pt;
+                font-size: 16pt;
                 background-color: var(--badgecolor);
                 color: var(--textcolor);
             }
@@ -106,9 +110,8 @@ module.exports = {
     },
     data: () => ({
         feedbacks: {},
-        smiles:    0,
-        frowns:    0,
-        shown:     false
+        shown:     false,
+        items:     []
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -116,70 +119,115 @@ module.exports = {
     created () {
         /*  receive the feedback events  */
         this.$on("event", (data) => {
-            this.feedbacks[data.client] = { seen: (new Date()).getTime(), type: data.type }
+            this.feedbacks[data.client] = {
+                seen: (new Date()).getTime(),
+                type: data.type
+            }
         })
 
         /*  expire feedbacks  */
         this.timer = setInterval(() => {
-            /*  expire feedbacks not seen recently  */
+            /*  expire or take over feedbacks  */
+            const items = {}
             const now = (new Date()).getTime()
             for (const client of Object.keys(this.feedbacks)) {
                 const seen = this.feedbacks[client].seen
-                if (seen + ((30 + 4) * 1000) < now)
+                if (seen + ((10 + 4) * 1000) < now)
                     delete this.feedbacks[client]
+                else {
+                    const type = this.feedbacks[client].type
+                    if (items[type] === undefined)
+                        items[type] = 0
+                    items[type]++
+                }
             }
 
-            /*  determine particular feedbacks  */
-            let smiles = 0
-            let frowns = 0
-            for (const client of Object.keys(this.feedbacks)) {
-                if (this.feedbacks[client].type === "smile")
-                    smiles++
-                else if (this.feedbacks[client].type === "frown")
-                    frowns++
+            /*  merge items into data model and determine what is coming and going  */
+            const coming = []
+            const going  = []
+            for (const type of Object.keys(items)) {
+                let item = this.items.find((item) => item.type === type)
+                if (item)
+                    item.count = items[type]
+                else {
+                    let icon
+                    if      (type === "surprise") icon = "surprise"
+                    else if (type === "smile")    icon = "grin-wink"
+                    else if (type === "frown")    icon = "angry"
+                    else if (type === "sadness")  icon = "sad-tear"
+                    else                          icon = "smile"
+                    item = { type, count: items[type], icon }
+                    this.items.push(item)
+                    coming.push(item)
+                }
+            }
+            for (const item of this.items) {
+                if (!item.going && items[item.type] === undefined) {
+                    item.going = true
+                    item.count = 0
+                    going.push(item)
+                }
             }
 
-            /*  animate the bar  */
-            const bar = this.$refs.bar
-            if ((smiles > 0 || frowns > 0) && !this.shown) {
-                /*  raise the bar  */
-                this.smiles = smiles
-                this.frowns = frowns
-                soundfx.play("beep6")
-                anime({
-                    targets:   bar,
-                    duration:  1000,
-                    autoplay:  true,
-                    direction: "normal",
-                    easing:    "easeOutBounce",
-                    opacity:   [ 0.0, 1.0 ],
-                    bottom:    [ -50, 0 ]
-                })
-                this.shown = true
-            }
-            else if ((smiles === 0 && frowns === 0) && this.shown) {
-                /*  drop the bar  */
-                this.shown = false
-                soundfx.play("beep6")
-                anime({
-                    targets:   bar,
-                    duration:  500,
-                    autoplay:  true,
-                    direction: "normal",
-                    easing:    "easeInBounce",
-                    opacity:   [ 1.0, 0.0 ],
-                    bottom:    [ 0, -50 ]
-                }).finished.then(() => {
-                    this.smiles = 0
-                    this.frowns = 0
-                })
-            }
-            else {
-                /*  update the bar  */
-                this.smiles = smiles
-                this.frowns = frowns
-            }
-        }, 2 * 1000)
+            /*  determine whether widget should be shown at all  */
+            this.shown = (this.items.length > 0)
+
+            /*  animate items (once Vue has updated the DOM)  */
+            this.$nextTick(() => {
+                const findElement = (type) => {
+                    const els = this.$refs.item
+                    for (let i = 0; i < els.length; i++)
+                        if (els[i].getAttribute("data-type") === type)
+                            return els[i]
+                    return null
+                }
+
+                /*  animate coming items  */
+                for (const item of coming) {
+                    const el = findElement(item.type)
+                    if (el !== null) {
+                        soundfx.play("beep6")
+                        const tl = anime.timeline({
+                            targets:   el,
+                            direction: "normal",
+                            loop:      false,
+                            autoplay:  true
+                        })
+                        tl.add({ duration: 1000, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: [ -200, 700 ] })
+                        tl.add({ duration: 1000, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 })
+                        tl.add({ duration:  750, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 500 })
+                        tl.add({ duration:  750, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 })
+                        tl.add({ duration:  500, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 300 })
+                        tl.add({ duration:  500, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 })
+                        tl.add({ duration:  250, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 100 })
+                        tl.add({ duration:  250, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 })
+                        tl.finished.then(() => {
+                        })
+                    }
+                }
+
+                /*  animate going items  */
+                for (const item of going) {
+                    const el = findElement(item.type)
+                    if (el !== null) {
+                        soundfx.play("beep6")
+                        const tl = anime.timeline({
+                            targets:   el,
+                            direction: "normal",
+                            loop:      false,
+                            autoplay:  true
+                        })
+                        tl.add({ duration:  500, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 300 })
+                        tl.add({ duration:  500, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 })
+                        tl.add({ duration:  250, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 100 })
+                        tl.add({ duration:  250, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: -200 })
+                        tl.finished.then(() => {
+                            this.items = this.items.filter((x) => x !== item)
+                        })
+                    }
+                }
+            })
+        }, 1 * 1000)
     }
 }
 </script>
