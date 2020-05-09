@@ -200,11 +200,9 @@ module.exports = {
         recalc () {
             const recalcFeeling = (name) => {
                 /*  determine feelings  */
-                let total = 0
                 for (let val = 1; val <= 5; val++)
                     this.cols[name][val].count = 0
                 for (const client of Object.keys(this.feelings)) {
-                    total++
                     const val = this.feelings[client][name]
                     this.cols[name][val].count++
                 }
