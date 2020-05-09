@@ -164,7 +164,7 @@ module.exports = {
             const now = (new Date()).getTime()
             for (const client of Object.keys(this.feedbacks)) {
                 const seen = this.feedbacks[client].seen
-                if (seen + ((30 + 4) * 1000) < now)
+                if (seen + ((20 + 2) * 1000) < now)
                     delete this.feedbacks[client]
                 else {
                     const type = this.feedbacks[client].type
