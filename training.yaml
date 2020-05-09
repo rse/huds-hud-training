@@ -40,10 +40,22 @@ attendance:
 
 feedback:
     opacity:               0.80
-    background:            "#333333"
-    iconcolor:             "#d08840"
-    badgecolor:            "#666666"
-    textcolor:             "#ffffff"
+    surprisecolor1:        "#222222"
+    surprisecolor2:        "#f0f0f0"
+    surprisecolor3:        "#c0c0c0"
+    surprisecolor4:        "#000000"
+    smilecolor1:           "#221100"
+    smilecolor2:           "#d08840"
+    smilecolor3:           "#a05810"
+    smilecolor4:           "#ffffff"
+    frowncolor1:           "#99ccff"
+    frowncolor2:           "#336699"
+    frowncolor3:           "#003366"
+    frowncolor4:           "#ffffff"
+    sadnesscolor1:         "#cccccc"
+    sadnesscolor2:         "#333333"
+    sadnesscolor3:         "#000000"
+    sadnesscolor4:         "#ffffff"
 
 feeling:
     opacity:               0.80

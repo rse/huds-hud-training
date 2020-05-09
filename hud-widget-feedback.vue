@@ -32,14 +32,14 @@
                 v-bind:key="item.type"
                 ref="item"
                 v-bind:data-type="item.type"
-                class="item">
+                v-bind:class="[ 'item', 'item-' + item.type ]">
                 <div class="icon-bg">
                     <i class="fa fa-circle"></i>
                 </div>
                 <div class="icon">
                     <i v-bind:class="[ 'fa', 'fa-' + item.icon ]"></i>
                 </div>
-                <div class="badge">
+                <div v-show="item.count > 0" class="badge">
                     {{ item.count }}
                 </div>
             </div>
@@ -63,24 +63,22 @@
             height: 100px;
             position: relative;
             .icon-bg {
-                opacity: 0.5;
+                opacity: 0.8;
                 position: absolute;
                 left: 0px;
                 bottom: 0px;
-                color: #000000;
                 font-size: 100px;
             }
             .icon {
                 position: absolute;
                 left: 0px;
                 bottom: 0px;
-                color: var(--iconcolor);
                 font-size: 100px;
             }
             .badge {
                 position: absolute;
                 right: 0px;
-                top: 0px;
+                top: -4px;
                 width: 30px;
                 height: 30px;
                 text-align: center;
@@ -90,8 +88,30 @@
                 font-family: "TypoPRO Fira Sans";
                 font-weight: normal;
                 font-size: 16pt;
-                background-color: var(--badgecolor);
-                color: var(--textcolor);
+            }
+            &.item-surprise {
+                .icon-bg { color:            var(--surprisecolor1); }
+                .icon    { color:            var(--surprisecolor2); }
+                .badge   { background-color: var(--surprisecolor3);
+                           color:            var(--surprisecolor4); }
+            }
+            &.item-smile {
+                .icon-bg { color:            var(--smilecolor1); }
+                .icon    { color:            var(--smilecolor2); }
+                .badge   { background-color: var(--smilecolor3);
+                           color:            var(--smilecolor4); }
+            }
+            &.item-frown {
+                .icon-bg { color:            var(--frowncolor1); }
+                .icon    { color:            var(--frowncolor2); }
+                .badge   { background-color: var(--frowncolor3);
+                           color:            var(--frowncolor4); }
+            }
+            &.item-sadness {
+                .icon-bg { color:            var(--sadnesscolor1); }
+                .icon    { color:            var(--sadnesscolor2); }
+                .badge   { background-color: var(--sadnesscolor3);
+                           color:            var(--sadnesscolor4); }
             }
         }
     }
@@ -102,11 +122,23 @@
 module.exports = {
     name: "feedback",
     props: {
-        opacity:    { type: Number, default: 1.0 },
-        background: { type: String, default: "" },
-        iconcolor:  { type: String, default: "" },
-        badgecolor: { type: String, default: "" },
-        textcolor:  { type: String, default: "" }
+        opacity:        { type: Number, default: 1.0 },
+        surprisecolor1: { type: String, default: "" },
+        surprisecolor2: { type: String, default: "" },
+        surprisecolor3: { type: String, default: "" },
+        surprisecolor4: { type: String, default: "" },
+        smilecolor1:    { type: String, default: "" },
+        smilecolor2:    { type: String, default: "" },
+        smilecolor3:    { type: String, default: "" },
+        smilecolor4:    { type: String, default: "" },
+        frowncolor1:    { type: String, default: "" },
+        frowncolor2:    { type: String, default: "" },
+        frowncolor3:    { type: String, default: "" },
+        frowncolor4:    { type: String, default: "" },
+        sadnesscolor1:  { type: String, default: "" },
+        sadnesscolor2:  { type: String, default: "" },
+        sadnesscolor3:  { type: String, default: "" },
+        sadnesscolor4:  { type: String, default: "" }
     },
     data: () => ({
         feedbacks: {},
@@ -210,7 +242,6 @@ module.exports = {
                 for (const item of going) {
                     const el = findElement(item.type)
                     if (el !== null) {
-                        soundfx.play("beep6")
                         const tl = anime.timeline({
                             targets:   el,
                             direction: "normal",
