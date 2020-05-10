@@ -87,7 +87,6 @@ module.exports = {
     created () {
         /*  receive the attendee events  */
         this.$on("attendance", (data) => {
-            console.log("OK", data)
             if (data.event === "begin" || data.event === "refresh")
                 this.seen[data.client] = (new Date()).getTime()
             else if (data.event === "end")
@@ -101,7 +100,7 @@ module.exports = {
             const now = (new Date()).getTime()
             for (const client of Object.keys(this.seen)) {
                 const seen = this.seen[client]
-                if (seen + ((60 + 4) * 1000) < now)
+                if (seen + ((4 * 60 + 4) * 1000) < now)
                     delete this.seen[client]
             }
 

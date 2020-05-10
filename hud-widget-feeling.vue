@@ -288,7 +288,7 @@ module.exports = {
             const now = (new Date()).getTime()
             for (const client of Object.keys(this.feelings)) {
                 const seen = this.feelings[client].seen
-                if (seen + ((10 * 60 * 1000) + 4) < now)
+                if (seen + ((4 * 60 * 1000) + 4) < now)
                     delete this.feelings[client]
             }
             this.update()
