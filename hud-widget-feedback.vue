@@ -39,7 +39,7 @@
                 <div class="icon">
                     <i v-bind:class="[ 'fa', 'fa-' + item.icon ]"></i>
                 </div>
-                <div v-show="item.count > 0" class="badge">
+                <div v-show="item.count > 1" class="badge">
                     {{ item.count }}
                 </div>
             </div>
@@ -188,13 +188,13 @@ module.exports = {
                     else if (type === "frown")    icon = "angry"
                     else if (type === "sadness")  icon = "sad-tear"
                     else                          icon = "smile"
-                    item = { type, count: items[type], icon }
+                    item = { type, count: items[type], icon, coming: true }
                     this.items.push(item)
                     coming.push(item)
                 }
             }
             for (const item of this.items) {
-                if (!item.going && items[item.type] === undefined) {
+                if (!item.coming && !item.going && items[item.type] === undefined) {
                     item.going = true
                     item.count = 0
                     going.push(item)
@@ -225,15 +225,17 @@ module.exports = {
                             loop:      false,
                             autoplay:  true
                         })
-                        tl.add({ duration: 1000, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: [ -200, 700 ] })
-                        tl.add({ duration: 1000, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 })
-                        tl.add({ duration:  750, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 500 })
-                        tl.add({ duration:  750, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 })
-                        tl.add({ duration:  500, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 300 })
-                        tl.add({ duration:  500, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 })
-                        tl.add({ duration:  250, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 100 })
-                        tl.add({ duration:  250, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 })
+                        tl.add({ duration: 5000, easing: "easeInOutSine", rotate: [ 0, 360 ] }, 0)
+                        tl.add({ duration: 1000, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: [ -200, 700 ] }, 0)
+                        tl.add({ duration: 1000, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 }, 1000)
+                        tl.add({ duration:  750, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 500 }, 2000)
+                        tl.add({ duration:  750, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 }, 2750)
+                        tl.add({ duration:  500, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 300 }, 3500)
+                        tl.add({ duration:  500, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 }, 4000)
+                        tl.add({ duration:  250, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 100 }, 4500)
+                        tl.add({ duration:  250, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 }, 4750)
                         tl.finished.then(() => {
+                            item.coming = false
                         })
                     }
                 }
@@ -248,10 +250,11 @@ module.exports = {
                             loop:      false,
                             autoplay:  true
                         })
-                        tl.add({ duration:  500, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 300 })
-                        tl.add({ duration:  500, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 })
-                        tl.add({ duration:  250, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 100 })
-                        tl.add({ duration:  250, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: -200 })
+                        tl.add({ duration: 1500, easing: "easeInOutSine", rotate: [ 0, 360 ] }, 0)
+                        tl.add({ duration:  500, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 300 }, 0)
+                        tl.add({ duration:  500, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 }, 500)
+                        tl.add({ duration:  250, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 100 }, 1000)
+                        tl.add({ duration:  250, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: -200 }, 1250)
                         tl.finished.then(() => {
                             this.items = this.items.filter((x) => x !== item)
                         })
