@@ -234,7 +234,6 @@ module.exports = {
         let i = 0
         this.$on("popup-add", (data) => {
             data.i = i++
-            console.log("ADD")
             this.queue.push({ method: "addBox", args: [ data ] })
         })
 
