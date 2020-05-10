@@ -252,7 +252,6 @@ module.exports = {
 
         /*  queue worker loop  */
         const progress = async () => {
-            console.log(this.queue.length)
             while (this.queue.length > 0) {
                 let cmd = this.queue.shift()
                 try {
