@@ -121,42 +121,50 @@ module.exports = {
         commentmessagecolor:   { type: String, default: "" }
     },
     data: () => ({
-        popups:  []
+        queue:  [],
+        popups: []
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
     },
     methods: {
         /*  add a popup box  */
-        addBox (i) {
-            /*  determine DOM elements  */
-            const els = this.$refs.box.sort((a, b) =>
-                parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
-            const newer  = els[0]
-            const others = els.slice(1)
+        async addBox (data) {
+            return new Promise((resolve, reject) => {
+                this.popups.unshift(data)
+                this.$nextTick(() => {
+                    /*  determine DOM elements  */
+                    const els = this.$refs.box.sort((a, b) =>
+                        parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
+                    const newer  = els[0]
+                    const others = els.slice(1)
 
-            /*  indicate coming popup  */
-            soundfx.play("bling1")
+                    /*  indicate coming popup  */
+                    soundfx.play("bling1")
 
-            /*  find target position on popup stack  */
-            let pos = 0
-            for (const el of others)
-                pos += el.clientHeight + 20
+                    /*  find target position on popup stack  */
+                    let pos = 0
+                    for (const el of others)
+                        pos += el.clientHeight + 20
 
-            /*  animate into target position on popup stack  */
-            anime({
-                targets:   newer,
-                duration:  2000,
-                autoplay:  true,
-                direction: "normal",
-                easing:    "easeOutBounce",
-                opacity:   [ 1.0, 1.0 ],
-                bottom:    [ 1000, pos ]
+                    /*  animate into target position on popup stack  */
+                    anime({
+                        targets:   newer,
+                        duration:  pos >= 1000 ? 10 : 2000,
+                        autoplay:  true,
+                        direction: "normal",
+                        easing:    "easeOutBounce",
+                        opacity:   [ 1.0, 1.0 ],
+                        bottom:    [ 1000, pos ]
+                    }).finished.then(() => {
+                        resolve()
+                    })
+                })
             })
         },
 
         /*  play audio of a popup box  */
-        playBox () {
+        async playBox () {
             if (this.popups.length === 0)
                 return
             const data = this.popups[this.popups.length - 1]
@@ -164,53 +172,62 @@ module.exports = {
                 return
             const audioElement = new Audio()
             audioElement.src = data.audio
+            audioElement.volume = 1.0
             audioElement.play()
         },
 
         /*  remove a popup box  */
-        removeBox () {
-            /*  determine DOM elements  */
-            const els = this.$refs.box.sort((a, b) =>
-                parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
-            const others = els.slice(0, els.length - 1)
-            const older  = els[els.length - 1]
+        async removeBox () {
+            if (this.popups.length === 0)
+                return
+            return new Promise((resolve, reject) => {
+                /*  determine DOM elements  */
+                const els = this.$refs.box.sort((a, b) =>
+                    parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
+                const others = els.slice(0, els.length - 1)
+                const older  = els[els.length - 1]
 
-            /*  indicate going popup  */
-            soundfx.play("whoosh2")
+                /*  indicate going popup  */
+                soundfx.play("whoosh2")
 
-            /*  determine height of popup to remove  */
-            const diff = older.clientHeight + 20
+                /*  determine height of popup to remove  */
+                const diff = older.clientHeight + 20
 
-            /*  fade out the popup  */
-            anime({
-                targets:   older,
-                duration:  1000,
-                autoplay:  true,
-                direction: "normal",
-                easing:    "easeOutSine",
-                opacity:   [ 1.0, 0.0 ]
-            }).finished.then(() => {
-                /*  remove from popups  */
-                this.popups.pop()
+                /*  fade out the popup  */
+                anime({
+                    targets:   older,
+                    duration:  500,
+                    autoplay:  true,
+                    direction: "normal",
+                    easing:    "easeOutSine",
+                    opacity:   [ 1.0, 0.0 ]
+                }).finished.then(() => {
+                    /*  remove from popups  */
+                    this.popups.pop()
 
-                /*  animate all the remaining popups into their new target position  */
-                let i = 0
-                for (const el of others.reverse()) {
-                    /*  determine old and new position  */
-                    const posOld = parseInt(el.style.bottom.toString().replace(/px$/, ""))
-                    const posNew = posOld - diff
+                    /*  animate all the remaining popups into their new target position  */
+                    let i = 0
+                    let promises = []
+                    for (const el of others.reverse()) {
+                        /*  determine old and new position  */
+                        const posOld = parseInt(el.style.bottom.toString().replace(/px$/, ""))
+                        const posNew = posOld - diff
 
-                    /*  shift popup into new position  */
-                    anime({
-                        targets:   el,
-                        duration:  2000,
-                        autoplay:  true,
-                        direction: "normal",
-                        easing:    "easeOutBounce",
-                        delay:     200 * i++,
-                        bottom:    [ posOld, posNew ]
+                        /*  shift popup into new position  */
+                        promises.push(anime({
+                            targets:   el,
+                            duration:  1000,
+                            autoplay:  true,
+                            direction: "normal",
+                            easing:    "easeOutBounce",
+                            delay:     200 * i++,
+                            bottom:    [ posOld, posNew ]
+                        }).finished)
+                    }
+                    Promise.all(promises).then(() => {
+                        resolve()
                     })
-                }
+                })
             })
         }
     },
@@ -219,21 +236,35 @@ module.exports = {
         let i = 0
         this.$on("popup-add", (data) => {
             data.i = i++
-            this.popups.unshift(data)
-            this.$nextTick(() => {
-                this.addBox(data.i)
-            })
+            console.log("ADD")
+            this.queue.push({ method: "addBox", args: [ data ] })
         })
 
         /*  allow audio of oldest popup to be played  */
         this.$on("popup-play", () => {
-            this.playBox()
+            this.queue.push({ method: "playBox", args: [] })
         })
 
         /*  allow the oldest popup to be removed  */
         this.$on("popup-remove", () => {
-            this.removeBox()
+            this.queue.push({ method: "removeBox", args: [] })
         })
+
+        /*  queue worker loop  */
+        const progress = async () => {
+            console.log(this.queue.length)
+            while (this.queue.length > 0) {
+                let cmd = this.queue.shift()
+                try {
+                    await this[cmd.method](...cmd.args)
+                }
+                catch (err) {
+                    console.log(err)
+                }
+            }
+            this.timer = setTimeout(progress, 50)
+        }
+        this.timer = setTimeout(progress, 50)
     }
 }
 </script>
