@@ -152,9 +152,6 @@ module.exports = {
                 easing:    "easeOutBounce",
                 opacity:   [ 1.0, 1.0 ],
                 bottom:    [ 1000, pos ]
-            }).finished.then(() => {
-                /*  indicate the reaching of the target position  */
-                soundfx.play("click1")
             })
         },
 
@@ -212,9 +209,6 @@ module.exports = {
                         easing:    "easeOutBounce",
                         delay:     200 * i++,
                         bottom:    [ posOld, posNew ]
-                    }).finished.then(() => {
-                        /*  indicate the reaching of the target position  */
-                        soundfx.play("click1")
                     })
                 }
             })
