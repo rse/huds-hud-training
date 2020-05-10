@@ -255,7 +255,7 @@ module.exports = {
                     await this[cmd.method](...cmd.args)
                 }
                 catch (err) {
-                    console.log(err)
+                    /*  no-op  */
                 }
             }
             this.timer = setTimeout(progress, 50)
