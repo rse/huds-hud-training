@@ -139,18 +139,19 @@ module.exports = {
                     const newer  = els[0]
                     const others = els.slice(1)
 
-                    /*  indicate coming popup  */
-                    soundfx.play("bling1")
-
                     /*  find target position on popup stack  */
                     let pos = 0
                     for (const el of others)
                         pos += el.clientHeight + 20
 
+                    /*  indicate coming popup  */
+                    if (pos < 1000)
+                        soundfx.play("bling1")
+
                     /*  animate into target position on popup stack  */
                     anime({
                         targets:   newer,
-                        duration:  pos >= 1000 ? 10 : 2000,
+                        duration:  pos < 1000 ? 2000 : 0,
                         autoplay:  true,
                         direction: "normal",
                         easing:    "easeOutBounce",
@@ -186,9 +187,6 @@ module.exports = {
                     parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
                 const others = els.slice(0, els.length - 1)
                 const older  = els[els.length - 1]
-
-                /*  indicate going popup  */
-                soundfx.play("whoosh2")
 
                 /*  determine height of popup to remove  */
                 const diff = older.clientHeight + 20
