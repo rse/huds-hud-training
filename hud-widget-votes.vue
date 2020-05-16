@@ -54,17 +54,13 @@
     flex-direction: column;
     justify-content: flex-end;
     .await {
+        width: 600px;
         font-family: "TypoPRO Fira Sans";
         font-size: 32px;
         border-radius: 10px;
         padding: 10px 20px 10px 20px;
-        background-color: var(--stdvotecolorbg);
-        color:            var(--stdvotecolorfg);
-        kbd {
-            border-radius: 4px;
-            border: 1px solid var(--stdvotecolorfg);
-            padding: 0 8px 0 8px;
-        }
+        background-color: var(--maxnamecolorbg);
+        color:            var(--maxnamecolorfg);
     }
     .choice {
         margin-top: 10px;
