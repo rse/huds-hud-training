@@ -437,13 +437,14 @@ module.exports = {
         /*  interaction for votes widget  */
         let votesEnabled = false
         Mousetrap.bind("v", (e) => {
-            votesEnabled = !votesEnabled
             huds.send("votes.toggle")
         })
         huds.bind("votes.*", (event, data) => {
             const v = this.$refs.votes
-            if (event === "votes.toggle")
+            if (event === "votes.toggle") {
+                votesEnabled = !votesEnabled
                 v.$emit("votes-toggle")
+            }
             else if (event === "votes.receive")
                 v.$emit("votes-receive", data)
         })
