@@ -36,7 +36,7 @@
                 <i class="fa fa-play-circle"></i>
             </div>
             <div v-if="popup.audio && popup.audioDuration" class="message">
-                (audio message duration: {{ popup.audioDuration.toFixed(1) }}s) &nbsp;
+                 <span class="duration">(audio message duration: <b>{{ popup.audioDuration.toFixed(1) }}</b> sec)</span>
             </div>
             <div v-if="popup.message !== ''" class="message" v-html="popup.message">
             </div>
@@ -85,6 +85,12 @@
             margin-top: 10px;
             font-family: "TypoPRO Fira Sans";
             font-size: 20pt;
+            .duration {
+                font-weight: 200;
+                b {
+                    font-weight: normal;
+                }
+            }
         }
         &.question {
             background-color: var(--questionbackground);
