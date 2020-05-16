@@ -138,7 +138,11 @@
             v-bind:maxvotecolorfg="config.votes.maxvotecolorfg"
             v-bind:stdvotecolorbg="config.votes.stdvotecolorbg"
             v-bind:stdvotecolorfg="config.votes.stdvotecolorfg"
-            v-bind:hint="config.votes.hint"
+            v-bind:hintbool="config.votes.hintbool"
+            v-bind:hintdigit="config.votes.hintdigit"
+            v-bind:hintalpha="config.votes.hintalpha"
+            v-bind:hinttext="config.votes.hinttext"
+            v-bind:hintany="config.votes.hintany"
         ></votes>
         <timer ref="timer" class="timer"
             v-bind:opacity="config.timer.opacity"
@@ -439,11 +443,34 @@ module.exports = {
         Mousetrap.bind("v", (e) => {
             huds.send("votes.toggle")
         })
+        Mousetrap.bind("V b", (e) => {
+            huds.send("votes.type", "bool")
+        })
+        Mousetrap.bind("V d", (e) => {
+            huds.send("votes.type", "digit")
+        })
+        Mousetrap.bind("V a", (e) => {
+            huds.send("votes.type", "alpha")
+        })
+        Mousetrap.bind("V t", (e) => {
+            huds.send("votes.type", "text")
+        })
+        Mousetrap.bind("V *", (e) => {
+            huds.send("votes.type", "any")
+        })
         huds.bind("votes.*", (event, data) => {
             const v = this.$refs.votes
             if (event === "votes.toggle") {
                 votesEnabled = !votesEnabled
                 v.$emit("votes-toggle")
+                if (votesEnabled)
+                    huds.send("voting-begin", {}, "live-receiver")
+                else
+                    huds.send("voting-end", {}, "live-receiver")
+            }
+            else if (event === "votes.type") {
+                v.$emit("votes-type", data)
+                huds.send("voting-type", { type: data }, "live-receiver")
             }
             else if (event === "votes.receive")
                 v.$emit("votes-receive", data)
@@ -509,7 +536,7 @@ module.exports = {
         })
 
         /*  allow attendance widget to be interactively controlled  */
-        Mousetrap.bind("V", (e) => {
+        Mousetrap.bind("A", (e) => {
             huds.send("attendance.animate")
         })
         huds.bind("attendance.animate", () => {

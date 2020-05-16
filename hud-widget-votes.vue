@@ -26,7 +26,12 @@
 
 <template>
     <div v-show="show" v-bind:style="style" class="votes">
-        <div v-if="choices.length === 0" class="await" v-html="hint">
+        <div v-if="choices.length === 0" class="await">
+            <div v-show="type === 'bool'"  v-html="hintbool"></div>
+            <div v-show="type === 'digit'" v-html="hintdigit"></div>
+            <div v-show="type === 'alpha'" v-html="hintalpha"></div>
+            <div v-show="type === 'text'"  v-html="hinttext"></div>
+            <div v-show="type === 'any'"   v-html="hintany"></div>
         </div>
         <div v-for="choice in choices" ref="choice" v-bind:key="choice.i" v-bind:data-i="choice.i" class="choice">
             <div class="name" v-bind:class="{ max: choice.max, invalid: choice.invalid }">
@@ -54,13 +59,18 @@
     flex-direction: column;
     justify-content: flex-end;
     .await {
-        width: 600px;
+        width: 750px;
         font-family: "TypoPRO Fira Sans";
         font-size: 32px;
         border-radius: 10px;
         padding: 10px 20px 10px 20px;
         background-color: var(--maxnamecolorbg);
         color:            var(--maxnamecolorfg);
+        kbd {
+            border-radius: 4px;
+            border: 1px solid var(--stdvotecolorfg);
+            padding: 0 8px 0 8px;
+        }
     }
     .choice {
         margin-top: 10px;
@@ -145,12 +155,17 @@ module.exports = {
         maxvotecolorfg:  { type: String, default: "" },
         stdvotecolorbg:  { type: String, default: "" },
         stdvotecolorfg:  { type: String, default: "" },
-        hint:            { type: String, default: "" }
+        hintbool:        { type: String, default: "" },
+        hintdigit:       { type: String, default: "" },
+        hintalpha:       { type: String, default: "" },
+        hinttext:        { type: String, default: "" },
+        hintany:         { type: String, default: "" }
     },
     data: () => ({
         show:    false,
         choices: [],
         votes:   {},
+        type:    "any",
         timer:   null
     }),
     computed: {
@@ -162,16 +177,19 @@ module.exports = {
             const result = []
 
             /*  determine choices and types  */
-            const found = { bool: 0, digit: 0, alpha: 0, other: 0 }
-            for (const person of Object.keys(this.votes)) {
-                const choice = this.votes[person]
-                if      (choice.match(/^(?:YES|NO)$/)) found.bool++
-                else if (choice.match(/^\d+$/))        found.digit++
-                else if (choice.match(/^[A-Z]$/))      found.alpha++
-                else                                   found.other++
+            let most = this.type
+            if (most === "any") {
+                const found = { bool: 0, digit: 0, alpha: 0, other: 0 }
+                for (const person of Object.keys(this.votes)) {
+                    const choice = this.votes[person]
+                    if      (choice.match(/^(?:YES|NO)$/)) found.bool++
+                    else if (choice.match(/^\d+$/))        found.digit++
+                    else if (choice.match(/^[A-Z]$/))      found.alpha++
+                    else                                   found.other++
+                }
+                most = Object.keys(this.votes).length > 0 ?
+                    Object.keys(found).sort((a, b) => found[b] - found[a])[0] : ""
             }
-            const most = Object.keys(this.votes).length > 0 ?
-                Object.keys(found).sort((a, b) => found[b] - found[a])[0] : ""
 
             /*  dispatch according to type  */
             if (most === "bool") {
@@ -318,9 +336,15 @@ module.exports = {
                 soundfx.play("beep3")
                 this.choices = []
                 this.votes   = {}
+                this.type    = "any"
             }
             else
                 soundfx.play("whoosh2")
+        })
+
+        /*  force a voting type  */
+        this.$on("votes-type", (type) => {
+            this.type = type
         })
 
         /*  receive a single vote  */

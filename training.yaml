@@ -136,7 +136,11 @@ votes:
     maxvotecolorfg:        "#666666"
     stdvotecolorbg:        "#f0f0f0"
     stdvotecolorfg:        "#999999"
-    hint:                  "Please give your vote to the trainer now<br/>by sending your vote as a message!"
+    hintbool:              "Please give your boolean vote to the trainer now<br/>by sending the choices <kbd>yes</kbd> or <kbd>no</kbd>."
+    hintdigit:             "Please give your numeric vote to the trainer now<br/>by sending the choices <kbd>1</kbd> <kbd>2</kbd>, <kbd>3</kbd>, ..."
+    hintalpha:             "Please give your alphabetic vote to the trainer now<br/>by sending the choices <kbd>a</kbd> <kbd>b</kbd>, <kbd>c</kbd>, ..."
+    hinttext:              "Please give your textual vote to the trainer now<br/>by sending your vote as a text message."
+    hintany:               "Please give your vote to the trainer now<br/>by sending your vote as a message."
 
 banner:
     opacity:               0.80
