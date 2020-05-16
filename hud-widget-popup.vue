@@ -35,6 +35,9 @@
             <div v-if="popup.audio" v-bind:class="{ audio: true, audioOnly: popup.message === '' }">
                 <i class="fa fa-play-circle"></i>
             </div>
+            <div v-if="popup.audio && popup.audioDuration" class="message">
+                (audio message duration: {{ popup.audioDuration.toFixed(1) }}s) &nbsp;
+            </div>
             <div v-if="popup.message !== ''" class="message" v-html="popup.message">
             </div>
         </div>
@@ -130,6 +133,13 @@ module.exports = {
     methods: {
         /*  add a popup box  */
         async addBox (data) {
+            if (data.audio) {
+                const ac = new AudioContext()
+                const blob = await (await fetch(data.audio)).blob()
+                let arrayBuffer = await blob.arrayBuffer()
+                let audioBuffer = await ac.decodeAudioData(arrayBuffer)
+                data.audioDuration = audioBuffer.duration
+            }
             return new Promise((resolve, reject) => {
                 this.popups.unshift(data)
                 this.$nextTick(() => {
