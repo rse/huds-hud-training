@@ -33,7 +33,12 @@
                 {{ popup.title }}
             </div>
             <div v-if="popup.audio" v-bind:class="{ audio: true, audioOnly: popup.message === '' }">
-                <i class="fa fa-play-circle"></i>
+                <div v-show="!popup.audioPlaying">
+                    <i class="fa fa-play-circle"></i>
+                </div>
+                <div v-show="popup.audioPlaying">
+                    <i class="fa fa-stop-circle"></i>
+                </div>
             </div>
             <div v-if="popup.audio && popup.audioDuration" class="message">
                  <span class="duration">(audio message duration: <b>{{ popup.audioDuration.toFixed(1) }}</b> sec)</span>
@@ -77,7 +82,7 @@
             margin-bottom: 2px;
         }
         .audio.audioOnly {
-            font-size: 80pt;
+            font-size: 70pt;
         }
         .message {
             display: block;
@@ -145,6 +150,7 @@ module.exports = {
                 let arrayBuffer = await blob.arrayBuffer()
                 let audioBuffer = await ac.decodeAudioData(arrayBuffer)
                 data.audioDuration = audioBuffer.duration
+                data.audioPlaying = false
             }
             return new Promise((resolve, reject) => {
                 this.popups.unshift(data)
@@ -190,6 +196,12 @@ module.exports = {
             const audioElement = new Audio()
             audioElement.src = data.audio
             audioElement.volume = 1.0
+            data.audioPlaying = true
+            this.$forceUpdate()
+            audioElement.addEventListener("ended", () => {
+                data.audioPlaying = false
+                this.$forceUpdate()
+            })
             audioElement.play()
         },
 
