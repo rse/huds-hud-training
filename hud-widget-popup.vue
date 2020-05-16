@@ -32,7 +32,7 @@
             <div v-if="popup.title" class="title">
                 {{ popup.title }}
             </div>
-            <div v-if="popup.audio" v-bind:class="{ audio: true, audioOnly: popup.message === '' }">
+            <div v-if="popup.audio" v-bind:class="{ audio: true, audioOnly: popup.text === '' }">
                 <div v-show="!popup.audioPlaying">
                     <i class="fa fa-play-circle"></i>
                 </div>
@@ -43,7 +43,7 @@
             <div v-if="popup.audio && popup.audioDuration" class="message">
                  <span class="duration">(audio message duration: <b>{{ popup.audioDuration.toFixed(1) }}</b> sec)</span>
             </div>
-            <div v-if="popup.message !== ''" class="message" v-html="popup.message">
+            <div v-if="popup.text !== ''" class="message" v-html="popup.text">
             </div>
         </div>
     </div>
@@ -147,8 +147,8 @@ module.exports = {
             if (data.audio) {
                 const ac = new AudioContext()
                 const blob = await (await fetch(data.audio)).blob()
-                let arrayBuffer = await blob.arrayBuffer()
-                let audioBuffer = await ac.decodeAudioData(arrayBuffer)
+                const arrayBuffer = await blob.arrayBuffer()
+                const audioBuffer = await ac.decodeAudioData(arrayBuffer)
                 data.audioDuration = audioBuffer.duration
                 data.audioPlaying = false
             }
@@ -233,7 +233,7 @@ module.exports = {
 
                     /*  animate all the remaining popups into their new target position  */
                     let i = 0
-                    let promises = []
+                    const promises = []
                     for (const el of others.reverse()) {
                         /*  determine old and new position  */
                         const posOld = parseInt(el.style.bottom.toString().replace(/px$/, ""))
@@ -278,7 +278,7 @@ module.exports = {
         /*  queue worker loop  */
         const progress = async () => {
             while (this.queue.length > 0) {
-                let cmd = this.queue.shift()
+                const cmd = this.queue.shift()
                 try {
                     await this[cmd.method](...cmd.args)
                 }

@@ -435,7 +435,9 @@ module.exports = {
         }
 
         /*  interaction for votes widget  */
+        let votesEnabled = false
         Mousetrap.bind("v", (e) => {
+            votesEnabled = !votesEnabled
             huds.send("votes.toggle")
         })
         huds.bind("votes.*", (event, data) => {
@@ -467,19 +469,19 @@ module.exports = {
         })
 
         /*  receive messages from a companion chat  */
-        huds.bind("chat", (event, data) => {
+        huds.bind("message", (event, data) => {
             /*  just react on correctly structured messages  */
             if (!(   (typeof data.title === "string" && data.title !== "")
-                  && (typeof data.message === "string")                   ))
+                  && (typeof data.text === "string")))
                 return
 
             /*  filter message markup  */
-            data.message = data.message
+            data.text = data.text
                 .replace(/&nbsp;/g, " ")
                 .replace(/\s+/g, " ")
                 .replace(/^\s+/, "")
                 .replace(/\s+$/, "")
-            data.message = data.message.replace(/<([a-z][a-zA-Z0-9:-]*)(?:\s+="[^""]*")*\s*>(.*?)<\/\1>/g, (_, tag, body) => {
+            data.text = data.text.replace(/<([a-z][a-zA-Z0-9:-]*)(?:\s+="[^""]*")*\s*>(.*?)<\/\1>/g, (_, tag, body) => {
                 if (tag.match(/^(?:strong|em|u|s|b|i)$/))
                     return `<${tag}>${body}</${tag}>`
                 else
@@ -487,16 +489,15 @@ module.exports = {
             })
 
             /*  react on particular message types  */
-            let m
-            if ((m = data.message.match(/^#(\S+)$/)) !== null) {
+            if (votesEnabled) {
                 const v = this.$refs.votes
-                v.$emit("votes-receive", { person: data.title, choice: m[1] })
+                v.$emit("votes-receive", { person: data.title, choice: data.text })
             }
-            else if ((m = data.message.match(/^(.+?)\?$/)) !== null) {
+            else if (data.text.match(/^(.+?)\?$/)) {
                 const a = this.$refs.popup
                 a.$emit("popup-add", { ...data, type: "question" })
             }
-            else if ((m = data.message.match(/^(.+?)!$/)) !== null) {
+            else if (data.text.match(/^(.+?)!$/)) {
                 const a = this.$refs.popup
                 a.$emit("popup-add", { ...data, type: "objection" })
             }
@@ -507,7 +508,7 @@ module.exports = {
         })
 
         /*  allow attendance widget to be interactively controlled  */
-        Mousetrap.bind("v", (e) => {
+        Mousetrap.bind("V", (e) => {
             huds.send("attendance.animate")
         })
         huds.bind("attendance.animate", () => {
