@@ -57,6 +57,8 @@ globals:
     hashTagSimilarity: true
     moment:        true
     Audio:         true
+    AudioContext:  true
+    fetch:         true
 
 rules:
     #   modified rules
