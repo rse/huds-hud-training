@@ -27,11 +27,10 @@
 <template>
     <div v-show="show" v-bind:style="style" class="votes">
         <div v-if="choices.length === 0" class="await">
-            <div v-show="type === 'bool'"  v-html="hintbool"></div>
-            <div v-show="type === 'digit'" v-html="hintdigit"></div>
-            <div v-show="type === 'alpha'" v-html="hintalpha"></div>
-            <div v-show="type === 'text'"  v-html="hinttext"></div>
-            <div v-show="type === 'any'"   v-html="hintany"></div>
+            <div v-show="type === 'judge'"    v-html="hintjudge"></div>
+            <div v-show="type === 'evaluate'" v-html="hintevaluate"></div>
+            <div v-show="type === 'choose'"   v-html="hintchoose"></div>
+            <div v-show="type === 'propose'"  v-html="hintpropose"></div>
         </div>
         <div v-for="choice in choices" ref="choice" v-bind:key="choice.i" v-bind:data-i="choice.i" class="choice">
             <div class="name" v-bind:class="{ max: choice.max, invalid: choice.invalid }">
@@ -59,17 +58,18 @@
     flex-direction: column;
     justify-content: flex-end;
     .await {
-        width: 750px;
+        width: 820px;
         font-family: "TypoPRO Fira Sans";
         font-size: 32px;
         border-radius: 10px;
-        padding: 10px 20px 10px 20px;
+        padding: 10px 30px 10px 30px;
         background-color: var(--maxnamecolorbg);
         color:            var(--maxnamecolorfg);
         kbd {
             border-radius: 4px;
-            border: 1px solid var(--stdvotecolorfg);
+            border: 1px solid var(--maxnamecolorfg);
             padding: 0 8px 0 8px;
+            margin: 0 2px 0 2px;
         }
     }
     .choice {
@@ -155,17 +155,16 @@ module.exports = {
         maxvotecolorfg:  { type: String, default: "" },
         stdvotecolorbg:  { type: String, default: "" },
         stdvotecolorfg:  { type: String, default: "" },
-        hintbool:        { type: String, default: "" },
-        hintdigit:       { type: String, default: "" },
-        hintalpha:       { type: String, default: "" },
-        hinttext:        { type: String, default: "" },
-        hintany:         { type: String, default: "" }
+        hintjudge:       { type: String, default: "" },
+        hintevaluate:    { type: String, default: "" },
+        hintchoose:      { type: String, default: "" },
+        hintpropose:     { type: String, default: "" },
     },
     data: () => ({
         show:    false,
         choices: [],
         votes:   {},
-        type:    "any",
+        type:    "propose",
         timer:   null
     }),
     computed: {
@@ -176,24 +175,9 @@ module.exports = {
         recalc () {
             const result = []
 
-            /*  determine choices and types  */
-            let most = this.type
-            if (most === "any") {
-                const found = { bool: 0, digit: 0, alpha: 0, other: 0 }
-                for (const person of Object.keys(this.votes)) {
-                    const choice = this.votes[person]
-                    if      (choice.match(/^(?:YES|NO)$/)) found.bool++
-                    else if (choice.match(/^\d+$/))        found.digit++
-                    else if (choice.match(/^[A-Z]$/))      found.alpha++
-                    else                                   found.other++
-                }
-                most = Object.keys(this.votes).length > 0 ?
-                    Object.keys(found).sort((a, b) => found[b] - found[a])[0] : ""
-            }
-
             /*  dispatch according to type  */
-            if (most === "bool") {
-                /*  handle boolean choices only  */
+            if (this.type === "judge") {
+                /*  handle judge/boolean choices only  */
                 const choices = { yes: 0, no: 0, invalid: 0 }
                 for (const person of Object.keys(this.votes)) {
                     const choice = this.votes[person]
@@ -205,13 +189,13 @@ module.exports = {
                 if (choices.no > 0)      result.push({ name: "No",        voters: choices.no })
                 if (choices.invalid > 0) result.push({ name: "(Invalid)", voters: choices.invalid })
             }
-            else if (most === "digit") {
-                /*  handle digit choices only  */
+            else if (this.type === "evaluate") {
+                /*  handle evaluate/numeric choices only  */
                 const choices = {}
                 let invalid = 0
                 for (const person of Object.keys(this.votes)) {
                     const choice = this.votes[person]
-                    if (choice.match(/^\d+$/)) {
+                    if (choice.match(/^(?:-2|-1|0|\+1|\+2)$/)) {
                         if (choices[choice] === undefined)
                             choices[choice] = 0
                         choices[choice]++
@@ -224,13 +208,13 @@ module.exports = {
                 if (invalid > 0)
                     result.push({ name: "(Invalid)", voters: invalid })
             }
-            else if (most === "alpha") {
-                /*  handle alpha choices only  */
+            else if (this.type === "choose") {
+                /*  handle choose/numeric choices only  */
                 const choices = {}
                 let invalid = 0
                 for (const person of Object.keys(this.votes)) {
                     const choice = this.votes[person]
-                    if (choice.match(/^[A-Z]$/)) {
+                    if (choice.match(/^[1-9]$/)) {
                         if (choices[choice] === undefined)
                             choices[choice] = 0
                         choices[choice]++
@@ -238,13 +222,13 @@ module.exports = {
                     else
                         invalid++
                 }
-                for (const choice of Object.keys(choices).sort((a, b) => a.localeCompare(b)))
+                for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b)))
                     result.push({ name: choice, voters: choices[choice] })
                 if (invalid > 0)
                     result.push({ name: "(Invalid)", voters: invalid })
             }
-            else {
-                /*  handle arbitrary choices  */
+            else if (this.type === "propose") {
+                /*  handle propose/textual choices  */
 
                 /*  determine votes  */
                 let votes = {}
@@ -336,7 +320,7 @@ module.exports = {
                 soundfx.play("beep3")
                 this.choices = []
                 this.votes   = {}
-                this.type    = "any"
+                this.type    = "propose"
             }
             else
                 soundfx.play("whoosh2")

@@ -138,11 +138,10 @@
             v-bind:maxvotecolorfg="config.votes.maxvotecolorfg"
             v-bind:stdvotecolorbg="config.votes.stdvotecolorbg"
             v-bind:stdvotecolorfg="config.votes.stdvotecolorfg"
-            v-bind:hintbool="config.votes.hintbool"
-            v-bind:hintdigit="config.votes.hintdigit"
-            v-bind:hintalpha="config.votes.hintalpha"
-            v-bind:hinttext="config.votes.hinttext"
-            v-bind:hintany="config.votes.hintany"
+            v-bind:hintjudge="config.votes.hintjudge"
+            v-bind:hintevaluate="config.votes.hintevaluate"
+            v-bind:hintchoose="config.votes.hintchoose"
+            v-bind:hintpropose="config.votes.hintpropose"
         ></votes>
         <timer ref="timer" class="timer"
             v-bind:opacity="config.timer.opacity"
@@ -443,20 +442,17 @@ module.exports = {
         Mousetrap.bind("v", (e) => {
             huds.send("votes.toggle")
         })
-        Mousetrap.bind("V b", (e) => {
-            huds.send("votes.type", "bool")
+        Mousetrap.bind("V j", (e) => {
+            huds.send("votes.type", "judge")
         })
-        Mousetrap.bind("V d", (e) => {
-            huds.send("votes.type", "digit")
+        Mousetrap.bind("V e", (e) => {
+            huds.send("votes.type", "evaluate")
         })
-        Mousetrap.bind("V a", (e) => {
-            huds.send("votes.type", "alpha")
+        Mousetrap.bind("V c", (e) => {
+            huds.send("votes.type", "choose")
         })
-        Mousetrap.bind("V t", (e) => {
-            huds.send("votes.type", "text")
-        })
-        Mousetrap.bind("V *", (e) => {
-            huds.send("votes.type", "any")
+        Mousetrap.bind("V p", (e) => {
+            huds.send("votes.type", "propose")
         })
         huds.bind("votes.*", (event, data) => {
             const v = this.$refs.votes

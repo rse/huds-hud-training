@@ -136,11 +136,10 @@ votes:
     maxvotecolorfg:        "#666666"
     stdvotecolorbg:        "#f0f0f0"
     stdvotecolorfg:        "#999999"
-    hintbool:              "Please give your boolean vote to the trainer now<br/>by sending the choices <kbd>yes</kbd> or <kbd>no</kbd>."
-    hintdigit:             "Please give your numeric vote to the trainer now<br/>by sending the choices <kbd>1</kbd> <kbd>2</kbd>, <kbd>3</kbd>, ..."
-    hintalpha:             "Please give your alphabetic vote to the trainer now<br/>by sending the choices <kbd>a</kbd> <kbd>b</kbd>, <kbd>c</kbd>, ..."
-    hinttext:              "Please give your textual vote to the trainer now<br/>by sending your vote as a text message."
-    hintany:               "Please give your vote to the trainer now<br/>by sending your vote as a message."
+    hintjudge:             "Please <i>judge</i> with a <i>boolean</i> vote now<br/>by selecting one of the choices <kbd>Yes</kbd> or <kbd>No</kbd>!"
+    hintevaluate:          "Please <i>evaluate</i> with a <i>positional</i> vote now<br/>by selecting one of the choices <kbd>-2</kbd>, <kbd>-1</kbd>, <kbd>0</kbd>, <kbd>+1</kbd>, <kbd>+2</kbd>!"
+    hintchoose:            "Please <i>choose</i> with a <i>numeric</i> vote now<br/>by selecting one of the choices <kbd>1</kbd>, <kbd>2</kbd>, ..., <kbd>9</kbd>!"
+    hintpropose:           "Please <i>propose</i> with a <i>textual</i> vote now<br/>by sending your proposal as a single word <kbd>XYZ...</kbd>!"
 
 banner:
     opacity:               0.80
