@@ -22,6 +22,9 @@
 ##  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ##
 
+id:
+    peer:                  "training-peer"
+
 title:
     opacity:               0.80
     background:            "#336699"

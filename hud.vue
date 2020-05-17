@@ -443,30 +443,32 @@ module.exports = {
             huds.send("votes.toggle")
         })
         Mousetrap.bind("V j", (e) => {
-            huds.send("votes.type", "judge")
+            huds.send("votes.type.judge")
         })
         Mousetrap.bind("V e", (e) => {
-            huds.send("votes.type", "evaluate")
+            huds.send("votes.type.evaluate")
         })
         Mousetrap.bind("V c", (e) => {
-            huds.send("votes.type", "choose")
+            huds.send("votes.type.choose")
         })
         Mousetrap.bind("V p", (e) => {
-            huds.send("votes.type", "propose")
+            huds.send("votes.type.propose")
         })
         huds.bind("votes.*", (event, data) => {
+            let m
             const v = this.$refs.votes
             if (event === "votes.toggle") {
                 votesEnabled = !votesEnabled
                 v.$emit("votes-toggle")
                 if (votesEnabled)
-                    huds.send("voting-begin", {}, "live-receiver")
+                    huds.send("voting-begin", {}, this.config.id.peer)
                 else
-                    huds.send("voting-end", {}, "live-receiver")
+                    huds.send("voting-end", {}, this.config.id.peer)
             }
-            else if (event === "votes.type") {
-                v.$emit("votes-type", data)
-                huds.send("voting-type", { type: data }, "live-receiver")
+            else if ((m = event.match(/^votes\.type\.(.+)$/)) !== null) {
+                let [ , type ] = m
+                v.$emit("votes-type", type)
+                huds.send("voting-type", { type }, this.config.id.peer)
             }
             else if (event === "votes.receive")
                 v.$emit("votes-receive", data)
