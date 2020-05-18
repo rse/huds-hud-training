@@ -145,9 +145,18 @@ module.exports = {
         /*  add a popup box  */
         async addBox (data) {
             if (data.audio) {
+                const dataURItoArrayBuffer = (dataURI) => {
+                    dataURI = dataURI.split(",")
+                    let byteString = window.atob(dataURI[1])
+                    let byteStringLen = byteString.length
+                    let ab = new ArrayBuffer(byteStringLen)
+                    let intArray = new Uint8Array(ab)
+                    for (let i = 0; i < byteStringLen; i++)
+                        intArray[i] = byteString.charCodeAt(i)
+                    return ab
+                }
                 const ac = new AudioContext()
-                const blob = await (await fetch(data.audio)).blob()
-                const arrayBuffer = await blob.arrayBuffer()
+                const arrayBuffer = dataURItoArrayBuffer(data.audio)
                 const audioBuffer = await ac.decodeAudioData(arrayBuffer)
                 data.audioDuration = audioBuffer.duration
                 data.audioPlaying = false
