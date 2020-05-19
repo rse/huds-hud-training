@@ -147,10 +147,10 @@ module.exports = {
             if (data.audio) {
                 const dataURItoArrayBuffer = (dataURI) => {
                     dataURI = dataURI.split(",")
-                    let byteString = window.atob(dataURI[1])
-                    let byteStringLen = byteString.length
-                    let ab = new ArrayBuffer(byteStringLen)
-                    let intArray = new Uint8Array(ab)
+                    const byteString = window.atob(dataURI[1])
+                    const byteStringLen = byteString.length
+                    const ab = new ArrayBuffer(byteStringLen)
+                    const intArray = new Uint8Array(ab)
                     for (let i = 0; i < byteStringLen; i++)
                         intArray[i] = byteString.charCodeAt(i)
                     return ab

@@ -158,7 +158,7 @@ module.exports = {
         hintjudge:       { type: String, default: "" },
         hintevaluate:    { type: String, default: "" },
         hintchoose:      { type: String, default: "" },
-        hintpropose:     { type: String, default: "" },
+        hintpropose:     { type: String, default: "" }
     },
     data: () => ({
         show:    false,
