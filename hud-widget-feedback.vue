@@ -225,7 +225,7 @@ module.exports = {
                             loop:      false,
                             autoplay:  true
                         })
-                        tl.add({ duration: 5000, easing: "easeInOutSine", rotate: [ 0, 360 ] }, 0)
+                        tl.add({ duration: 5300, easing: "easeInOutSine", rotate: [ 0, 360 ] }, 0)
                         tl.add({ duration: 1000, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: [ -200, 700 ] }, 0)
                         tl.add({ duration: 1000, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 }, 1000)
                         tl.add({ duration:  750, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 500 }, 2000)
@@ -234,6 +234,8 @@ module.exports = {
                         tl.add({ duration:  500, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 }, 4000)
                         tl.add({ duration:  250, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 100 }, 4500)
                         tl.add({ duration:  250, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 }, 4750)
+                        tl.add({ duration:  150, easing: "cubicBezier(0.0,0.5,0.3,1.0)", bottom: 25 }, 5000)
+                        tl.add({ duration:  150, easing: "cubicBezier(0.5,0.0,1.0,0.3)", bottom: 0 }, 5150)
                         tl.finished.then(() => {
                             item.coming = false
                         })
