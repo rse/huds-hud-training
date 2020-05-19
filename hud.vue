@@ -25,7 +25,7 @@
 -->
 
 <template>
-    <div class="hud">
+    <div class="hud" v-bind:class="{ minimize: minimize }">
         <background v-if="debug" ref="background" class="background"
         ></background>
         <title-bar ref="titleBar" class="title"
@@ -67,8 +67,10 @@
             v-bind:opacity="config.feeling.opacity"
             v-bind:background="config.feeling.background"
             v-bind:textcolor="config.feeling.textcolor"
+            v-bind:bordercolor="config.feeling.bordercolor"
             v-bind:legendcolor="config.feeling.legendcolor"
-            v-bind:barcolor="config.feeling.barcolor"
+            v-bind:stdbarcolor="config.feeling.stdbarcolor"
+            v-bind:maxbarcolor="config.feeling.maxbarcolor"
             v-bind:c1color="config.feeling.c1color"
             v-bind:c2color="config.feeling.c2color"
             v-bind:c3color="config.feeling.c3color"
@@ -213,7 +215,7 @@ body {
     > .feeling {
         position: absolute;
         right: 170px;
-        bottom: 80px;
+        bottom: 100px;
         width: 540px;
     }
     > .progress {
@@ -233,15 +235,15 @@ body {
     > .feedback {
         position: absolute;
         right: 50px;
-        bottom: 90px;
+        bottom: 100px;
         width: 400px;
     }
     > .agenda {
         position: absolute;
-        top: 10px;
-        left: 10px;
+        top: 30px;
+        left: 30px;
         width: auto;
-        height: calc(100% - 60px - 100px);
+        height: calc(100% - 150px);
     }
     > .closure {
         position: absolute;
@@ -274,6 +276,43 @@ body {
         bottom: 120px;
         left:   30px;
     }
+    &.minimize {
+        > .attendance {
+            display: none;
+        }
+        > .title {
+            display: none;
+        }
+        > .progress {
+            display: none;
+        }
+        > .logo {
+            display: none;
+        }
+        > .feeling {
+            bottom: 30px;
+        }
+        > .feedback {
+            bottom: 20px;
+        }
+        > .agenda {
+            height: calc(100% - 60px);
+        }
+        > .popup {
+            bottom: 30px;
+            height: calc(100vh - 30px);
+        }
+        > .votes {
+            bottom: 30px;
+            height: calc(100vh - 30px);
+        }
+        > .timer {
+            bottom: 30px;
+        }
+        > .latency {
+            bottom: 30px;
+        }
+    }
 }
 </style>
 
@@ -281,10 +320,11 @@ body {
 module.exports = {
     name: "hud",
     data: () => ({
-        config: huds.config(),
-        debug:  huds.options.debug,
-        banner: null,
-        logo:   null
+        config:   huds.config(),
+        debug:    huds.options.debug,
+        banner:   null,
+        logo:     null,
+        minimize: false
     }),
     components: {
         "background":   "url:hud-widget-background.vue",
@@ -303,6 +343,14 @@ module.exports = {
         "latency":      "url:hud-widget-latency.vue"
     },
     created () {
+        /*  interaction for logo */
+        Mousetrap.bind("m", (e) => {
+            huds.send("minimize.toggle")
+        })
+        huds.bind("minimize.toggle", (event, data) => {
+            this.minimize = !this.minimize
+        })
+
         /*  interaction for logo */
         Mousetrap.bind("l", (e) => {
             huds.send("logo.animate")

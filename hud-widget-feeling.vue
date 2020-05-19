@@ -29,11 +29,11 @@
         <div v-show="show" class="bar">
             <div class="feeling challenge">
                 <div class="cols">
-                    <div data-type="challenge" data-val="1" class="col"></div>
-                    <div data-type="challenge" data-val="2" class="col"></div>
-                    <div data-type="challenge" data-val="3" class="col"></div>
-                    <div data-type="challenge" data-val="4" class="col"></div>
-                    <div data-type="challenge" data-val="5" class="col"></div>
+                    <div data-type="challenge" data-val="1" v-bind:class="{ col: true, max: cols.challenge[1].max }"></div>
+                    <div data-type="challenge" data-val="2" v-bind:class="{ col: true, max: cols.challenge[2].max }"></div>
+                    <div data-type="challenge" data-val="3" v-bind:class="{ col: true, max: cols.challenge[3].max }"></div>
+                    <div data-type="challenge" data-val="4" v-bind:class="{ col: true, max: cols.challenge[4].max }"></div>
+                    <div data-type="challenge" data-val="5" v-bind:class="{ col: true, max: cols.challenge[5].max }"></div>
                 </div>
                 <div class="legend">
                     <div class="l1">{{ cols.challenge[1].count }}</div>
@@ -48,11 +48,11 @@
             </div>
             <div class="feeling mood">
                 <div class="cols">
-                    <div data-type="mood" data-val="1" class="col"></div>
-                    <div data-type="mood" data-val="2" class="col"></div>
-                    <div data-type="mood" data-val="3" class="col"></div>
-                    <div data-type="mood" data-val="4" class="col"></div>
-                    <div data-type="mood" data-val="5" class="col"></div>
+                    <div data-type="mood" data-val="1" v-bind:class="{ col: true, max: cols.mood[1].max }"></div>
+                    <div data-type="mood" data-val="2" v-bind:class="{ col: true, max: cols.mood[2].max }"></div>
+                    <div data-type="mood" data-val="3" v-bind:class="{ col: true, max: cols.mood[3].max }"></div>
+                    <div data-type="mood" data-val="4" v-bind:class="{ col: true, max: cols.mood[4].max }"></div>
+                    <div data-type="mood" data-val="5" v-bind:class="{ col: true, max: cols.mood[5].max }"></div>
                 </div>
                 <div class="legend">
                     <div class="l1">{{ cols.mood[1].count }}</div>
@@ -74,6 +74,7 @@
     opacity: var(--opacity);
     .bar {
         margin: 20px;
+        margin-bottom: 0;
         border-radius: 8px;
         padding: 8px;
         background-color: var(--background);
@@ -97,9 +98,12 @@
                 align-items: flex-end;
                 .col {
                     width: 20%;
-                    background-color: var(--barcolor);
                     margin-right: 4px;
                     border-radius: 4px;
+                    background-color: var(--stdbarcolor);
+                    &.max {
+                        background-color: var(--maxbarcolor);
+                    }
                 }
                 .col:last-child {
                     margin-right: 0px;
@@ -110,6 +114,7 @@
                 height: 24px;
                 display: flex;
                 flex-direction: row;
+                border: 1px solid var(--bordercolor);
                 .l1, .l2, .l3, .l4, .l5 {
                     height: 24px;
                     width: 20%;
@@ -157,8 +162,10 @@ module.exports = {
         opacity:     { type: Number, default: 1.0 },
         background:  { type: String, default: "" },
         textcolor:   { type: String, default: "" },
+        bordercolor: { type: String, default: "" },
         legendcolor: { type: String, default: "" },
-        barcolor:    { type: String, default: "" },
+        stdbarcolor: { type: String, default: "" },
+        maxbarcolor: { type: String, default: "" },
         c1color:     { type: String, default: "" },
         c2color:     { type: String, default: "" },
         c3color:     { type: String, default: "" },
@@ -175,18 +182,18 @@ module.exports = {
         feelings: {},
         cols:     {
             challenge: {
-                1: { count: 0, height: 0 },
-                2: { count: 0, height: 0 },
-                3: { count: 0, height: 0 },
-                4: { count: 0, height: 0 },
-                5: { count: 0, height: 0 }
+                1: { count: 0, height: 0, max: false },
+                2: { count: 0, height: 0, max: false },
+                3: { count: 0, height: 0, max: false },
+                4: { count: 0, height: 0, max: false },
+                5: { count: 0, height: 0, max: false }
             },
             mood: {
-                1: { count: 0, height: 0 },
-                2: { count: 0, height: 0 },
-                3: { count: 0, height: 0 },
-                4: { count: 0, height: 0 },
-                5: { count: 0, height: 0 }
+                1: { count: 0, height: 0, max: false },
+                2: { count: 0, height: 0, max: false },
+                3: { count: 0, height: 0, max: false },
+                4: { count: 0, height: 0, max: false },
+                5: { count: 0, height: 0, max: false }
             }
         },
         timer1: null,
@@ -213,11 +220,12 @@ module.exports = {
                     if (max < this.cols[name][val].count)
                         max = this.cols[name][val].count
 
-                /*  determine individual heights  */
+                /*  determine individual heights and mark maximums  */
                 for (let val = 1; val <= 5; val++) {
                     this.cols[name][val].height = (max === 0 ? "0%" : Math.ceil(
                         (this.cols[name][val].count / max) * 100
                     ) + "%")
+                    this.cols[name][val].max = (this.cols[name][val].count === max)
                 }
             }
             recalcFeeling("challenge")

@@ -62,9 +62,11 @@ feedback:
 
 feeling:
     opacity:               0.80
-    background:            "#333333"
-    textcolor:             "#e0e0e0"
-    barcolor:              "#f0f0f0"
+    background:            "#336699"
+    textcolor:             "#e0f0ff"
+    stdbarcolor:           "#d0e0f0"
+    maxbarcolor:           "#ffffff"
+    bordercolor:           "#99ccff"
     legendcolor:           "#ffffff"
     c1color:               "#b06820"
     c2color:               "#909090"

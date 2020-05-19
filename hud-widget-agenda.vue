@@ -49,7 +49,6 @@
     .canvas {
         opacity: 0;
         height: 100%;
-        margin: 20px;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -150,7 +149,7 @@ module.exports = {
                 setTimeout(() => soundfx.play("whoosh3"), 200)
                 tl.add({
                     easing:     "cubicBezier(0.570, 0.000, 0.340, 1.390)",
-                    translateX: [ -(20 + this.$el.clientWidth), 0 ],
+                    translateX: [ -(30 + this.$el.clientWidth), 0 ],
                     opacity:    [ 1.0, 1.0 ]
                 })
             }
@@ -160,7 +159,7 @@ module.exports = {
                 setTimeout(() => soundfx.play("whoosh3"), 500)
                 tl.add({
                     easing:     "cubicBezier(0.625, -0.480, 0.505, 1.000)",
-                    translateX: [ 0, -(20 + this.$el.clientWidth) ],
+                    translateX: [ 0, -(30 + this.$el.clientWidth) ],
                     opacity:    [ 1.0, 1.0 ]
                 })
             }
