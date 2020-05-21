@@ -171,12 +171,17 @@ module.exports = {
         this.timer = setInterval(() => {
             /*  expire attendees not seen recently
                 (refresh usually every 30s, but we accept also up to 60s)  */
+            let changed = false
             const now = (new Date()).getTime()
             for (const client of Object.keys(this.attendees)) {
                 const seen = this.attendees[client].seen
-                if (seen + ((4 * 60 + 4) * 1000) < now)
+                if (seen + ((4 * 60 + 4) * 1000) < now) {
                     delete this.attendees[client]
+                    changed = true
+                }
             }
+            if (changed)
+                this.recalc()
         }, 2 * 1000)
 
         /*  toggle agenda on/off  */
