@@ -68,6 +68,7 @@
             v-bind:background="config.attendees.background"
             v-bind:namecolorbg="config.attendees.namecolorbg"
             v-bind:namecolorfg="config.attendees.namecolorfg"
+            v-bind:noattendeestext="config.attendees.noattendeestext"
         ></attendees>
         <feeling ref="feeling" class="feeling"
             v-bind:opacity="config.feeling.opacity"

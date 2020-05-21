@@ -27,11 +27,14 @@
 <template>
     <div v-bind:style="style" class="attendees">
         <div ref="canvas" class="canvas">
-            <div v-for="(cell, i) in cells"
+            <div v-if="cells.length > 0" v-for="(cell, i) in cells"
                 v-bind:key="i"
                 class="cell">
                 <img class="image" v-bind:src="cell.image" alt="" />
                 <div class="name">{{ cell.name }}</div>
+            </div>
+            <div v-if="cells.length == 0" class="noattendees">
+                {{ noattendeestext }}
             </div>
         </div>
         <resize-observer v-on:notify="handleResize" />
@@ -83,6 +86,15 @@
                 max-width: 80%;
             }
         }
+        .noattendees {
+            font-family: "TypoPRO Fira Sans";
+            font-size: 24pt;
+            color: var(--namecolorfg);
+            position: absolute;
+            top: 45%;
+            width: 100%;
+            text-align: center;
+        }
     }
 }
 </style>
@@ -91,10 +103,11 @@
 module.exports = {
     name: "attendees",
     props: {
-        opacity:     { type: Number, default: 1.0 },
-        background:  { type: String, default: "" },
-        namecolorbg: { type: String, default: "" },
-        namecolorfg: { type: String, default: "" }
+        opacity:         { type: Number, default: 1.0 },
+        background:      { type: String, default: "" },
+        namecolorbg:     { type: String, default: "" },
+        namecolorfg:     { type: String, default: "" },
+        noattendeestext: { type: String, default: "" }
     },
     data: () => ({
         enabled:      false,
