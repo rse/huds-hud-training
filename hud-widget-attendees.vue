@@ -118,16 +118,21 @@ module.exports = {
             this.recalc()
         },
         recalc () {
+            /*  ensure we have the canvas available  */
             if (!(this.$refs && this.$refs.canvas))
                 return
+
+            /*  determine all potential cells  */
             let cells = Object.keys(this.attendees)
                 .map((client) => this.attendees[client])
                 .sort((a, b) => b.seen - a.seen)
 
+            /*  determine canvas size (can differ on minimize HUD view)  */
             const el = this.$refs.canvas
-            const H = el.clientHeight - 4
+            const H  = el.clientHeight - 4
             const W = el.clientWidth  - 4
 
+            /*  determine maximum cell size  */
             let k = cells.length
             const b = 4 + 4
             const S = 30
@@ -139,13 +144,18 @@ module.exports = {
                     break
                 s -= 1
             }
+
+            /*  if cell size would have to be further reduced,
+                truncate the number of cells instead  */
             if (s === S) {
                 const nx = Math.floor(W / (s + b))
                 const ny = Math.ceil(H / (s + b))
                 k = nx * ny
             }
-            this.cells = cells.slice(0, k)
+
+            /*  finally deliver results  */
             this.cellsize = s + "px"
+            this.cells = cells.slice(0, k)
         }
     },
     created () {
