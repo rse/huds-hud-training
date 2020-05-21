@@ -41,6 +41,12 @@ attendance:
     iconcolor:             "#77aadd"
     textcolor:             "#e0f0ff"
 
+attendees:
+    opacity:               0.80
+    background:            "#336699"
+    namecolorbg:           "#003366"
+    namecolorfg:           "#e0f0ff"
+
 feedback:
     opacity:               0.80
     surprisecolor1:        "#222222"

@@ -33,6 +33,8 @@
         <script type="text/javascript" src="huds"></script>
         <script type="text/javascript" src="@vue/dist/vue.min.js"></script>
         <script type="text/javascript" src="@http-vue-loader/src/httpVueLoader.js"></script>
+        <script type="text/javascript" src="@vue-resize/dist/vue-resize.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="@vue-resize/dist/vue-resize.css">
         <script type="text/javascript" src="@mousetrap/mousetrap.min.js"></script>
         <script type="text/javascript" src="@animejs/lib/anime.min.js"></script>
         <script type="text/javascript" src="@howler/dist/howler.min.js"></script>
@@ -90,6 +92,7 @@
             httpVueLoader.langProcessor.less = (lessText) =>
                 less.render(lessText, { globalVars: huds.config({ flat: true, sep: "-" }) }).then((result) => result.css)
             Vue.use(httpVueLoader)
+            Vue.use(VueResize)
             vm = new Vue({ el: "#hud", components: { "hud": "url:hud.vue" }})
         </script>
     </body>

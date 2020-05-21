@@ -63,6 +63,12 @@
             v-bind:iconcolor="config.attendance.iconcolor"
             v-bind:textcolor="config.attendance.textcolor"
         ></attendance>
+        <attendees ref="attendees" class="attendees"
+            v-bind:opacity="config.attendees.opacity"
+            v-bind:background="config.attendees.background"
+            v-bind:namecolorbg="config.attendees.namecolorbg"
+            v-bind:namecolorfg="config.attendees.namecolorfg"
+        ></attendees>
         <feeling ref="feeling" class="feeling"
             v-bind:opacity="config.feeling.opacity"
             v-bind:background="config.feeling.background"
@@ -206,6 +212,13 @@ body {
         bottom: 10px;
         width: 180px;
     }
+    > .attendees {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        width:  calc(100vh - 150px);
+        height: calc(100vh - 150px);
+    }
     > .title {
         position: absolute;
         right: 170px;
@@ -295,6 +308,10 @@ body {
         > .feedback {
             bottom: 20px;
         }
+        > .attendees {
+            width:  calc(100vh - 60px);
+            height: calc(100vh - 60px);
+        }
         > .agenda {
             height: calc(100% - 60px);
         }
@@ -331,6 +348,7 @@ module.exports = {
         "banner":       "url:hud-widget-banner.vue",
         "title-bar":    "url:hud-widget-title.vue",
         "attendance":   "url:hud-widget-attendance.vue",
+        "attendees":    "url:hud-widget-attendees.vue",
         "feedback":     "url:hud-widget-feedback.vue",
         "feeling":      "url:hud-widget-feeling.vue",
         "progress-bar": "url:hud-widget-progress.vue",
@@ -514,7 +532,7 @@ module.exports = {
                     huds.send("voting-end", {}, this.config.id.peer)
             }
             else if ((m = event.match(/^votes\.type\.(.+)$/)) !== null) {
-                let [ , type ] = m
+                const [ , type ] = m
                 v.$emit("votes-type", type)
                 huds.send("voting-type", { type }, this.config.id.peer)
             }
@@ -596,8 +614,19 @@ module.exports = {
             if (!(   typeof data.client  === "string" && data.client !== ""
                   && typeof data.event   === "string" && data.event  !== ""))
                 return
-            const a = this.$refs.attendance
-            a.$emit("attendance", data)
+            const a1 = this.$refs.attendance
+            a1.$emit("attendance", data)
+            const a2 = this.$refs.attendees
+            a2.$emit("attendance", data)
+        })
+
+        /*  allow attendees widget to be interactively controlled  */
+        Mousetrap.bind("e", (e) => {
+            huds.send("attendees.toggle")
+        })
+        huds.bind("attendees.toggle", () => {
+            const a = this.$refs.attendees
+            a.$emit("toggle")
         })
 
         /*  receive messages from the feedback channel  */
