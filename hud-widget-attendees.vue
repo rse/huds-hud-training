@@ -114,9 +114,12 @@ module.exports = {
         }
     },
     methods: {
-        handleResize ({ width, height }) {
+        /*  handle canvas resizing (in case of HUD minimization)  */
+        handleResize () {
             this.recalc()
         },
+
+        /*  recalculate the cells and their size  */
         recalc () {
             /*  ensure we have the canvas available  */
             if (!(this.$refs && this.$refs.canvas))
