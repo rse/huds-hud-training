@@ -90,13 +90,11 @@ Usage
     ```
 
 4.  **Locally Control HUD** (Keystrokes):<br/>
-    If you want to interact with the HUD directly from within [OBS Studio](https://obsproject.com/),
-    right-click onto the browser source and
-    choose "Interact". You can press <kbd>LEFT</kbd> (previous part),
-    <kbd>RIGHT</kbd> (next part), <kbd>SPACE</kbd> (flash title),
-    <kbd>p</kbd> (toggle Pause banner), <kbd>r</kbd> (toggle Rant
-    banner) and <kbd>q</kbd> (toggle Q&A banner)
-    in the interaction window.
+    If you want to interact with the HUD directly from within [OBS
+    Studio](https://obsproject.com/), right-click onto the browser
+    source and choose "Interact". In the interaction window, you then
+    can press the particular control keys mentioned for each Widget
+    below.
 
 5.  **Remote Control HUD (Programmatically)**:<br/>
     Now you can also programmatically control the HUD by remotely triggering the events
@@ -108,20 +106,30 @@ Usage
 	curl -D- http://127.0.0.1:9999/training/event/progress.prev
 	curl -D- http://127.0.0.1:9999/training/event/progress.next
 	curl -D- http://127.0.0.1:9999/training/event/agenda.toggle
+	curl -D- http://127.0.0.1:9999/training/event/attendance.animate
+	curl -D- http://127.0.0.1:9999/training/event/attendance?data={"client":"...","event":"..."}
+	curl -D- http://127.0.0.1:9999/training/event/attendees.toggle
 	curl -D- http://127.0.0.1:9999/training/event/latency.toggle
 	curl -D- http://127.0.0.1:9999/training/event/timer.start?data=<minutes>
 	curl -D- http://127.0.0.1:9999/training/event/timer.stop
 	curl -D- http://127.0.0.1:9999/training/event/votes.toggle
+	curl -D- http://127.0.0.1:9999/training/event/votes.type.judge
+	curl -D- http://127.0.0.1:9999/training/event/votes.type.evaluate
+	curl -D- http://127.0.0.1:9999/training/event/votes.type.choose
+	curl -D- http://127.0.0.1:9999/training/event/votes.type.propose
 	curl -D- http://127.0.0.1:9999/training/event/votes.receive?data={"person":"...","choice":"..."}
-	curl -D- http://127.0.0.1:9999/training/event/popup.add?data={"type":<type>,"title":"...","message":"..."[,"image":"..."]}
+	curl -D- http://127.0.0.1:9999/training/event/popup.add?data={"type":<type>,"title":"...","text":"..."[,"image":"..."][,"audio":"..."]}
 	curl -D- http://127.0.0.1:9999/training/event/popup.remove
+	curl -D- http://127.0.0.1:9999/training/event/feeling.toggle
+	curl -D- http://127.0.0.1:9999/training/event/feeling?data={"client":"...","challenge":N,"mood":M}
+	curl -D- http://127.0.0.1:9999/training/event/feedback?data={"client":"...","type":"..."}
 	curl -D- http://127.0.0.1:9999/training/event/banner.pause.toggle
 	curl -D- http://127.0.0.1:9999/training/event/banner.rant.toggle
 	curl -D- http://127.0.0.1:9999/training/event/banner.qna.toggle
 	curl -D- http://127.0.0.1:9999/training/event/closure.begin.toggle
 	curl -D- http://127.0.0.1:9999/training/event/closure.pause.toggle
 	curl -D- http://127.0.0.1:9999/training/event/closure.end.toggle
-	curl -D- http://127.0.0.1:9999/training/event/chat?data={"title":"...","message":"..."[,"image":"..."]}
+	curl -D- http://127.0.0.1:9999/training/event/message?data={"title":"...","text":"..."[,"image":"..."][,"audio":"..."]}
     ```
 
 6.  **Remote Control HUD (Device)**:<br/>
@@ -197,6 +205,93 @@ This HUD provides the following on-screen widgets:
     `attendance.animate`. The number of attendees is tracked by the
     remote HUDS event `attendance` (usually injected into HUDS via MQTT
     through the integration of a companion message queue system).
+
+-   **ATTENDEES**:<br/>
+    This widget displays a large box at the left edge of the screen with
+    the portraits and names of all attendees. The intention of this
+    widget is to provide a visual overview of the audience. The widget
+    has to be configured with...
+
+    ```yaml
+    attendance:
+        opacity:               0.80
+        background:            "#336699"
+        namecolorbg:           "#003366"
+        namecolorfg:           "#e0f0ff"
+        noattendeestext:       "This training has still no attendees."
+    ```
+
+    ...and can be manually toggled on/off interactively with the keystroke
+    <kbd>e</kbd> or programmatically with the remote HUDS event
+    `attendees.toggle`. The number of attendees is tracked by the
+    remote HUDS event `attendance` (usually injected into HUDS via MQTT
+    through the integration of a companion message queue system).
+
+-   **FEEDBACK**:<br/>
+    This widget displays bouncing smilies at the right edge of the
+    screen. The intention of this widget is to allow visual feedback for
+    the audience. The widget has to be configured with...
+
+    ```yaml
+    feedback:
+        opacity:               0.80
+        surprisecolor1:        "#222222"
+        surprisecolor2:        "#f0f0f0"
+        surprisecolor3:        "#c0c0c0"
+        surprisecolor4:        "#000000"
+        smilecolor1:           "#221100"
+        smilecolor2:           "#d08840"
+        smilecolor3:           "#a05810"
+        smilecolor4:           "#ffffff"
+        frowncolor1:           "#99ccff"
+        frowncolor2:           "#336699"
+        frowncolor3:           "#003366"
+        frowncolor4:           "#ffffff"
+        sadnesscolor1:         "#cccccc"
+        sadnesscolor2:         "#333333"
+        sadnesscolor3:         "#000000"
+        sadnesscolor4:         "#ffffff"
+    ```
+
+    ...and can be controlled programmatically with the remote HUDS
+    event `feedback?data={"client":"...","type":"..."}`. The client is
+    a unique id of the client and type can select one of the following
+    four smilies: `surprise`, `smile`, `frown` or `sadness`.
+
+-   **FEELING**:<br/>
+    This widget displays a statistics box at the right corner and above
+    the title widget. The intention of this widget is to allow attendees
+    to continuously express their feeling and let the tainer regularly
+    show an aggregated view on the feelings. The widget has to be
+    configured with...
+
+    ```yaml
+    feeling:
+        opacity:               0.80
+        background:            "#336699"
+        textcolor:             "#e0f0ff"
+        stdbarcolor:           "#d0e0f0"
+        maxbarcolor:           "#ffffff"
+        bordercolor:           "#99ccff"
+        legendcolor:           "#ffffff"
+        c1color:               "#b06820"
+        c2color:               "#909090"
+        c3color:               "#336699"
+        c4color:               "#909090"
+        c5color:               "#b06820"
+        m1color:               "#905810"
+        m2color:               "#b06820"
+        m3color:               "#909090"
+        m4color:               "#336699"
+        m5color:               "#225588"
+    ```
+
+    ...and can be manually toggled on/off interactively with the
+    keystroke <kbd>f</kbd> or programmatically with the remote HUDS
+    event `feeling.toggle`. The feelings are tracked by the remote
+    HUDS event `feedback?data={"client":"...","type":"..."}` (usually
+    injected into HUDS via MQTT through the integration of a companion
+    message queue system).
 
 -   **PROGRESS**:<br/>
     This widget displays a permanently visible progress bar at the
