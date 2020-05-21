@@ -158,6 +158,10 @@ module.exports = {
                     seen:  (new Date()).getTime()
                 }
             }
+            else if (data.event === "refresh") {
+                if (this.attendees[data.client] !== undefined)
+                     this.attendees[data.client].seen = (new Date()).getTime()
+            }
             else if (data.event === "end")
                 delete this.attendees[data.client]
             this.recalc()
