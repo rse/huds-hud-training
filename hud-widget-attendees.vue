@@ -77,13 +77,13 @@
                 background-color: var(--namecolorbg);
                 color: var(--namecolorfg);
                 font-family: "TypoPRO Fira Sans";
-                font-size: calc(var(--cellsize) / 10);
+                font-size: calc(var(--cellsize) / 12);
                 font-weight: 200;
                 display: block;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                max-width: 80%;
+                max-width: 85%;
             }
         }
         .noattendees {
