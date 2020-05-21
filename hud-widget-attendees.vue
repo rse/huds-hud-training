@@ -135,7 +135,6 @@ module.exports = {
             while (s > S) {
                 const nx = Math.floor(W / (s + b))
                 const ny = Math.floor(H / (s + b))
-                console.log(nx, ny, nx * ny, k)
                 if (nx * ny >= k)
                     break
                 s -= 1
@@ -147,7 +146,6 @@ module.exports = {
             }
             this.cells = cells.slice(0, k)
             this.cellsize = s + "px"
-            console.log(this.cellsize)
         }
     },
     created () {
