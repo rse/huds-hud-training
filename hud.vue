@@ -619,6 +619,8 @@ module.exports = {
             a1.$emit("attendance", data)
             const a2 = this.$refs.attendees
             a2.$emit("attendance", data)
+            const f = this.$refs.feeling
+            f.$emit("attendance", data)
         })
 
         /*  allow attendees widget to be interactively controlled  */

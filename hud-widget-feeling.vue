@@ -290,13 +290,19 @@ module.exports = {
             }
         })
 
+        /*  receive the attendee events  */
+        this.$on("attendance", (data) => {
+            if (data.event === "end")
+                delete this.feelings[data.client]
+        })
+
         /*  expire feedbacks  */
         this.timer1 = setInterval(() => {
             /*  expire feelings not seen recently  */
             const now = (new Date()).getTime()
             for (const client of Object.keys(this.feelings)) {
                 const seen = this.feelings[client].seen
-                if (seen + ((4 * 60 * 1000) + 4) < now)
+                if (seen + ((20 + 2) * 60 * 1000) < now)
                     delete this.feelings[client]
             }
             this.update()
