@@ -96,11 +96,11 @@ module.exports = {
         /*  track the attendees  */
         this.timer = setInterval(() => {
             /*  expire attendees not seen recently
-                (refresh usually every 30s, but we accept also up to 60s)  */
+                (refresh usually every 10min, but we accept also up to 20min)  */
             const now = (new Date()).getTime()
             for (const client of Object.keys(this.seen)) {
                 const seen = this.seen[client]
-                if (seen + ((4 * 60 + 4) * 1000) < now)
+                if (seen + ((20 + 2) * 60 * 1000) < now)
                     delete this.seen[client]
             }
 

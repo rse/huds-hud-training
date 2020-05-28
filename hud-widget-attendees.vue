@@ -196,12 +196,12 @@ module.exports = {
         /*  track the attendees (similar to "attendance" widget to be in sync)  */
         this.timer = setInterval(() => {
             /*  expire attendees not seen recently
-                (refresh usually every 30s, but we accept also up to 60s)  */
+                (refresh usually every 10min, but we accept also up to 20min)  */
             let changed = false
             const now = (new Date()).getTime()
             for (const client of Object.keys(this.attendees)) {
                 const seen = this.attendees[client].seen
-                if (seen + ((4 * 60 + 4) * 1000) < now) {
+                if (seen + ((20 + 2) * 60 * 1000) < now) {
                     delete this.attendees[client]
                     changed = true
                 }
