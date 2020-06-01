@@ -16,7 +16,7 @@
         "vue":                             "2.6.11",
         "http-vue-loader":                 "1.4.2",
         "vue-resize":                      "0.5.0",
-        "less":                            "3.11.1",
+        "less":                            "3.11.2",
         "@fortawesome/fontawesome-free":   "5.13.0",
         "typopro-web":                     "4.2.3",
         "mousetrap":                       "1.6.5",
