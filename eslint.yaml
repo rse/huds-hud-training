@@ -87,5 +87,6 @@ rules:
     "vue/html-closing-bracket-newline":  off
     "vue/singleline-html-element-content-newline": off
     "vue/no-v-html":                     off
+    "vue/v-on-style":                    off
     quote-props:                         off
 

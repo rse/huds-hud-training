@@ -27,11 +27,11 @@
 <template>
     <div v-bind:style="style" class="attendees">
         <div ref="canvas" class="canvas">
-            <div v-if="cells.length > 0" v-for="(cell, i) in cells"
-                v-bind:key="i"
-                class="cell">
-                <img class="image" v-bind:src="cell.image" alt="" />
-                <div class="name">{{ cell.name }}</div>
+            <div v-if="cells.length > 0">
+                <div v-for="(cell, i) in cells" v-bind:key="i" class="cell">
+                    <img class="image" v-bind:src="cell.image" alt="" />
+                    <div class="name">{{ cell.name }}</div>
+                </div>
             </div>
             <div v-if="cells.length == 0" class="noattendees">
                 {{ noattendeestext }}
@@ -139,7 +139,7 @@ module.exports = {
                 return
 
             /*  determine all potential cells  */
-            let cells = Object.keys(this.attendees)
+            const cells = Object.keys(this.attendees)
                 .map((client) => this.attendees[client])
                 .sort((a, b) => b.seen - a.seen)
 
@@ -186,7 +186,7 @@ module.exports = {
             }
             else if (data.event === "refresh") {
                 if (this.attendees[data.client] !== undefined)
-                     this.attendees[data.client].seen = (new Date()).getTime()
+                    this.attendees[data.client].seen = (new Date()).getTime()
             }
             else if (data.event === "end")
                 delete this.attendees[data.client]
