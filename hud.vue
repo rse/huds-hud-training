@@ -584,7 +584,7 @@ module.exports = {
             /*  react on particular message types  */
             if (votesEnabled) {
                 const v = this.$refs.votes
-                v.$emit("votes-receive", { person: data.title, choice: data.text })
+                v.$emit("votes-receive", { client: data.client, choice: data.text })
             }
             else if (data.text.match(/^(.+?)\?$/)) {
                 const a = this.$refs.popup

@@ -179,8 +179,8 @@ module.exports = {
             if (this.type === "judge") {
                 /*  handle judge/boolean choices only  */
                 const choices = { yes: 0, no: 0, invalid: 0 }
-                for (const person of Object.keys(this.votes)) {
-                    const choice = this.votes[person]
+                for (const client of Object.keys(this.votes)) {
+                    const choice = this.votes[client]
                     if      (choice === "YES") choices.yes++
                     else if (choice === "NO")  choices.no++
                     else                       choices.invalid++
@@ -193,8 +193,8 @@ module.exports = {
                 /*  handle evaluate/numeric choices only  */
                 const choices = {}
                 let invalid = 0
-                for (const person of Object.keys(this.votes)) {
-                    const choice = this.votes[person]
+                for (const client of Object.keys(this.votes)) {
+                    const choice = this.votes[client]
                     if (choice.match(/^(?:-2|-1|0|\+1|\+2)$/)) {
                         if (choices[choice] === undefined)
                             choices[choice] = 0
@@ -212,8 +212,8 @@ module.exports = {
                 /*  handle choose/numeric choices only  */
                 const choices = {}
                 let invalid = 0
-                for (const person of Object.keys(this.votes)) {
-                    const choice = this.votes[person]
+                for (const client of Object.keys(this.votes)) {
+                    const choice = this.votes[client]
                     if (choice.match(/^[1-9]$/)) {
                         if (choices[choice] === undefined)
                             choices[choice] = 0
@@ -232,8 +232,8 @@ module.exports = {
 
                 /*  determine votes  */
                 let votes = {}
-                for (const person of Object.keys(this.votes)) {
-                    const vote = this.votes[person]
+                for (const client of Object.keys(this.votes)) {
+                    const vote = this.votes[client]
                     if (votes[vote] === undefined)
                         votes[vote] = 0
                     votes[vote]++
@@ -332,10 +332,10 @@ module.exports = {
         })
 
         /*  receive a single vote  */
-        this.$on("votes-receive", ({ person, choice }) => {
+        this.$on("votes-receive", ({ client, choice }) => {
             choice = choice.toUpperCase()
-            if (this.votes[person] === undefined) {
-                this.votes[person] = choice
+            if (this.votes[client] === undefined) {
+                this.votes[client] = choice
                 soundfx.play("beep1")
             }
             else
