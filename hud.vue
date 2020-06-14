@@ -564,7 +564,7 @@ module.exports = {
         /*  receive messages from a companion chat  */
         huds.bind("message", (event, data) => {
             /*  just react on correctly structured messages  */
-            if (!(   (typeof data.title === "string" && data.title !== "")
+            if (!(   (typeof data.client === "string" && data.client !== "")
                   && (typeof data.text === "string")))
                 return
 
