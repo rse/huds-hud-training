@@ -135,8 +135,10 @@ module.exports = {
         commentmessagecolor:   { type: String, default: "" }
     },
     data: () => ({
-        queue:  [],
-        popups: []
+        queue:     [],
+        popups:    [],
+        attendees: {},
+        timer:     null
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -267,10 +269,48 @@ module.exports = {
         }
     },
     created () {
+        /*  receive the attendee events  */
+        this.$on("attendance", (data) => {
+            if (data.event === "begin") {
+                this.attendees[data.client] = {
+                    image: data.data && data.data.image ? data.data.image : "",
+                    name:  data.data && data.data.name  ? data.data.name  : "",
+                    seen:  (new Date()).getTime()
+                }
+            }
+            else if (data.event === "refresh") {
+                if (this.attendees[data.client] !== undefined)
+                    this.attendees[data.client].seen = (new Date()).getTime()
+            }
+            else if (data.event === "end")
+                delete this.attendees[data.client]
+        })
+
+        /*  track the attendees (similar to "attendance" widget to be in sync)  */
+        this.timer = setInterval(() => {
+            /*  expire attendees not seen recently
+                (refresh usually every 10min, but we accept also up to 20min)  */
+            let changed = false
+            const now = (new Date()).getTime()
+            for (const client of Object.keys(this.attendees)) {
+                const seen = this.attendees[client].seen
+                if (seen + ((20 + 2) * 60 * 1000) < now) {
+                    delete this.attendees[client]
+                    changed = true
+                }
+            }
+        }, 2 * 1000)
+
         /*  allow a new popup to be added  */
         let i = 0
         this.$on("popup-add", (data) => {
             data.i = i++
+            if (this.attendees[data.client] !== undefined) {
+                if (typeof data.title !== "string" && this.attendees[data.client].name !== "")
+                    data.title = this.attendees[data.client].name
+                if (typeof data.image !== "string" && this.attendees[data.client].image !== "")
+                    data.image = this.attendees[data.client].image
+            }
             this.queue.push({ method: "addBox", args: [ data ] })
         })
 

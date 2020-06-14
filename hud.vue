@@ -621,6 +621,8 @@ module.exports = {
             a2.$emit("attendance", data)
             const f = this.$refs.feeling
             f.$emit("attendance", data)
+            const p = this.$refs.popup
+            p.$emit("attendance", data)
         })
 
         /*  allow attendees widget to be interactively controlled  */
