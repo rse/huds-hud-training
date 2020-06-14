@@ -235,7 +235,7 @@ module.exports = {
                 setTimeout(() => soundfx.play("whoosh3"), 200)
                 tl.add({
                     easing:     "cubicBezier(0.570, 0.000, 0.340, 1.390)",
-                    translateX: [ -(30 + el.clientWidth), 0 ],
+                    translateX: [ -(120 + el.clientWidth), 0 ],
                     opacity:    [ 1.0, 1.0 ]
                 })
             }
@@ -245,7 +245,7 @@ module.exports = {
                 setTimeout(() => soundfx.play("whoosh3"), 500)
                 tl.add({
                     easing:     "cubicBezier(0.625, -0.480, 0.505, 1.000)",
-                    translateX: [ 0, -(30 + el.clientWidth) ],
+                    translateX: [ 0, -(120 + el.clientWidth) ],
                     opacity:    [ 1.0, 1.0 ]
                 })
             }
