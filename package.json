@@ -29,6 +29,7 @@
         "svg.path.js":                     "otm/svg.path.js#6981166",
         "hashtag-similarity":              "0.9.2",
         "moment":                          "2.27.0",
+        "canvas-confetti":                 "1.2.0",
         "@rse/soundfx":                    "1.0.0",
         "@rse/soundlp":                    "1.0.0"
     },

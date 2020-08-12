@@ -200,6 +200,9 @@
             v-bind:endhinttext="config.closure.endhinttext"
             v-bind:endhintcolor="config.closure.endhintcolor"
         ></closure>
+        <confetti ref="confetti" class="confetti"
+            v-bind:opacity="config.confetti.opacity"
+        ></confetti>
     </div>
 </template>
 
@@ -302,6 +305,13 @@ body {
         bottom: 120px;
         left:   30px;
     }
+    > .confetti {
+        position: absolute;
+        top:    0;
+        left:   0;
+        width:  100vw;
+        height: 100vh;
+    }
     &.minimize {
         > .attendance {
             display: none;
@@ -371,7 +381,8 @@ module.exports = {
         "popup":        "url:hud-widget-popup.vue",
         "votes":        "url:hud-widget-votes.vue",
         "timer":        "url:hud-widget-timer.vue",
-        "latency":      "url:hud-widget-latency.vue"
+        "latency":      "url:hud-widget-latency.vue",
+        "confetti":     "url:hud-widget-confetti.vue"
     },
     created () {
         /*  interaction for logo */
@@ -698,6 +709,15 @@ module.exports = {
                 return
             const f = this.$refs.feeling
             f.$emit("event", data)
+        })
+
+        /*  allow confetti to be raised  */
+        Mousetrap.bind("c", (e) => {
+            huds.send("confetti.raise")
+        })
+        huds.bind("confetti.raise", () => {
+            const c = this.$refs.confetti
+            c.$emit("raise")
         })
     },
     mounted () {
