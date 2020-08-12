@@ -140,18 +140,47 @@ progress:
 
 votes:
     opacity:               0.80
+    winnamecolorbg:        "#b06820"
+    winnamecolorfg:        "#ffffff"
     maxnamecolorbg:        "#336699"
     maxnamecolorfg:        "#ffffff"
     stdnamecolorbg:        "#6699cc"
     stdnamecolorfg:        "#ffffff"
+    winvotecolorbg:        "#ffffff"
+    winvotecolorfg:        "#666666"
     maxvotecolorbg:        "#ffffff"
     maxvotecolorfg:        "#666666"
     stdvotecolorbg:        "#f0f0f0"
     stdvotecolorfg:        "#999999"
+    quizidcolorbg:         "#225588"
+    quizidcolorfg:         "#e0e0ff"
+    quiztxtcolorbg:        "#336699"
+    quiztxtcolorfg:        "#ffffff"
+    hintcolorbg:           "#f0f0f0"
+    hintcolorfg:           "#666666"
     hintjudge:             "Please <i>judge</i> with a <i>boolean</i> vote now<br/>by selecting one of the choices <kbd>Yes</kbd> or <kbd>No</kbd>!"
     hintevaluate:          "Please <i>evaluate</i> with a <i>positional</i> vote now<br/>by selecting one of the choices <kbd>-2</kbd>, <kbd>-1</kbd>, <kbd>0</kbd>, <kbd>+1</kbd>, <kbd>+2</kbd>!"
+    hintquiz:              "Please <i>choose</i> with a <i>numeric</i> vote now<br/>by selecting one of the choices <kbd>1</kbd>, <kbd>2</kbd>, ..."
     hintchoose:            "Please <i>choose</i> with a <i>numeric</i> vote now<br/>by selecting one of the choices <kbd>1</kbd>, <kbd>2</kbd>, ..., <kbd>9</kbd>!"
     hintpropose:           "Please <i>propose</i> with a <i>textual</i> vote now<br/>by sending your proposal as a single word <kbd>XYZ...</kbd>!"
+    quizzes:
+        -   id:            "01.1-01"
+            question:      "What Unix command lists all entries of a directory on the filesystem?"
+            right:         "ls"
+            wrong:
+                -          "dir"
+                -          "cd"
+                -          "sed"
+                -          "awk"
+                -          "ed"
+        -   id:            "01.1-02"
+            question:      "What Unix command can change the lines of a text file through complex calculating expressions?"
+            right:         "awk"
+            wrong:
+                -          "ed"
+                -          "sed"
+                -          "expr"
+                -          "calc"
 
 banner:
     opacity:               0.80

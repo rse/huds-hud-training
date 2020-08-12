@@ -139,18 +139,30 @@
         ></popup>
         <votes ref="votes" class="votes"
             v-bind:opacity="config.votes.opacity"
+            v-bind:winnamecolorbg="config.votes.winnamecolorbg"
+            v-bind:winnamecolorfg="config.votes.winnamecolorfg"
             v-bind:maxnamecolorbg="config.votes.maxnamecolorbg"
             v-bind:maxnamecolorfg="config.votes.maxnamecolorfg"
             v-bind:stdnamecolorbg="config.votes.stdnamecolorbg"
             v-bind:stdnamecolorfg="config.votes.stdnamecolorfg"
+            v-bind:winvotecolorbg="config.votes.winvotecolorbg"
+            v-bind:winvotecolorfg="config.votes.winvotecolorfg"
             v-bind:maxvotecolorbg="config.votes.maxvotecolorbg"
             v-bind:maxvotecolorfg="config.votes.maxvotecolorfg"
             v-bind:stdvotecolorbg="config.votes.stdvotecolorbg"
             v-bind:stdvotecolorfg="config.votes.stdvotecolorfg"
+            v-bind:quizidcolorbg="config.votes.quizidcolorbg"
+            v-bind:quizidcolorfg="config.votes.quizidcolorfg"
+            v-bind:quiztxtcolorbg="config.votes.quiztxtcolorbg"
+            v-bind:quiztxtcolorfg="config.votes.quiztxtcolorfg"
+            v-bind:hintcolorbg="config.votes.hintcolorbg"
+            v-bind:hintcolorfg="config.votes.hintcolorfg"
             v-bind:hintjudge="config.votes.hintjudge"
             v-bind:hintevaluate="config.votes.hintevaluate"
+            v-bind:hintquiz="config.votes.hintquiz"
             v-bind:hintchoose="config.votes.hintchoose"
             v-bind:hintpropose="config.votes.hintpropose"
+            v-bind:quizzes="config.votes.quizzes"
         ></votes>
         <timer ref="timer" class="timer"
             v-bind:opacity="config.timer.opacity"
@@ -274,7 +286,7 @@ body {
     > .votes {
         position: absolute;
         bottom: 120px;
-        width: calc(60vw - 10px);
+        width: calc(100% - 740px);
         height: calc(100vh - 160px);
         left: 30px;
     }
@@ -515,11 +527,26 @@ module.exports = {
         Mousetrap.bind("V e", (e) => {
             huds.send("votes.type.evaluate")
         })
+        Mousetrap.bind("V q", (e) => {
+            huds.send("votes.type.quiz")
+        })
         Mousetrap.bind("V c", (e) => {
             huds.send("votes.type.choose")
         })
         Mousetrap.bind("V p", (e) => {
             huds.send("votes.type.propose")
+        })
+        Mousetrap.bind("V right", (e) => {
+            huds.send("votes.quiz.next")
+        })
+        Mousetrap.bind("V left", (e) => {
+            huds.send("votes.quiz.prev")
+        })
+        Mousetrap.bind("V r", (e) => {
+            huds.send("votes.reveal")
+        })
+        Mousetrap.bind("V d", (e) => {
+            huds.send("votes.disclose")
         })
         huds.bind("votes.*", (event, data) => {
             let m
@@ -539,6 +566,14 @@ module.exports = {
             }
             else if (event === "votes.receive")
                 v.$emit("votes-receive", data)
+            else if (event === "votes.reveal")
+                v.$emit("votes-reveal")
+            else if (event === "votes.disclose")
+                v.$emit("votes-disclose")
+            else if (event === "votes.quiz.next")
+                v.$emit("votes-quiz-next")
+            else if (event === "votes.quiz.prev")
+                v.$emit("votes-quiz-prev")
         })
 
         /*  interaction for timer widget  */
@@ -619,6 +654,8 @@ module.exports = {
             a1.$emit("attendance", data)
             const a2 = this.$refs.attendees
             a2.$emit("attendance", data)
+            const v = this.$refs.votes
+            v.$emit("attendance", data)
             const f = this.$refs.feeling
             f.$emit("attendance", data)
             const p = this.$refs.popup

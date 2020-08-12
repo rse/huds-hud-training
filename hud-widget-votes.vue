@@ -26,27 +26,34 @@
 
 <template>
     <div v-show="show" v-bind:style="style" class="votes">
-        <div v-if="choices.length === 0" class="await">
-            <div v-show="type === 'judge'"    v-html="hintjudge"></div>
-            <div v-show="type === 'evaluate'" v-html="hintevaluate"></div>
-            <div v-show="type === 'choose'"   v-html="hintchoose"></div>
-            <div v-show="type === 'propose'"  v-html="hintpropose"></div>
+        <div v-show="quiz >= 0 && type === 'quiz'" class="quiz">
+            <div class="quiz-id">{{ quizzes[quiz].id }}</div>
+            <div class="quiz-question">{{ quizzes[quiz].question }}</div>
         </div>
         <div v-for="choice in choices" ref="choice" v-bind:key="choice.i" v-bind:data-i="choice.i" class="choice">
-            <div class="name" v-bind:class="{ max: choice.max, invalid: choice.invalid }">
+            <div v-show="(type === 'quiz' || (choice.voters > 0 && reveal)) || (choice.total && !reveal)"
+                class="name" v-bind:class="{ win: choice.win && disclose, max: choice.max && reveal, invalid: choice.invalid, total: choice.total }">
                 {{ choice.name }}
                 <div v-if="choice.similars > 0" class="similars">
                     +{{ choice.similars }}
                 </div>
             </div>
-            <div class="bar-container">
-                <div ref="bar" class="bar" v-bind:data-i="choice.i"
-                    v-bind:class="{ max: choice.max, invalid: choice.invalid }">
+            <div v-show="(type === 'quiz' || (choice.voters > 0 && reveal)) || (choice.total && !reveal)"
+                class="bar-container">
+                <div v-show="reveal || (choice.total && !reveal)" ref="bar" class="bar" v-bind:data-i="choice.i"
+                    v-bind:class="{ win: choice.win && disclose, max: choice.max && reveal, invalid: choice.invalid, total: choice.total }">
                     <div class="voters">
                         {{ choice.max ? `${choice.voters}/${Object.keys(votes).length} (${Math.round(choice.voters/Object.keys(votes).length * 100)}%)` : choice.voters }}
                     </div>
                 </div>
             </div>
+        </div>
+        <div v-if="choices.length === 0 || (type === 'quiz' && !reveal)" class="hint">
+            <div v-show="type === 'judge'"    v-html="hintjudge"></div>
+            <div v-show="type === 'evaluate'" v-html="hintevaluate"></div>
+            <div v-show="type === 'quiz'"     v-html="hintquiz"></div>
+            <div v-show="type === 'choose'"   v-html="hintchoose"></div>
+            <div v-show="type === 'propose'"  v-html="hintpropose"></div>
         </div>
     </div>
 </template>
@@ -57,28 +64,55 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    .await {
-        width: 820px;
+    .quiz {
+        width: calc(100% - 60px);
+        font-family: "TypoPRO Fira Sans";
+        font-size: 36px;
+        border-radius: 10px;
+        padding: 15px 30px 15px 30px;
+        background-color: var(--quiztxtcolorbg);
+        color:            var(--quiztxtcolorfg);
+        position: relative;
+        .quiz-id {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px 20px 10px 20px;
+            font-size: 20px;
+            font-weight: normal;
+            background-color: var(--quizidcolorbg);
+            color:            var(--quizidcolorfg);
+            border-top-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        .quiz-question {
+            width: calc(100% - 130px);
+        }
+    }
+    .hint {
+        width: calc(100% - 60px);
         font-family: "TypoPRO Fira Sans";
         font-size: 32px;
         border-radius: 10px;
+        margin-top: 10px;
         padding: 10px 30px 10px 30px;
-        background-color: var(--maxnamecolorbg);
-        color:            var(--maxnamecolorfg);
+        background-color: var(--hintcolorbg);
+        color:            var(--hintcolorfg);
         kbd {
             border-radius: 4px;
-            border: 1px solid var(--maxnamecolorfg);
+            border: 1px solid var(--hintcolorfg);
             padding: 0 8px 0 8px;
             margin: 0 2px 0 2px;
         }
     }
     .choice {
+        width: 100%;
         margin-top: 10px;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         font-family: "TypoPRO Fira Sans";
-        font-size: 40px;
+        font-size: 36px;
         .name {
             flex-grow: 0;
             flex-shrink: 0;
@@ -87,20 +121,27 @@
             height: 50px;
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
-            padding: 10px 20px 10px 20px;
+            padding: 10px 30px 10px 30px;
             overflow: hidden;
+            border: 1px solid var(--stdnamecolorbg);
             background-color: var(--stdnamecolorbg);
             color:            var(--stdnamecolorfg);
             position: relative;
             &.max {
+                border: 1px solid var(--maxnamecolorbg);
                 background-color: var(--maxnamecolorbg);
                 color:            var(--maxnamecolorfg);
             }
+            &.win {
+                border: 1px solid var(--winnamecolorbg);
+                background-color: var(--winnamecolorbg);
+                color:            var(--winnamecolorfg);
+            }
             font-weight: bold;
-            &.invalid {
+            &.invalid, &.total {
                 font-size: 32px;
-                font-weight: normal;
                 font-style: italic;
+                font-weight: normal;
             }
             .similars {
                 position: absolute;
@@ -111,18 +152,29 @@
             }
         }
         .bar-container {
+            display: block;
             flex-grow: 1;
             flex-shrink: 1;
             display: block;
             padding: 0;
             margin: 0;
+            border-top:    1px solid var(--stdvotecolorbg);
+            border-bottom: 1px solid var(--stdvotecolorbg);
+            border-right:  1px solid var(--stdvotecolorbg);
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: relative;
+            height: 70px;
+            width: 100%;
             .bar {
+                position: absolute;
+                top: 0;
+                left: 0;
                 display: block;
                 width: 0;
-                height: 50px;
-                position: relative;
-                padding: 10px 20px 10px 20px;
-                border-top-right-radius: 10px;
+                height: 70px;
+                padding: 0;
+                border-top-right-radius:    10px;
                 border-bottom-right-radius: 10px;
                 overflow: hidden;
                 background-color: var(--stdvotecolorbg);
@@ -130,6 +182,10 @@
                 &.max {
                     background-color: var(--maxvotecolorbg);
                     color:            var(--maxvotecolorfg);
+                }
+                &.win {
+                    background-color: var(--winvotecolorbg);
+                    color:            var(--winvotecolorfg);
                 }
                 .voters {
                     position: absolute;
@@ -147,25 +203,43 @@ module.exports = {
     name: "title-bar",
     props: {
         opacity:         { type: Number, default: 1.0 },
+        winnamecolorbg:  { type: String, default: "" },
+        winnamecolorfg:  { type: String, default: "" },
         maxnamecolorbg:  { type: String, default: "" },
         maxnamecolorfg:  { type: String, default: "" },
         stdnamecolorbg:  { type: String, default: "" },
         stdnamecolorfg:  { type: String, default: "" },
+        winvotecolorbg:  { type: String, default: "" },
+        winvotecolorfg:  { type: String, default: "" },
         maxvotecolorbg:  { type: String, default: "" },
         maxvotecolorfg:  { type: String, default: "" },
         stdvotecolorbg:  { type: String, default: "" },
         stdvotecolorfg:  { type: String, default: "" },
+        quizidcolorbg:   { type: String, default: "" },
+        quizidcolorfg:   { type: String, default: "" },
+        quiztxtcolorbg:  { type: String, default: "" },
+        quiztxtcolorfg:  { type: String, default: "" },
+        hintcolorbg:     { type: String, default: "" },
+        hintcolorfg:     { type: String, default: "" },
         hintjudge:       { type: String, default: "" },
         hintevaluate:    { type: String, default: "" },
+        hintquiz:        { type: String, default: "" },
         hintchoose:      { type: String, default: "" },
-        hintpropose:     { type: String, default: "" }
+        hintpropose:     { type: String, default: "" },
+        quizzes:         { type: Object, default: [] }
     },
     data: () => ({
-        show:    false,
-        choices: [],
-        votes:   {},
-        type:    "propose",
-        timer:   null
+        show:       false,
+        choices:    [],
+        votes:      {},
+        type:       "propose",
+        timer:      null,
+        quiz:       -1,
+        attendance: {},
+        attendees:  0,
+        reveal:     true,
+        disclose:   true,
+        timer2:     null
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -205,6 +279,45 @@ module.exports = {
                 }
                 for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b)))
                     result.push({ name: choice, voters: choices[choice] })
+                if (invalid > 0)
+                    result.push({ name: "(Invalid)", voters: invalid })
+            }
+            else if (this.type === "quiz" && this.quiz >= 0) {
+                /*  handle quiz/numeric choices only  */
+                const quiz = this.quizzes[this.quiz]
+
+                /*  determine answers  */
+                const answers = quiz.wrong.map((text) => ({ name: text }))
+                let k = 0
+                for (let i = 0; i < quiz.question.length; i++)
+                    k = (k + quiz.question.charCodeAt(i)) % answers.length
+                answers.splice(k, 0, { name: quiz.right, win: true })
+
+                /*  file votings into choices  */
+                const choices = {}
+                for (let i = 0; i < answers.length; i++)
+                    choices[String(i + 1)] = 0
+                let invalid = 0
+                for (const client of Object.keys(this.votes)) {
+                    const choice = this.votes[client]
+                    if (choice.match(/^[1-9]$/)) {
+                        if (choices[choice] === undefined)
+                            invalid++
+                        else
+                            choices[choice]++
+                    }
+                    else
+                        invalid++
+                }
+
+                /*  create result  */
+                for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b))) {
+                    const i = parseInt(choice) - 1
+                    const item = { name: `${choice}: ${answers[i].name}`, voters: choices[choice] }
+                    if (answers[i].win)
+                        item.win = true
+                    result.push(item)
+                }
                 if (invalid > 0)
                     result.push({ name: "(Invalid)", voters: invalid })
             }
@@ -257,7 +370,9 @@ module.exports = {
 
             /*  post-processing PASS 1: determine maximum-voted choice (winner)  */
             let max = 0
+            let total = 0
             for (const choice of result) {
+                total += choice.voters
                 if (max < choice.voters)
                     max = choice.voters
             }
@@ -267,10 +382,21 @@ module.exports = {
             for (const choice of result) {
                 choice.i = i++
                 choice.width = Math.ceil((choice.voters / max) * 100) + "%"
-                if (choice.voters === max)
+                if (choice.voters > 0 && choice.voters === max)
                     choice.max = true
                 if (choice.name === "(Invalid)")
                     choice.invalid = true
+            }
+
+            /*  provide total votings  */
+            if (!this.reveal) {
+                result.push({
+                    i:      i++,
+                    name:   "(Total)",
+                    voters: total,
+                    width:  this.attendees > 0 ? Math.ceil((total / this.attendees) * 100) + "%" : "0%",
+                    total:  true
+                })
             }
 
             this.choices = result
@@ -313,22 +439,76 @@ module.exports = {
         }
     },
     created () {
+        /*  receive the attendee events  */
+        this.$on("attendance", (data) => {
+            if (data.event === "begin")
+                this.attendance[data.client] = { seen: (new Date()).getTime() }
+            else if (data.event === "refresh") {
+                if (this.attendance[data.client] !== undefined)
+                    this.attendance[data.client].seen = (new Date()).getTime()
+            }
+            else if (data.event === "end")
+                delete this.attendance[data.client]
+            this.attendees = Object.keys(this.attendance).length
+        })
+
+        /*  track the attendees (similar to "attendance" widget to be in sync)  */
+        this.timer2 = setInterval(() => {
+            /*  expire attendees not seen recently
+                (refresh usually every 10min, but we accept also up to 20min)  */
+            const now = (new Date()).getTime()
+            for (const client of Object.keys(this.attendance)) {
+                const seen = this.attendance[client].seen
+                if (seen + ((20 + 2) * 60 * 1000) < now)
+                    delete this.attendance[client]
+            }
+        }, 2 * 1000)
+
         /*  toggle votes on/off  */
         this.$on("votes-toggle", () => {
             this.show = !this.show
             if (this.show) {
                 soundfx.play("beep3")
-                this.choices = []
-                this.votes   = {}
-                this.type    = "propose"
+                this.choices  = []
+                this.votes    = {}
+                this.type     = "propose"
+                this.reveal   = true
+                this.disclose = true
             }
-            else
+            else {
                 soundfx.play("whoosh2")
+                if (this.type === "quiz")
+                    if (this.quiz < this.quizzes.length - 1)
+                        this.quiz++
+            }
         })
 
         /*  force a voting type  */
         this.$on("votes-type", (type) => {
             this.type = type
+            if (type === "quiz") {
+                this.reveal   = false
+                this.disclose = false
+            }
+            else {
+                this.reveal   = true
+                this.disclose = true
+            }
+            this.update()
+        })
+
+        /*  reveal individual votings  */
+        this.$on("votes-reveal", () => {
+            this.reveal = !this.reveal
+            this.update()
+        })
+
+        /*  disclose results of (quiz) votings  */
+        this.$on("votes-disclose", () => {
+            this.disclose = !this.disclose
+            if (this.disclose)
+                this.reveal = true
+            this.update()
         })
 
         /*  receive a single vote  */
@@ -341,6 +521,22 @@ module.exports = {
             else
                 soundfx.play("error4")
             this.update()
+        })
+
+        /*  determine selected quiz  */
+        if (this.quizzes.length > 0)
+            this.quiz = 0
+        this.$on("votes-quiz-prev", () => {
+            if (this.quiz > 0) {
+                this.quiz--
+                this.update()
+            }
+        })
+        this.$on("votes-quiz-next", () => {
+            if (this.quiz < this.quizzes.length - 1) {
+                this.quiz++
+                this.update()
+            }
         })
     }
 }
