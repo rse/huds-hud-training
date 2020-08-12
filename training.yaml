@@ -234,7 +234,7 @@ latency:
     iconcolor:             "#77aadd"
 
 confetti:
-    opacity:               0.80
+    opacity:               1.00
 
 agenda:
     opacity:               0.90
