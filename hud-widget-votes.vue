@@ -500,14 +500,18 @@ module.exports = {
         /*  reveal individual votings  */
         this.$on("votes-reveal", () => {
             this.reveal = !this.reveal
+            if (this.reveal)
+                soundfx.play("scale1")
             this.update()
         })
 
         /*  disclose results of (quiz) votings  */
         this.$on("votes-disclose", () => {
             this.disclose = !this.disclose
-            if (this.disclose)
+            if (this.disclose) {
+                soundfx.play("scale1")
                 this.reveal = true
+            }
             this.update()
         })
 
