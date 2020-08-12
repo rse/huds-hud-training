@@ -59,6 +59,7 @@ globals:
     Audio:         true
     AudioContext:  true
     fetch:         true
+    confetti:      true
 
 rules:
     #   modified rules
