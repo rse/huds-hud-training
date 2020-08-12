@@ -71,6 +71,10 @@ module.exports = {
                         ticks:         1000,
                         origin:        { x: 0.5, y: 1.0 },
                         shapes:        [ "circle", "square" ],
+                        colors:        [ "#909090", "#c0c0c0", "#ffffff"  /* white */,
+                                         "#336699", "#6699cc", "#99ccff", /* blue  */
+                                         "#b06820", "#e09850", "#ffb870", /* brown */
+                                         "#cc3333"                        /* red */  ],
                         zIndex:        1000
                     }, opts, {
                         angle:         randomInRange(55, 125),
