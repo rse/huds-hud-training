@@ -468,6 +468,7 @@ module.exports = {
         this.$on("votes-toggle", () => {
             this.show = !this.show
             if (this.show) {
+                /*  toggle on  */
                 soundfx.play("beep3")
                 this.choices  = []
                 this.votes    = {}
@@ -476,7 +477,10 @@ module.exports = {
                 this.disclose = true
             }
             else {
+                /*  toggle off  */
                 soundfx.play("whoosh2")
+
+                /*  for quizzes progress to the next one for convenience reasons  */
                 if (this.type === "quiz")
                     if (this.quiz < this.quizzes.length - 1)
                         this.quiz++
