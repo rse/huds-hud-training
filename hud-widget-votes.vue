@@ -67,7 +67,7 @@
     .quiz {
         width: calc(100% - 60px);
         font-family: "TypoPRO Fira Sans";
-        font-size: 36px;
+        font-size: 32px;
         border-radius: 10px;
         padding: 15px 30px 15px 30px;
         background-color: var(--quiztxtcolorbg);
@@ -112,7 +112,7 @@
         flex-direction: row;
         justify-content: flex-start;
         font-family: "TypoPRO Fira Sans";
-        font-size: 36px;
+        font-size: 32px;
         .name {
             flex-grow: 0;
             flex-shrink: 0;
@@ -137,6 +137,7 @@
                 background-color: var(--winnamecolorbg);
                 color:            var(--winnamecolorfg);
             }
+            font-size: 32px;
             font-weight: bold;
             &.invalid, &.total {
                 font-size: 32px;
@@ -479,11 +480,6 @@ module.exports = {
             else {
                 /*  toggle off  */
                 soundfx.play("whoosh2")
-
-                /*  for quizzes progress to the next one for convenience reasons  */
-                if (this.type === "quiz")
-                    if (this.quiz < this.quizzes.length - 1)
-                        this.quiz++
             }
         })
 
@@ -537,12 +533,20 @@ module.exports = {
         this.$on("votes-quiz-prev", () => {
             if (this.quiz > 0) {
                 this.quiz--
+                this.reveal   = false
+                this.disclose = false
+                this.choices  = []
+                this.votes    = {}
                 this.update()
             }
         })
         this.$on("votes-quiz-next", () => {
             if (this.quiz < this.quizzes.length - 1) {
                 this.quiz++
+                this.reveal   = false
+                this.disclose = false
+                this.choices  = []
+                this.votes    = {}
                 this.update()
             }
         })
