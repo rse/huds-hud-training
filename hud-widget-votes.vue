@@ -123,9 +123,13 @@
             border-bottom-left-radius: 10px;
             padding: 10px 30px 10px 30px;
             overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             border: 1px solid var(--stdnamecolorbg);
             background-color: var(--stdnamecolorbg);
             color:            var(--stdnamecolorfg);
+            font-size: 32px;
+            font-weight: bold;
             position: relative;
             &.max {
                 border: 1px solid var(--maxnamecolorbg);
@@ -137,8 +141,6 @@
                 background-color: var(--winnamecolorbg);
                 color:            var(--winnamecolorfg);
             }
-            font-size: 32px;
-            font-weight: bold;
             &.invalid, &.total {
                 font-size: 32px;
                 font-style: italic;
