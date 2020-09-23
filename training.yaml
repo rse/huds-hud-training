@@ -66,6 +66,14 @@ feedback:
     sadnesscolor2:         "#333333"
     sadnesscolor3:         "#000000"
     sadnesscolor4:         "#ffffff"
+    thumbsupcolor1:        "#336699"
+    thumbsupcolor2:        "#e0f0ff"
+    thumbsupcolor3:        "#003366"
+    thumbsupcolor4:        "#ffffff"
+    thumbsdncolor1:        "#904800"
+    thumbsdncolor2:        "#ffb870"
+    thumbsdncolor3:        "#702200"
+    thumbsdncolor4:        "#ffffff"
 
 feeling:
     opacity:               0.80

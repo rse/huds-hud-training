@@ -113,6 +113,18 @@
                 .badge   { background-color: var(--sadnesscolor3);
                            color:            var(--sadnesscolor4); }
             }
+            &.item-thumbsup {
+                .icon-bg { color:            var(--thumbsupcolor1); }
+                .icon    { color:            var(--thumbsupcolor2); font-size: 60px; left: 22px; top: 3px; }
+                .badge   { background-color: var(--thumbsupcolor3);
+                           color:            var(--thumbsupcolor4); }
+            }
+            &.item-thumbsdn {
+                .icon-bg { color:            var(--thumbsdncolor1); }
+                .icon    { color:            var(--thumbsdncolor2); font-size: 60px; left: 20px; top: 10px; }
+                .badge   { background-color: var(--thumbsdncolor3);
+                           color:            var(--thumbsdncolor4); }
+            }
         }
     }
 }
@@ -138,7 +150,15 @@ module.exports = {
         sadnesscolor1:  { type: String, default: "" },
         sadnesscolor2:  { type: String, default: "" },
         sadnesscolor3:  { type: String, default: "" },
-        sadnesscolor4:  { type: String, default: "" }
+        sadnesscolor4:  { type: String, default: "" },
+        thumbsupcolor1: { type: String, default: "" },
+        thumbsupcolor2: { type: String, default: "" },
+        thumbsupcolor3: { type: String, default: "" },
+        thumbsupcolor4: { type: String, default: "" },
+        thumbsdncolor1: { type: String, default: "" },
+        thumbsdncolor2: { type: String, default: "" },
+        thumbsdncolor3: { type: String, default: "" },
+        thumbsdncolor4: { type: String, default: "" }
     },
     data: () => ({
         feedbacks: {},
@@ -187,6 +207,8 @@ module.exports = {
                     else if (type === "smile")    icon = "grin-wink"
                     else if (type === "frown")    icon = "angry"
                     else if (type === "sadness")  icon = "sad-tear"
+                    else if (type === "thumbsup") icon = "thumbs-up"
+                    else if (type === "thumbsdn") icon = "thumbs-down"
                     else                          icon = "smile"
                     item = { type, count: items[type], icon, coming: true }
                     this.items.push(item)
