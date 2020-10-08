@@ -119,13 +119,15 @@ module.exports = {
             const f = this.$refs.feeling
             f.$emit("attendance", data)
         })
-        Mousetrap.bind("e", (e) => {
-            const a = this.$refs.attendees
-            a.$emit("toggle")
-        })
-        Mousetrap.bind("f", (e) => {
+
+        /*  receive messages from the attendance channel  */
+        huds.bind("feeling", (event, data) => {
+            /*  just react on correctly structured messages  */
+            if (!(   typeof data.client    === "string" && data.client !== ""
+                  && typeof data.challenge === "number" && typeof data.mood === "number"))
+                return
             const f = this.$refs.feeling
-            f.$emit("toggle")
+            f.$emit("event", data)
         })
     }
 }
