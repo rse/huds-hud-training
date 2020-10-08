@@ -727,6 +727,11 @@ module.exports = {
             const c = this.$refs.confetti
             c.$emit("raise")
         })
+
+        /*  force peers to reconnect  */
+        huds.bind("reconnect", () => {
+            huds.send("reconnect", {}, this.config.id.peer)
+        })
     },
     mounted () {
         /*  forward progress position to agenda  */
