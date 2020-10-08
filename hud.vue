@@ -369,7 +369,7 @@ module.exports = {
     name: "hud",
     data: () => ({
         config:   huds.config(),
-        debug:    huds.options.debug,
+        debug:    typeof huds.options.debug === "boolean" ? huds.options.debug : false,
         banner:   null,
         logo:     null,
         minimize: false
