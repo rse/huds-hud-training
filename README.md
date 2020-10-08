@@ -136,6 +136,8 @@ Usage
 	curl -D- http://127.0.0.1:9999/training/event/closure.end.toggle
 	curl -D- http://127.0.0.1:9999/training/event/message?data={"title":"...","text":"..."[,"image":"..."][,"audio":"..."]}
 	curl -D- http://127.0.0.1:9999/training/event/confetti.raise
+	curl -D- http://127.0.0.1:9999/training/event/peer.reconnect
+	curl -D- http://127.0.0.1:9999/training/event/peer.disconnect
     ```
 
 6.  **Remote Control HUD (Device)**:<br/>

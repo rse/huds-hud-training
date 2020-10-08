@@ -728,9 +728,12 @@ module.exports = {
             c.$emit("raise")
         })
 
-        /*  force peers to reconnect  */
-        huds.bind("reconnect", () => {
+        /*  control peers  */
+        huds.bind("peer.reconnect", () => {
             huds.send("reconnect", {}, this.config.id.peer)
+        })
+        huds.bind("peer.disconnect", () => {
+            huds.send("disconnect", {}, this.config.id.peer)
         })
     },
     mounted () {
