@@ -56,8 +56,8 @@
         <script type="text/javascript" src="@canvas-confetti/dist/confetti.browser.js"></script>
     </head>
     <body>
-        <div id="hud">
-            <hud></hud>
+        <div id="index">
+            <index></index>
         </div>
         <style type="text/css">
             html {
@@ -93,7 +93,7 @@
                 less.render(lessText, { globalVars: huds.config({ flat: true, sep: "-" }) }).then((result) => result.css)
             Vue.use(httpVueLoader)
             Vue.use(VueResize)
-            vm = new Vue({ el: "#hud", components: { "hud": "url:hud.vue" }})
+            vm = new Vue({ el: "#index", components: { "index": "url:index.vue" }})
         </script>
     </body>
 </html>
