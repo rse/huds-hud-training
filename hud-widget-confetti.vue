@@ -71,6 +71,7 @@ module.exports = {
                         ticks:         1000,
                         origin:        { x: 0.5, y: 1.0 },
                         shapes:        [ "circle", "square" ],
+                        scalar:        1.5,
                         colors: [
                             "#909090", "#c0c0c0", "#ffffff", /* white  */
                             "#336699", "#6699cc", "#99ccff", /* blue   */
