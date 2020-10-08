@@ -79,6 +79,7 @@ rules:
     space-in-parens:                     off
     array-bracket-spacing:               off
     require-atomic-updates:              off
+    quote-props:                         off
 
     "vue/html-indent":                   off
     "vue/v-bind-style":                  [ "error", "longform" ]
@@ -89,5 +90,5 @@ rules:
     "vue/singleline-html-element-content-newline": off
     "vue/no-v-html":                     off
     "vue/v-on-style":                    off
-    quote-props:                         off
+    "vue/component-tags-order":          off
 
