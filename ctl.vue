@@ -58,6 +58,20 @@
             v-bind:m4color="config.feeling.m4color"
             v-bind:m5color="config.feeling.m5color"
         ></feeling>
+        <timer ref="timer" class="timer"
+            v-bind:opacity="config.timer.opacity"
+            v-bind:background1="config.timer.background1"
+            v-bind:background2="config.timer.background2"
+            v-bind:ticks="config.timer.ticks"
+            v-bind:digits="config.timer.digits"
+            v-bind:pointer1="config.timer.pointer1"
+            v-bind:pointer2="config.timer.pointer2"
+            v-bind:pointer3="config.timer.pointer3"
+            v-bind:segment1="config.timer.segment1"
+            v-bind:segment2="config.timer.segment2"
+            v-bind:segment3="config.timer.segment3"
+            v-bind:segment4="config.timer.segment4"
+        ></timer>
     </div>
 </template>
 
@@ -69,11 +83,11 @@
     font-family: sans-serif;
     font-size: 12pt;
     overflow: hidden;
-    background-color: #333333;
+    background-color: #222222;
     color: #ffffff;
     > .attendance {
         position: absolute;
-        right: 20px;
+        right: 520px;
         bottom: 20px;
         width: 270px;
     }
@@ -81,14 +95,21 @@
         position: absolute;
         top: 20px;
         left: 20px;
-        width:  calc(100vw - 330px);
+        width:  calc(100vw - 830px);
         height: calc(100vh - 40px);
     }
     > .feeling {
         position: absolute;
-        right: 20px;
+        right: 520px;
         bottom: 100px;
         width: 270px;
+    }
+    > .timer {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        width: 480px;
+        height: 480px;
     }
 }
 </style>
@@ -103,7 +124,8 @@ module.exports = {
     components: {
         "attendance":   "url:ctl-widget-attendance.vue",
         "attendees":    "url:ctl-widget-attendees.vue",
-        "feeling":      "url:ctl-widget-feeling.vue"
+        "feeling":      "url:ctl-widget-feeling.vue",
+        "timer":        "url:ctl-widget-timer.vue"
     },
     created () {
         /*  receive messages from the attendance channel  */
@@ -128,6 +150,13 @@ module.exports = {
                 return
             const f = this.$refs.feeling
             f.$emit("event", data)
+        })
+
+        /*  receive messages from the progress channel  */
+        huds.bind("progress.*", (event, data) => {
+            const t = this.$refs.timer
+            if (event === "progress.prev" || event === "progress.next")
+                t.$emit("restart")
         })
     }
 }

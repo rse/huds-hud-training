@@ -259,7 +259,6 @@ module.exports = {
 
                     /*  in case of changes, animate columns to their target heights  */
                     if (changes) {
-                        soundfx.play("slide1")
                         for (const col of cols) {
                             const type = col.getAttribute("data-type")
                             const val  = col.getAttribute("data-val")
@@ -307,17 +306,6 @@ module.exports = {
             }
             this.update()
         }, 2 * 1000)
-
-        /*  toggle the widget  */
-        this.$on("toggle", () => {
-            this.show = !this.show
-            if (this.show) {
-                this.update()
-                soundfx.play("beep3")
-            }
-            else
-                soundfx.play("whoosh2")
-        })
     },
     mounted () {
         /*  initialize heights  */

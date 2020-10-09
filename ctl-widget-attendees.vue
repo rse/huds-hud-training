@@ -210,53 +210,6 @@ module.exports = {
             if (changed)
                 this.recalc()
         }, 2 * 1000)
-
-        /*  toggle agenda on/off  */
-        this.$on("toggle", () => {
-            /*  do nothing if we are still progressing  */
-            if (this.progress)
-                return
-            this.progress = true
-
-            /*  determine old and new toggle state  */
-            const oldstate = this.enabled
-            const newstate = !oldstate
-            if (!oldstate)
-                this.enabled = true
-
-            /*  create the on/off animation  */
-            const el = this.$refs.canvas
-            const tl = anime.timeline({
-                targets:  el,
-                duration: 1000,
-                autoplay: true
-            })
-            if (newstate) {
-                /*  toggle agenda on  */
-                setTimeout(() => soundfx.play("whoosh3"), 200)
-                tl.add({
-                    easing:     "cubicBezier(0.570, 0.000, 0.340, 1.390)",
-                    translateX: [ -(120 + el.clientWidth), 0 ],
-                    opacity:    [ 1.0, 1.0 ]
-                })
-            }
-            else {
-                /*  toggle agenda off  */
-                setTimeout(() => soundfx.play("click1"), 50)
-                setTimeout(() => soundfx.play("whoosh3"), 500)
-                tl.add({
-                    easing:     "cubicBezier(0.625, -0.480, 0.505, 1.000)",
-                    translateX: [ 0, -(120 + el.clientWidth) ],
-                    opacity:    [ 1.0, 1.0 ]
-                })
-            }
-            tl.finished.then(() => {
-                if (newstate)
-                    soundfx.play("click1")
-                this.enabled  = newstate
-                this.progress = false
-            })
-        })
     }
 }
 </script>
