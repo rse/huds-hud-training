@@ -210,7 +210,7 @@ module.exports = {
                 this.recalc()
         }, 2 * 1000)
 
-        /*  toggle agenda on/off  */
+        /*  toggle attendees on/off  */
         this.$on("toggle", () => {
             /*  do nothing if we are still progressing  */
             if (this.progress)
