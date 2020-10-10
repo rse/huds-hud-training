@@ -77,6 +77,17 @@
             v-bind:todocolorfg="config.agenda.todocolorfg"
             v-bind:slots="config.agenda.slots"
         ></agenda>
+        <popup ref="popup" class="popup"
+            v-bind:questionbackground="config.popup.questionbackground"
+            v-bind:questiontitlecolor="config.popup.questiontitlecolor"
+            v-bind:questionmessagecolor="config.popup.questionmessagecolor"
+            v-bind:objectionbackground="config.popup.objectionbackground"
+            v-bind:objectiontitlecolor="config.popup.objectiontitlecolor"
+            v-bind:objectionmessagecolor="config.popup.objectionmessagecolor"
+            v-bind:commentbackground="config.popup.commentbackground"
+            v-bind:commenttitlecolor="config.popup.commenttitlecolor"
+            v-bind:commentmessagecolor="config.popup.commentmessagecolor"
+        ></popup>
     </div>
 </template>
 
@@ -123,6 +134,13 @@
         width: 760px;
         height: calc(100vh - 530px);
     }
+    > .popup {
+        position: absolute;
+        bottom: 40px;
+        width: calc(50vw);
+        height: calc(100vh - 80px);
+        left: 40px;
+    }
 }
 </style>
 
@@ -138,7 +156,8 @@ module.exports = {
         "attendees":    "url:ctl-widget-attendees.vue",
         "feeling":      "url:ctl-widget-feeling.vue",
         "timer":        "url:ctl-widget-timer.vue",
-        "agenda":       "url:ctl-widget-agenda.vue"
+        "agenda":       "url:ctl-widget-agenda.vue",
+        "popup":        "url:ctl-widget-popup.vue"
     },
     created () {
         /*  receive messages for the attendance channel  */
@@ -153,6 +172,8 @@ module.exports = {
             a2.$emit("attendance", data)
             const f = this.$refs.feeling
             f.$emit("attendance", data)
+            const p = this.$refs.popup
+            p.$emit("attendance", data)
         })
 
         /*  receive messages for the attendance channel  */
@@ -176,6 +197,51 @@ module.exports = {
             else if (event === "progress.next") {
                 a.$emit("next")
                 t.$emit("restart")
+            }
+        })
+
+        /*  receive messages for the popup channel  */
+        huds.bind("popup.add", (event, data) => {
+            const a = this.$refs.popup
+            a.$emit("popup-add", data)
+        })
+        huds.bind("popup.remove", (event, data) => {
+            const a = this.$refs.popup
+            a.$emit("popup-remove")
+        })
+
+        /*  receive messages from a companion chat  */
+        huds.bind("message", (event, data) => {
+            /*  just react on correctly structured messages  */
+            if (!(   (typeof data.client === "string" && data.client !== "")
+                  && (typeof data.text === "string")))
+                return
+
+            /*  filter message markup  */
+            data.text = data.text
+                .replace(/&nbsp;/g, " ")
+                .replace(/\s+/g, " ")
+                .replace(/^\s+/, "")
+                .replace(/\s+$/, "")
+            data.text = data.text.replace(/<([a-z][a-zA-Z0-9:-]*)(?:\s+="[^""]*")*\s*>(.*?)<\/\1>/g, (_, tag, body) => {
+                if (tag.match(/^(?:strong|em|u|s|b|i)$/))
+                    return `<${tag}>${body}</${tag}>`
+                else
+                    return body
+            })
+
+            /*  react on particular message types  */
+            if (data.text.match(/^(.+?)\?$/)) {
+                const a = this.$refs.popup
+                a.$emit("popup-add", { ...data, type: "question" })
+            }
+            else if (data.text.match(/^(.+?)!$/)) {
+                const a = this.$refs.popup
+                a.$emit("popup-add", { ...data, type: "objection" })
+            }
+            else {
+                const a = this.$refs.popup
+                a.$emit("popup-add", { ...data, type: "comment" })
             }
         })
     }
