@@ -152,7 +152,7 @@ module.exports = {
             let k = cells.length
             const b = 4 + 4
             const S = 30
-            let s = 200
+            let s = 300
             while (s > S) {
                 const nx = Math.floor(W / (s + b))
                 const ny = Math.floor(H / (s + b))
