@@ -87,6 +87,8 @@ module.exports = {
             }
 
             /*  perform ten rounds  */
+            soundfx.play(`fanfare1`)
+            await new Promise((resolve) => setTimeout(resolve, 3.0 * 1000))
             for (let i = 0; i < 10; i++) {
                 /*  fire multiple confetti bombs  */
                 soundfx.play(`cannon${(i % 2) + 1}`)
