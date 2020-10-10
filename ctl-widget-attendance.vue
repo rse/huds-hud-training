@@ -39,7 +39,6 @@
 
 <style lang="less" scoped>
 .attendance {
-    opacity: var(--opacity);
     .bar {
         height: 54px;
         border-radius: 8px;
@@ -70,7 +69,6 @@
 module.exports = {
     name: "attendance",
     props: {
-        opacity:    { type: Number, default: 1.0 },
         background: { type: String, default: "" },
         iconcolor:  { type: String, default: "" },
         textcolor:  { type: String, default: "" }

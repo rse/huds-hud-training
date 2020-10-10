@@ -71,7 +71,6 @@
 
 <style lang="less" scoped>
 .feeling {
-    opacity: var(--opacity);
     .bar {
         margin-bottom: 0;
         border-radius: 8px;
@@ -159,7 +158,6 @@
 module.exports = {
     name: "feeling",
     props: {
-        opacity:     { type: Number, default: 1.0 },
         background:  { type: String, default: "" },
         textcolor:   { type: String, default: "" },
         bordercolor: { type: String, default: "" },

@@ -43,9 +43,7 @@
 
 <style lang="less" scoped>
 .attendees {
-    opacity: var(--opacity);
     .canvas {
-        opacity: 1.0;
         border-radius: 8px;
         background-color: var(--background);
         height: 100%;
@@ -103,7 +101,6 @@
 module.exports = {
     name: "attendees",
     props: {
-        opacity:         { type: Number, default: 1.0 },
         background:      { type: String, default: "" },
         namecolorbg:     { type: String, default: "" },
         namecolorfg:     { type: String, default: "" },

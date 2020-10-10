@@ -35,7 +35,6 @@
 
 <style lang="less" scoped>
 .timer {
-    opacity: var(--opacity);
     position: relative;
     .canvas {
         position: relative;
@@ -53,7 +52,6 @@
 module.exports = {
     name: "timer",
     props: {
-        opacity:     { type: Number, default: 1.0 },
         duration:    { type: Number, default: 0 },
         background1: { type: String, default: "" },
         background2: { type: String, default: "" },
@@ -89,7 +87,7 @@ module.exports = {
     methods: {
         restart () {
             /*  determine the duration-related information  */
-            let now = Math.floor((new Date()).getTime() / 1000)
+            const now = Math.floor((new Date()).getTime() / 1000)
             this.segFrom = Math.floor(now / 60) % 60
             this.segNow  = this.segFrom
         },

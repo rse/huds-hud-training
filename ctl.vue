@@ -27,20 +27,17 @@
 <template>
     <div class="ctl">
         <attendance ref="attendance" class="attendance"
-            v-bind:opacity="config.attendance.opacity"
             v-bind:background="config.attendance.background"
             v-bind:iconcolor="config.attendance.iconcolor"
             v-bind:textcolor="config.attendance.textcolor"
         ></attendance>
         <attendees ref="attendees" class="attendees"
-            v-bind:opacity="config.attendees.opacity"
             v-bind:background="config.attendees.background"
             v-bind:namecolorbg="config.attendees.namecolorbg"
             v-bind:namecolorfg="config.attendees.namecolorfg"
             v-bind:noattendeestext="config.attendees.noattendeestext"
         ></attendees>
         <feeling ref="feeling" class="feeling"
-            v-bind:opacity="config.feeling.opacity"
             v-bind:background="config.feeling.background"
             v-bind:textcolor="config.feeling.textcolor"
             v-bind:bordercolor="config.feeling.bordercolor"
@@ -59,7 +56,6 @@
             v-bind:m5color="config.feeling.m5color"
         ></feeling>
         <timer ref="timer" class="timer"
-            v-bind:opacity="config.timer.opacity"
             v-bind:background1="config.timer.background1"
             v-bind:background2="config.timer.background2"
             v-bind:ticks="config.timer.ticks"
@@ -72,6 +68,15 @@
             v-bind:segment3="config.timer.segment3"
             v-bind:segment4="config.timer.segment4"
         ></timer>
+        <agenda ref="agenda" class="agenda"
+            v-bind:donecolorbg="config.agenda.donecolorbg"
+            v-bind:donecolorfg="config.agenda.donecolorfg"
+            v-bind:currcolorbg="config.agenda.currcolorbg"
+            v-bind:currcolorfg="config.agenda.currcolorfg"
+            v-bind:todocolorbg="config.agenda.todocolorbg"
+            v-bind:todocolorfg="config.agenda.todocolorfg"
+            v-bind:slots="config.agenda.slots"
+        ></agenda>
     </div>
 </template>
 
@@ -83,7 +88,7 @@
     font-family: sans-serif;
     font-size: 12pt;
     overflow: hidden;
-    background-color: #222222;
+    background-color: #333333;
     color: #ffffff;
     > .attendance {
         position: absolute;
@@ -108,8 +113,15 @@
         position: absolute;
         right: 20px;
         bottom: 20px;
-        width: 480px;
-        height: 480px;
+        width: 470px;
+        height: 470px;
+    }
+    > .agenda {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        width: 760px;
+        height: calc(100vh - 530px);
     }
 }
 </style>
@@ -125,10 +137,11 @@ module.exports = {
         "attendance":   "url:ctl-widget-attendance.vue",
         "attendees":    "url:ctl-widget-attendees.vue",
         "feeling":      "url:ctl-widget-feeling.vue",
-        "timer":        "url:ctl-widget-timer.vue"
+        "timer":        "url:ctl-widget-timer.vue",
+        "agenda":       "url:ctl-widget-agenda.vue"
     },
     created () {
-        /*  receive messages from the attendance channel  */
+        /*  receive messages for the attendance channel  */
         huds.bind("attendance", (event, data) => {
             /*  just react on correctly structured messages  */
             if (!(   typeof data.client  === "string" && data.client !== ""
@@ -142,7 +155,7 @@ module.exports = {
             f.$emit("attendance", data)
         })
 
-        /*  receive messages from the attendance channel  */
+        /*  receive messages for the attendance channel  */
         huds.bind("feeling", (event, data) => {
             /*  just react on correctly structured messages  */
             if (!(   typeof data.client    === "string" && data.client !== ""
@@ -152,11 +165,18 @@ module.exports = {
             f.$emit("event", data)
         })
 
-        /*  receive messages from the progress channel  */
+        /*  receive messages for the progress and agenda channel  */
         huds.bind("progress.*", (event, data) => {
             const t = this.$refs.timer
-            if (event === "progress.prev" || event === "progress.next")
+            const a = this.$refs.agenda
+            if (event === "progress.prev") {
+                a.$emit("prev")
                 t.$emit("restart")
+            }
+            else if (event === "progress.next") {
+                a.$emit("next")
+                t.$emit("restart")
+            }
         })
     }
 }
