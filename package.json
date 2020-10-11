@@ -31,7 +31,7 @@
         "moment":                          "2.29.1",
         "canvas-confetti":                 "1.3.0",
         "@rse/soundfx":                    "1.1.0",
-        "@rse/soundlp":                    "1.0.0"
+        "@rse/soundlp":                    "1.0.1"
     },
     "peerDependencies": {
         "huds":                            ">=1.3.1"
