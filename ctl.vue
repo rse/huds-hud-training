@@ -210,6 +210,13 @@ module.exports = {
             a.$emit("popup-remove")
         })
 
+        /*  receive messages for the voting channel  */
+        let votesEnabled = false
+        huds.bind("votes.*", (event, data) => {
+            if (event === "votes.toggle")
+                votesEnabled = !votesEnabled
+        })
+
         /*  receive messages from a companion chat  */
         huds.bind("message", (event, data) => {
             /*  just react on correctly structured messages  */
@@ -229,6 +236,10 @@ module.exports = {
                 else
                     return body
             })
+
+            /*  short-circuit voting messages  */
+            if (votesEnabled)
+                return
 
             /*  react on particular message types  */
             if (data.text.match(/^(.+?)\?$/)) {
