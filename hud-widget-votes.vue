@@ -117,7 +117,7 @@
             flex-grow: 0;
             flex-shrink: 0;
             display: block;
-            width: 350px;
+            width: 450px;
             height: 50px;
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
@@ -129,7 +129,7 @@
             background-color: var(--stdnamecolorbg);
             color:            var(--stdnamecolorfg);
             font-size: 32px;
-            font-weight: bold;
+            font-weight: normal;
             position: relative;
             &.max {
                 border: 1px solid var(--maxnamecolorbg);
