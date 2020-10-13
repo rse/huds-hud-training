@@ -141,7 +141,7 @@ module.exports = {
             /*  determine all potential cells  */
             const cells = Object.keys(this.attendees)
                 .map((client) => this.attendees[client])
-                .sort((a, b) => b.seen - a.seen)
+                .sort((a, b) => a.name.localeCompare(b.name))
 
             /*  determine canvas size (can differ on minimize HUD view)  */
             const el = this.$refs.canvas
