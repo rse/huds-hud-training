@@ -176,7 +176,7 @@ module.exports = {
         this.$on("attendance", (data) => {
             if (data.event === "begin") {
                 this.attendees[data.client] = {
-                    version: data.version ? data.version.replace(/^.*\//, "") : "?.?.?",
+                    version: data.agent ? data.agent.replace(/^.*\//, "") : "?.?.?",
                     image:   data.data && data.data.image ? data.data.image : "",
                     name:    data.data && data.data.name  ? data.data.name  : "",
                     seen:    (new Date()).getTime()
