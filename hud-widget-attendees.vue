@@ -103,11 +103,12 @@
 module.exports = {
     name: "attendees",
     props: {
-        opacity:         { type: Number, default: 1.0 },
-        background:      { type: String, default: "" },
-        namecolorbg:     { type: String, default: "" },
-        namecolorfg:     { type: String, default: "" },
-        noattendeestext: { type: String, default: "" }
+        opacity:           { type: Number, default: 1.0 },
+        background:        { type: String, default: "" },
+        namecolorbg:       { type: String, default: "" },
+        namecolorfg:       { type: String, default: "" },
+        noattendeestext:   { type: String, default: "" },
+        privacylevel:      { type: String, default: "" }
     },
     data: () => ({
         enabled:      false,
@@ -178,10 +179,18 @@ module.exports = {
         /*  receive the attendee events  */
         this.$on("attendance", (data) => {
             if (data.event === "begin") {
+                let image     = data.data && data.data.image   ? data.data.image   : ""
+                let name      = data.data && data.data.name    ? data.data.name    : ""
+                const privacy = data.data && data.data.privacy ? data.data.privacy : "private"
+                if (   (this.privacylevel === "closed" && (privacy === "anonymous"))
+                    || (this.privacylevel === "open"   && (privacy === "private" || privacy === "anonymous"))) {
+                    image = "avatar-undisclosed.svg"
+                    name  = "UNDISCLOSED IDENTITY"
+                }
                 this.attendees[data.client] = {
-                    image: data.data && data.data.image ? data.data.image : "",
-                    name:  data.data && data.data.name  ? data.data.name  : "",
-                    seen:  (new Date()).getTime()
+                    image:   image,
+                    name:    name,
+                    seen:    (new Date()).getTime()
                 }
             }
             else if (data.event === "refresh") {

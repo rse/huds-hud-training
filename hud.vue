@@ -77,6 +77,7 @@
             v-bind:namecolorbg="config.attendees.namecolorbg"
             v-bind:namecolorfg="config.attendees.namecolorfg"
             v-bind:noattendeestext="config.attendees.noattendeestext"
+            v-bind:privacylevel="config.attendees.privacylevel"
         ></attendees>
         <feeling ref="feeling" class="feeling"
             v-bind:opacity="config.feeling.opacity"
@@ -144,6 +145,7 @@
             v-bind:commentbackground="config.popup.commentbackground"
             v-bind:commenttitlecolor="config.popup.commenttitlecolor"
             v-bind:commentmessagecolor="config.popup.commentmessagecolor"
+            v-bind:privacylevel="config.popup.privacylevel"
         ></popup>
         <votes ref="votes" class="votes"
             v-bind:opacity="config.votes.opacity"
@@ -207,6 +209,9 @@
             v-bind:endiconcolor="config.closure.endiconcolor"
             v-bind:endhinttext="config.closure.endhinttext"
             v-bind:endhintcolor="config.closure.endhintcolor"
+            v-bind:privacylevel="config.closure.privacylevel"
+            v-bind:privacyclosedtext="config.closure.privacyclosedtext"
+            v-bind:privacyopentext="config.closure.privacyopentext"
         ></closure>
         <confetti ref="confetti" class="confetti"
             v-bind:opacity="config.confetti.opacity"

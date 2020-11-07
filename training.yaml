@@ -47,6 +47,7 @@ attendees:
     namecolorbg:           "#003366"
     namecolorfg:           "#e0f0ff"
     noattendeestext:       "This training has still no attendees."
+    privacylevel:          closed
 
 feedback:
     opacity:               0.80
@@ -109,6 +110,9 @@ closure:
     endiconcolor:          "#b06820"
     endhinttext:           "The training already has ended.<br/>Thanks for your attention!"
     endhintcolor:          "#ffffff"
+    privacylevel:          closed
+    privacyclosedtext:     "Notice: this training is broadcasted in <b>private</b> to a <b>closed</b> group. Identities of attendees with just <b>anonymous</b> privacy level will be not disclosed, of course. Set your privacy level in your <b><i>LiVE Receiver</i></b> to at least <b>private</b> or even <b>public</b> to have your identity be disclosed, please."
+    privacyopentext:       "Notice: this training is broadcasted in <b>public</b> to an <b>open</b> group. Identities of attendees with just <b>anonymous</b> or <b>private</b> privacy level will be not disclosed, of course. Set your privacy level in your <b><i>LiVE Receiver</i></b> to <b>public</b> to have your identity be disclosed, please."
 
 popup:
     opacity:               0.80
@@ -121,6 +125,7 @@ popup:
     commentbackground:     "#f0f0f0"
     commenttitlecolor:     "#333333"
     commentmessagecolor:   "#000000"
+    privacylevel:          closed
 
 timer:
     opacity:               0.80

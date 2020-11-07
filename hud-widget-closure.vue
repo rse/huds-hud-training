@@ -33,7 +33,13 @@
                 </div>
             </div>
             <div class="right">
-                <div class="text" v-html="beginhinttext">
+                <div class="text">
+                    <div class="hint" v-html="beginhinttext">
+                    </div>
+                    <div class="privacy" v-if="privacylevel === 'closed'" v-html="privacyclosedtext">
+                    </div>
+                    <div class="privacy" v-if="privacylevel === 'open'" v-html="privacyopentext">
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,7 +50,9 @@
                 </div>
             </div>
             <div class="right">
-                <div class="text" v-html="pausehinttext">
+                <div class="text">
+                    <div class="hint" v-html="pausehinttext">
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,7 +63,9 @@
                 </div>
             </div>
             <div class="right">
-                <div class="text" v-html="endhinttext">
+                <div class="text">
+                    <div class="hint" v-html="endhinttext">
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,10 +109,17 @@
             justify-content: center;
             align-items: center;
             .text {
-                padding-right: 150px;
                 font-family: "TypoPRO Fira Sans";
                 font-weight: normal;
-                font-size: 32pt;
+                padding-left: 150px;
+                padding-right: 200px;
+                .hint {
+                    font-size: 32pt;
+                }
+                .privacy {
+                    margin-top: 50px;
+                    font-size: 20pt;
+                }
             }
         }
     }
@@ -119,20 +136,23 @@
 module.exports = {
     name: "closure",
     props: {
-        opacity:        { type: Number, default: 1.0 },
-        background:     { type: String, default: "" },
-        beginiconname:  { type: String, default: "" },
-        beginiconcolor: { type: String, default: "" },
-        beginhinttext:  { type: String, default: "" },
-        beginhintcolor: { type: String, default: "" },
-        pauseiconname:  { type: String, default: "" },
-        pauseiconcolor: { type: String, default: "" },
-        pausehinttext:  { type: String, default: "" },
-        pausehintcolor: { type: String, default: "" },
-        endiconname:    { type: String, default: "" },
-        endiconcolor:   { type: String, default: "" },
-        endhinttext:    { type: String, default: "" },
-        endhintcolor:   { type: String, default: "" }
+        opacity:           { type: Number, default: 1.0 },
+        background:        { type: String, default: "" },
+        beginiconname:     { type: String, default: "" },
+        beginiconcolor:    { type: String, default: "" },
+        beginhinttext:     { type: String, default: "" },
+        beginhintcolor:    { type: String, default: "" },
+        pauseiconname:     { type: String, default: "" },
+        pauseiconcolor:    { type: String, default: "" },
+        pausehinttext:     { type: String, default: "" },
+        pausehintcolor:    { type: String, default: "" },
+        endiconname:       { type: String, default: "" },
+        endiconcolor:      { type: String, default: "" },
+        endhinttext:       { type: String, default: "" },
+        endhintcolor:      { type: String, default: "" },
+        privacylevel:      { type: String, default: "" },
+        privacyclosedtext: { type: String, default: "" },
+        privacyopentext:   { type: String, default: "" }
     },
     data: () => ({
         begin:     "open",
