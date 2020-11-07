@@ -116,7 +116,7 @@ module.exports = {
         /*  allow the box to be animated  */
         this.$on("animate", () => {
             const bar = this.$refs.bar
-            soundfx.play("beep6")
+            /* soundfx.play("beep6") */
             const tl = anime.timeline({
                 targets: bar,
                 duration: 400,
