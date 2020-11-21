@@ -136,6 +136,7 @@ Usage
 	curl -D- http://127.0.0.1:9999/training/event/closure.end.toggle
 	curl -D- http://127.0.0.1:9999/training/event/message?data={"title":"...","text":"..."[,"image":"..."][,"audio":"..."]}
 	curl -D- http://127.0.0.1:9999/training/event/confetti.raise
+	curl -D- http://127.0.0.1:9999/training/event/snowfall.toggle
 	curl -D- http://127.0.0.1:9999/training/event/peer.reconnect
 	curl -D- http://127.0.0.1:9999/training/event/peer.disconnect
     ```
@@ -560,6 +561,19 @@ This HUD provides the following on-screen widgets:
 
     ...and is controlled interactively with the keystroke <kbd>c</kbd>
     or programmatically with the remote HUDS event `confetti.raise`.
+
+-   **SNOWFALL**:<br/>
+    This widget displays a snowfall.
+    The intention of this widget is to celebrate a special situation.
+    It has to be configured with...
+
+    ```yaml
+    snowfall:
+        opacity:               1.00
+    ```
+
+    ...and is controlled interactively with the keystroke <kbd>s</kbd>
+    or programmatically with the remote HUDS event `snowfall.toggle`.
 
 License
 -------

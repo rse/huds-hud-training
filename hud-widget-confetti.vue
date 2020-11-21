@@ -34,6 +34,7 @@
 .confetti {
     width:  100%;
     height: 100%;
+    opacity: var(--opacity);
     .canvas {
         width:  100%;
         height: 100%;

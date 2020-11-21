@@ -216,6 +216,9 @@
         <confetti ref="confetti" class="confetti"
             v-bind:opacity="config.confetti.opacity"
         ></confetti>
+        <snowfall ref="snowfall" class="snowfall"
+            v-bind:opacity="config.snowfall.opacity"
+        ></snowfall>
     </div>
 </template>
 
@@ -325,6 +328,13 @@ body {
         width:  100vw;
         height: 100vh;
     }
+    > .snowfall {
+        position: absolute;
+        top:    0;
+        left:   0;
+        width:  100vw;
+        height: 100vh;
+    }
     &.minimize {
         > .attendance {
             display: none;
@@ -395,7 +405,8 @@ module.exports = {
         "votes":        "url:hud-widget-votes.vue",
         "timer":        "url:hud-widget-timer.vue",
         "latency":      "url:hud-widget-latency.vue",
-        "confetti":     "url:hud-widget-confetti.vue"
+        "confetti":     "url:hud-widget-confetti.vue",
+        "snowfall":     "url:hud-widget-snowfall.vue"
     },
     created () {
         /*  interaction for logo */
@@ -731,6 +742,15 @@ module.exports = {
         huds.bind("confetti.raise", () => {
             const c = this.$refs.confetti
             c.$emit("raise")
+        })
+
+        /*  allow confetti to be raised  */
+        Mousetrap.bind("s", (e) => {
+            huds.send("snowfall.toggle")
+        })
+        huds.bind("snowfall.toggle", () => {
+            const s = this.$refs.snowfall
+            s.$emit("toggle")
         })
 
         /*  control peers  */

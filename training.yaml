@@ -249,6 +249,9 @@ latency:
 confetti:
     opacity:               1.00
 
+snowfall:
+    opacity:               1.00
+
 agenda:
     opacity:               0.90
     donecolorbg:           "#6699cc"
