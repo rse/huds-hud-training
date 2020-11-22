@@ -111,7 +111,7 @@ module.exports = {
             const randomColor = (colors) =>
                 colors[Math.floor(Math.random() * colors.length)]
             const colors = [ "#e0e0e0", "#f0f0f0", "#ffffff" ]
-            for (let i = 0; i < 500; i++) {
+            for (let i = 0; i < 800; i++) {
                 snowflakes.push(new Snowflake(
                     canvas.getContext("2d"),
                     canvas.width,

@@ -250,7 +250,7 @@ confetti:
     opacity:               1.00
 
 snowfall:
-    opacity:               1.00
+    opacity:               0.90
 
 agenda:
     opacity:               0.90
