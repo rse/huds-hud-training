@@ -220,9 +220,10 @@ module.exports = {
 
                 /*  determine individual heights and mark maximums  */
                 for (let val = 1; val <= 5; val++) {
-                    this.cols[name][val].height = (max === 0 ? "0%" : Math.ceil(
-                        (this.cols[name][val].count / max) * 100
-                    ) + "%")
+                    this.cols[name][val].height = (max === 0 ?
+                        "0%" :
+                        Math.ceil((this.cols[name][val].count / max) * 100) + "%"
+                    )
                     this.cols[name][val].max = (this.cols[name][val].count === max)
                 }
             }

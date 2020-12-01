@@ -36,9 +36,9 @@
                 <div class="text">
                     <div class="hint" v-html="beginhinttext">
                     </div>
-                    <div class="privacy" v-if="privacylevel === 'closed'" v-html="privacyclosedtext">
+                    <div v-if="privacylevel === 'closed'" class="privacy" v-html="privacyclosedtext">
                     </div>
-                    <div class="privacy" v-if="privacylevel === 'open'" v-html="privacyopentext">
+                    <div v-if="privacylevel === 'open'" class="privacy" v-html="privacyopentext">
                     </div>
                 </div>
             </div>
