@@ -127,26 +127,26 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            border: 1px solid var(--stdnamecolorbg);
+            border: 2px solid var(--stdnamecolorbg);
             background-color: var(--stdnamecolorbg);
             color:            var(--stdnamecolorfg);
             font-size: 32px;
             font-weight: normal;
             position: relative;
             &.max {
-                border: 1px solid var(--maxnamecolorbg);
+                border: 2px solid var(--maxnamecolorbg);
                 background-color: var(--maxnamecolorbg);
                 color:            var(--maxnamecolorfg);
             }
             &.win {
-                border: 1px solid var(--winnamecolorbg);
+                border: 2px solid var(--winnamecolorbg);
                 background-color: var(--winnamecolorbg);
                 color:            var(--winnamecolorfg);
             }
             &.abstain, &.invalid, &.total {
                 font-style: italic;
                 font-weight: 300;
-                border: 1px solid var(--xtrnamecolorbg);
+                border: 2px solid var(--xtrnamecolorbg);
                 background-color: var(--xtrnamecolorbg);
                 color:            var(--xtrnamecolorfg);
             }
@@ -165,9 +165,9 @@
             display: block;
             padding: 0;
             margin: 0;
-            border-top:    1px solid var(--stdvotecolorbg);
-            border-bottom: 1px solid var(--stdvotecolorbg);
-            border-right:  1px solid var(--stdvotecolorbg);
+            border-top:    2px solid var(--stdvotecolorbg);
+            border-bottom: 2px solid var(--stdvotecolorbg);
+            border-right:  2px solid var(--stdvotecolorbg);
             border-top-right-radius: 10px;
             border-bottom-right-radius: 10px;
             position: relative;
