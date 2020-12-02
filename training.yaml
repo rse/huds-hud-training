@@ -159,7 +159,7 @@ votes:
     maxnamecolorfg:        "#ffffff"
     stdnamecolorbg:        "#6699cc"
     stdnamecolorfg:        "#ffffff"
-    xtrnamecolorbg:        "#aaaaaa"
+    xtrnamecolorbg:        "#999999"
     xtrnamecolorfg:        "#ffffff"
     winvotecolorbg:        "#ffffff"
     winvotecolorfg:        "#666666"
