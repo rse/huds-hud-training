@@ -119,7 +119,7 @@
             flex-grow: 0;
             flex-shrink: 0;
             display: block;
-            width: 450px;
+            width: 600px;
             height: 40px;
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
