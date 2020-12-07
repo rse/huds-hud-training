@@ -89,8 +89,12 @@
             soundlp = new Howl({ ...slp.config(), volume: 0.40, preload: true })
 
             /*  initialize user interface  */
+            let vars = huds.config({ flat: true, sep: "-" })
+            for (const key of Object.keys(vars))
+                if (typeof vars[key] === "string")
+                    vars[key] = vars[key].replace(/'/g, "\\'")
             httpVueLoader.langProcessor.less = (lessText) =>
-                less.render(lessText, { globalVars: huds.config({ flat: true, sep: "-" }) }).then((result) => result.css)
+                less.render(lessText, { globalVars: vars }).then((result) => result.css)
             Vue.use(httpVueLoader)
             Vue.use(VueResize)
             vm = new Vue({ el: "#index", components: { "index": "url:index.vue" }})
