@@ -45,21 +45,24 @@
 module.exports = {
     name: "progress",
     props: {
-        opacity:     { type: Number, default: 1.0 },
-        slots:       { type: Number, default: 10 },
-        donecolorbg: { type: String, default: "" },
-        donecolorfg: { type: String, default: "" },
-        currcolorbg: { type: String, default: "" },
-        currcolorfg: { type: String, default: "" },
-        todocolorbg: { type: String, default: "" },
-        todocolorfg: { type: String, default: "" }
+        opacity:      { type: Number, default: 1.0 },
+        slotlist:     { type: String, default: [] },
+        donecolorbg:  { type: String, default: "" },
+        donecolorfg:  { type: String, default: "" },
+        currcolorbg:  { type: String, default: "" },
+        currcolorfg:  { type: String, default: "" },
+        todocolorbg:  { type: String, default: "" },
+        todocolorfg:  { type: String, default: "" },
+        breakcolorbg: { type: String, default: "" },
+        breakcolorfg: { type: String, default: "" }
     },
     data: () => ({
         pos: 0,
         config: huds.config()
     }),
     computed: {
-        style: HUDS.vueprop2cssvar()
+        style: HUDS.vueprop2cssvar(),
+        slots: function () { return this.slotlist.length }
     },
     created () {
         /*  allow the user to go to previous and next slot  */
@@ -189,8 +192,14 @@ module.exports = {
                         .add({ scaleX: 1.0, scaleY: 1.0, translateY:   0, translateX:   0, duration: 800 })
                         .finished.then(() => {})
                 }
+                else if (this.slotlist[i].match(/^(?:BREAK|LUNCH)$/i)) {
+                    /*  update all todo break boxes  */
+                    p.fill(this.breakcolorbg)
+                    t.fill(this.breakcolorfg)
+                        .font({ weight: "normal" })
+                }
                 else {
-                    /*  update all todo boxes  */
+                    /*  update all todo other boxes  */
                     p.fill(this.todocolorbg)
                     t.fill(this.todocolorfg)
                         .font({ weight: "normal" })

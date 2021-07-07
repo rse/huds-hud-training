@@ -143,13 +143,14 @@ timer:
 
 progress:
     opacity:               0.80
-    slots:                 16
     donecolorbg:           "#6699cc"
     donecolorfg:           "#f0f0ff"
     currcolorbg:           "#336699"
     currcolorfg:           "#ffffff"
     todocolorbg:           "#f0f0f0"
     todocolorfg:           "#999999"
+    breakcolorbg:          "#d0d0d0"
+    breakcolorfg:          "#999999"
 
 votes:
     opacity:               0.80
@@ -268,7 +269,7 @@ agenda:
         -   Lorem Ipsum 1
         -   Lorem Ipsum 2
         -   Lorem Ipsum 3
-        -   Lorem Ipsum 4 fd kjdkfj dkfj dkfj dfkjf kdj fkd fjkdfjdkfjdk
+        -   Lorem Ipsum 4
         -   Lorem Ipsum 5
         -   Lorem Ipsum 6
         -   Lorem Ipsum 7
