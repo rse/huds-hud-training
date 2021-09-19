@@ -123,7 +123,7 @@ Usage
 	curl -D- http://127.0.0.1:9999/training/event/votes.disclose
 	curl -D- http://127.0.0.1:9999/training/event/votes.quiz.prev
 	curl -D- http://127.0.0.1:9999/training/event/votes.quiz.next
-	curl -D- http://127.0.0.1:9999/training/event/popup.add?data={"type":<type>,"title":"...","text":"..."[,"image":"..."][,"audio":"..."]}
+	curl -D- http://127.0.0.1:9999/training/event/popup.add?data={"client":"...","type":<type>[,"title":"..."],"text":"..."[,"image":"..."][,"audio":"..."]}
 	curl -D- http://127.0.0.1:9999/training/event/popup.remove
 	curl -D- http://127.0.0.1:9999/training/event/feeling.toggle
 	curl -D- http://127.0.0.1:9999/training/event/feeling?data={"client":"...","challenge":N,"mood":M}
@@ -134,7 +134,7 @@ Usage
 	curl -D- http://127.0.0.1:9999/training/event/closure.begin.toggle
 	curl -D- http://127.0.0.1:9999/training/event/closure.pause.toggle
 	curl -D- http://127.0.0.1:9999/training/event/closure.end.toggle
-	curl -D- http://127.0.0.1:9999/training/event/message?data={"title":"...","text":"..."[,"image":"..."][,"audio":"..."]}
+	curl -D- http://127.0.0.1:9999/training/event/message?data={"client":"...","text":"..."[,"image":"..."][,"audio":"..."]}
 	curl -D- http://127.0.0.1:9999/training/event/confetti.raise
 	curl -D- http://127.0.0.1:9999/training/event/snowfall.toggle
 	curl -D- http://127.0.0.1:9999/training/event/peer.reconnect
@@ -210,7 +210,7 @@ This HUD provides the following on-screen widgets:
     ```
 
     ...and can be manually animated interactively with the keystroke
-    <kbd>t</kbd> or programmatically with the remote HUDS event
+    <kbd>A</kbd> or programmatically with the remote HUDS event
     `attendance.animate`. The number of attendees is tracked by the
     remote HUDS event `attendance` (usually injected into HUDS via MQTT
     through the integration of a companion message queue system).
@@ -298,9 +298,9 @@ This HUD provides the following on-screen widgets:
     ...and can be manually toggled on/off interactively with the
     keystroke <kbd>f</kbd> or programmatically with the remote HUDS
     event `feeling.toggle`. The feelings are tracked by the remote
-    HUDS event `feedback?data={"client":"...","type":"..."}` (usually
-    injected into HUDS via MQTT through the integration of a companion
-    message queue system).
+    HUDS event `feeling?data={"client":"...","challenge":N,"mood":M}`
+    (usually injected into HUDS via MQTT through the integration of a
+    companion message queue system).
 
 -   **PROGRESS**:<br/>
     This widget displays a permanently visible progress bar at the
@@ -409,7 +409,7 @@ This HUD provides the following on-screen widgets:
     <kbd>8</kbd> (start 40-minute timer) and
     <kbd>9</kbd> (start 45-minute timer),
     or programmatically with the remote HUDS events
-    `timer.stop` and `timer.start?data=[123456789]`.
+    `timer.stop` and `timer.start?data=<minutes>`.
 
 -   **VOTES**:<br/>
     This widget displays voting results at the bottom-left corner of the
@@ -440,8 +440,8 @@ This HUD provides the following on-screen widgets:
 
     ...and is toggled interactively with the keystroke <kbd>v</kbd> or
     programmatically with the remote HUDS event `votes.toggle`. The
-    votes of the attendees are extracted from `#xxx` tags of `message`
-    fields in data received with the remote HUDS event `chat` (usually
+    votes of the attendees are extracted from the `text`
+    field in data received with the remote HUDS event `message` (usually
     injected into HUDS via MQTT through the integration of a companion
     chat system).
 
@@ -468,13 +468,13 @@ This HUD provides the following on-screen widgets:
     ...and is controlled interactively with the keystroke
     <kbd>BACKSPACE</kbd> (for removing the lowest/oldest popup) or
     programmatically with the remote HUDS event `popup.remove`. The
-    popups of the attendees are extracted from `message` fields in data
-    received with the remote HUDS event `chat` (usually injected into
+    popups of the attendees are extracted from `text` field in data
+    received with the remote HUDS event `message` (usually injected into
     HUDS via MQTT through the integration of a companion chat system). A
     message ending in "?" is considered a question. a message ending in
     "!" is considered an objection and everything else is considered a
-    comment. In addition to the HUDS event `chat` one can also use the
-    `popup.add` event with the data `{ type, title, message, image? }`
+    comment. In addition to the HUDS event `message` one can also use the
+    `popup.add` event with the data `{ client, text, title?, image?, type }`
     to add a popup.
 
 -   **BANNER**:<br/>
@@ -510,7 +510,7 @@ This HUD provides the following on-screen widgets:
     ```
 
     ...and is controlled interactively with the configured
-    keystrokes (in the example <kbd>a</kbd>, <kbd>r</kbd> and
+    keystrokes (in the example <kbd>p</kbd>, <kbd>r</kbd> and
     <kbd>q</kbd>) or programmatically with the remote HUDS events
     `banner.<i>name</i>.toggle` (in the example with the
     names `pause`, `rant` and `qna`).
