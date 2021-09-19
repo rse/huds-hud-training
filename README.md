@@ -192,7 +192,7 @@ This HUD provides the following on-screen widgets:
     ```
 
     ...and can be manually animated interactively with the keystroke
-    <kbd>SPACE</kbd> or programmatically with the remote HUDS event
+    <kbd>t</kbd> or programmatically with the remote HUDS event
     `title.animate`.
 
 -   **ATTENDANCE**:<br/>
