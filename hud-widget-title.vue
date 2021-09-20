@@ -31,8 +31,8 @@
                 <i v-bind:class="[ 'fas', 'fa-' + iconname ]"></i>
             </div>
             <div class="text">
-                <div v-if="nametext" class="person">{{ nametext }}</div>
-                <div v-if="titletext" class="title">{{ titletext }}</div>
+                <div v-if="nametext"  ref="person" class="person fit">{{ nametext }}</div>
+                <div v-if="titletext" ref="title"  class="title fit">{{ titletext }}</div>
             </div>
         </div>
     </div>
@@ -42,6 +42,8 @@
 .title-bar {
     opacity: var(--opacity);
     .bar {
+        width: calc(100% - 60px);
+        height: 54px;
         margin: 20px;
         border-radius: 8px;
         padding: 4px;
@@ -51,20 +53,29 @@
         flex-direction: row;
         .icon {
             padding-right: 20px;
+            width: 60px;
             color: var(--iconcolor);
             font-size: 35pt;
         }
-        .person {
-            font-family: "TypoPRO Fira Sans";
-            font-weight: normal;
-            font-size: 14pt;
-            color: var(--namecolor);
-        }
-        .title {
-            font-family: "TypoPRO Fira Sans";
-            font-weight: bold;
-            font-size: 19pt;
-            color: var(--titlecolor);
+        .text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: calc(100% - 120px);
+            .fit {
+                display: inline-block;
+                white-space: nowrap;
+            }
+            .person {
+                font-family: "TypoPRO Fira Sans";
+                font-weight: normal;
+                color: var(--namecolor);
+            }
+            .title {
+                font-family: "TypoPRO Fira Sans";
+                font-weight: bold;
+                color: var(--titlecolor);
+            }
         }
     }
 }
@@ -85,6 +96,12 @@ module.exports = {
     },
     computed: {
         style: HUDS.vueprop2cssvar()
+    },
+    mounted () {
+        const person = this.$refs.person
+        const title  = this.$refs.title
+        fitty(person, { minSize: 12, maxSize: 18, multiLine: false })
+        fitty(title,  { minSize: 12, maxSize: 28, multiLine: false })
     },
     methods: {
         /*  allow the title to be manually animated  */
