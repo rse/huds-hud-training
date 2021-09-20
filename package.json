@@ -30,6 +30,7 @@
         "hashtag-similarity":              "0.9.3",
         "moment":                          "2.29.1",
         "canvas-confetti":                 "1.4.0",
+        "fitty":                           "2.3.5",
         "@rse/soundfx":                    "1.1.1",
         "@rse/soundlp":                    "1.0.2"
     },

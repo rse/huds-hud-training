@@ -34,10 +34,10 @@
                 v-bind:data-type="item.type"
                 v-bind:class="[ 'item', 'item-' + item.type ]">
                 <div class="icon-bg">
-                    <i class="fa fa-circle"></i>
+                    <i class="fas fa-circle"></i>
                 </div>
                 <div class="icon">
-                    <i v-bind:class="[ 'fa', 'fa-' + item.icon ]"></i>
+                    <i v-bind:class="[ 'fas', 'fa-' + item.icon ]"></i>
                 </div>
                 <div v-show="item.count > 1" class="badge">
                     {{ item.count }}

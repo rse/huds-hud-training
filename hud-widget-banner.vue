@@ -30,7 +30,7 @@
             <div class="head">
             </div>
             <div class="body">
-                <span class="icon"><i v-bind:class="[ 'fa', 'fa-' + iconname ]"></i></span>
+                <span class="icon"><i v-bind:class="[ 'fas', 'fa-' + iconname ]"></i></span>
                 {{ titletext }}
             </div>
             <div class="foot">

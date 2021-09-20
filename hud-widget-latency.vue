@@ -32,11 +32,11 @@
             </div>
             <div class="send">
                 {{ time }}
-                <i class="icon fa fa-arrow-alt-circle-right"></i>
+                <i class="icon fas fa-arrow-alt-circle-right"></i>
             </div>
             <div class="recv">
                 --:--:--.-
-                <i class="icon fa fa-arrow-alt-circle-left"></i>
+                <i class="icon fas fa-arrow-alt-circle-left"></i>
             </div>
         </div>
     </div>

@@ -34,10 +34,10 @@
             </div>
             <div v-if="popup.audio" v-bind:class="{ audio: true, audioOnly: popup.text === '' }">
                 <div v-show="!popup.audioPlaying">
-                    <i class="fa fa-play-circle"></i>
+                    <i class="fas fa-play-circle"></i>
                 </div>
                 <div v-show="popup.audioPlaying">
-                    <i class="fa fa-stop-circle"></i>
+                    <i class="fas fa-stop-circle"></i>
                 </div>
             </div>
             <div v-if="popup.audio && popup.audioDuration" class="message">

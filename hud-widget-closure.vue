@@ -29,7 +29,7 @@
         <div v-show="beginShow" ref="begin" class="begin">
             <div class="left">
                 <div class="icon">
-                    <i v-bind:class="[ 'fa', 'fa-' + beginiconname ]"></i>
+                    <i v-bind:class="[ 'fas', 'fa-' + beginiconname ]"></i>
                 </div>
             </div>
             <div class="right">
@@ -46,7 +46,7 @@
         <div v-show="pauseShow" ref="pause" class="pause">
             <div class="left">
                 <div class="icon">
-                    <i v-bind:class="[ 'fa', 'fa-' + pauseiconname ]"></i>
+                    <i v-bind:class="[ 'fas', 'fa-' + pauseiconname ]"></i>
                 </div>
             </div>
             <div class="right">
@@ -59,7 +59,7 @@
         <div v-show="endShow" ref="end" class="end">
             <div class="left">
                 <div class="icon">
-                    <i v-bind:class="[ 'fa', 'fa-' + endiconname ]"></i>
+                    <i v-bind:class="[ 'fas', 'fa-' + endiconname ]"></i>
                 </div>
             </div>
             <div class="right">

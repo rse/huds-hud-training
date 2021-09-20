@@ -28,7 +28,7 @@
     <div v-bind:style="style" class="attendance">
         <div ref="bar" class="bar">
             <div class="icon">
-                <i class="fa fa-users"></i>
+                <i class="fas fa-users"></i>
             </div>
             <div class="text">
                 {{ attendees }}

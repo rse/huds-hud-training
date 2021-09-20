@@ -28,7 +28,7 @@
     <div v-bind:style="style" class="title-bar">
         <div ref="bar" class="bar">
             <div class="icon">
-                <i v-bind:class="[ 'fa', 'fa-' + iconname ]"></i>
+                <i v-bind:class="[ 'fas', 'fa-' + iconname ]"></i>
             </div>
             <div class="text">
                 <div v-if="nametext" class="person">{{ nametext }}</div>
