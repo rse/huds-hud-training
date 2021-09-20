@@ -50,26 +50,28 @@ module.exports = {
     computed: {
         style: HUDS.vueprop2cssvar()
     },
+    methods: {
+        animate: (function () {
+            /*  animate the logo  */
+            let i = 0
+            return function () {
+                const tl = anime.timeline({
+                    targets:  this.$el.querySelector("svg"),
+                    duration: 2000,
+                    easing:   "easeInOutQuad"
+                })
+                if (i++ % 2 === 0)
+                    /*  rotate around the X-axis  */
+                    tl.add({ rotateX: [ 0, 360 ] })
+                else
+                    /*  rotate around the Y-axis  */
+                    tl.add({ rotateY: [ 0, 360 ] })
+            }
+        })()
+    },
     mounted () {
-        /*  animate the logo  */
-        let i = 0
-        const animate = () => {
-            const tl = anime.timeline({
-                targets:  this.$el.querySelector("svg"),
-                duration: 2000,
-                easing:   "easeInOutQuad"
-            })
-            if (i++ % 2 === 0)
-                /*  rotate around the X-axis  */
-                tl.add({ rotateX: [ 0, 360 ] })
-            else
-                /*  rotate around the Y-axis  */
-                tl.add({ rotateY: [ 0, 360 ] })
-        }
-
         /*  animate every 5 minutes or on manual request  */
-        setInterval(() => { animate() }, 5 * 60 * 1000)
-        this.$on("animate", () => { animate() })
+        setInterval(() => { this.animate() }, 5 * 60 * 1000)
     }
 }
 </script>

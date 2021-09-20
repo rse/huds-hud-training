@@ -107,17 +107,14 @@ module.exports = {
                 clearTimeout(this.timer)
                 this.timer = null
             }
-        }
-    },
-    mounted () {
-        /*  toggle the latency information on/off  */
-        this.$on("toggle", () => {
+        },
+        toggle () {
             this.show = !this.show
             if (this.show)
                 this.start()
             else
                 this.stop()
-        })
+        }
     }
 }
 </script>

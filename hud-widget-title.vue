@@ -86,9 +86,9 @@ module.exports = {
     computed: {
         style: HUDS.vueprop2cssvar()
     },
-    created () {
+    methods: {
         /*  allow the title to be manually animated  */
-        this.$on("animate", () => {
+        animate () {
             const bar = this.$refs.bar
             soundfx.play("bling1")
             const tl = anime.timeline({
@@ -101,7 +101,7 @@ module.exports = {
             })
             tl.add({ scaleX: 1.10, scaleY: 1.20, translateY:  0, translateX:  0 })
                 .add({ scaleX: 1.00, scaleY: 1.00, translateY:  0, translateX:  0 })
-        })
+        }
     }
 }
 </script>

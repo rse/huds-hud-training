@@ -56,6 +56,7 @@ module.exports = {
         breakcolorbg: { type: String, default: "" },
         breakcolorfg: { type: String, default: "" }
     },
+    emits: [ "pos" ],
     data: () => ({
         pos: 0,
         config: huds.config()
@@ -63,25 +64,6 @@ module.exports = {
     computed: {
         style: HUDS.vueprop2cssvar(),
         slots: function () { return this.slotlist.length }
-    },
-    created () {
-        /*  allow the user to go to previous and next slot  */
-        this.$on("prev", () => {
-            if (this.pos > 0) {
-                this.pos--
-                soundfx.play("bling1")
-            }
-            this.update()
-            this.$emit("pos", this.pos)
-        })
-        this.$on("next", () => {
-            if (this.pos < this.slots - 1) {
-                this.pos++
-                soundfx.play("bling1")
-            }
-            this.update()
-            this.$emit("pos", this.pos)
-        })
     },
     mounted () {
         /*  render once initially  */
@@ -91,6 +73,24 @@ module.exports = {
         this.$emit("pos", this.pos)
     },
     methods: {
+        /*  allow the user to go to previous and next slot  */
+        prev () {
+            if (this.pos > 0) {
+                this.pos--
+                soundfx.play("bling1")
+            }
+            this.update()
+            this.$emit("pos", this.pos)
+        },
+        next () {
+            if (this.pos < this.slots - 1) {
+                this.pos++
+                soundfx.play("bling1")
+            }
+            this.update()
+            this.$emit("pos", this.pos)
+        },
+
         /*  initially render the progress bar  */
         render () {
             /*  establish SVG canvas  */

@@ -57,13 +57,14 @@ module.exports = {
     mounted () {
         /*  create a confetti instance on the canvas  */
         this.confetti = confetti.create(this.$refs.canvas, { useWorker: true, resize: true })
-
-        /*  utility function for determining a random number  */
-        const randomInRange = (min, max) =>
-            Math.random() * (max - min) + min
-
+    },
+    methods: {
         /*  react on event  */
-        this.$on("raise", async () => {
+        async raise () {
+            /*  utility function for determining a random number  */
+            const randomInRange = (min, max) =>
+                Math.random() * (max - min) + min
+
             /*  fire a single confetti bomb  */
             const fire = (particleRatio, opts) => {
                 setTimeout(() => {
@@ -100,7 +101,7 @@ module.exports = {
                 fire(0.10, { spread: 120, startVelocity: 45, decay: 0.94 })
                 await new Promise((resolve) => setTimeout(resolve, randomInRange(0, 300)))
             }
-        })
+        }
     }
 }
 

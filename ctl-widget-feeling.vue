@@ -276,24 +276,24 @@ module.exports = {
                     }
                 })
             }, 500)
-        }
-    },
-    created () {
+        },
+
+        /*  receive the attendee events  */
+        attendance (data) {
+            if (data.event === "end")
+                delete this.feelings[data.client]
+        },
+
         /*  receive the feedback events  */
-        this.$on("event", (data) => {
+        event (data) {
             this.feelings[data.client] = {
                 seen:      (new Date()).getTime(),
                 challenge: data.challenge,
                 mood:      data.mood
             }
-        })
-
-        /*  receive the attendee events  */
-        this.$on("attendance", (data) => {
-            if (data.event === "end")
-                delete this.feelings[data.client]
-        })
-
+        }
+    },
+    created () {
         /*  expire feedbacks  */
         this.timer1 = setInterval(() => {
             /*  expire feelings not seen recently  */

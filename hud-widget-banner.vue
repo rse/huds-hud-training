@@ -96,9 +96,9 @@ module.exports = {
     computed: {
         style: HUDS.vueprop2cssvar()
     },
-    created () {
+    methods: {
         /*  toggle banner on/off  */
-        this.$on("toggle", () => {
+        toggle () {
             /*  do nothing if we are still progressing  */
             if (this.progress)
                 return
@@ -139,7 +139,7 @@ module.exports = {
                 this.enabled  = newstate
                 this.progress = false
             })
-        })
+        }
     }
 }
 </script>

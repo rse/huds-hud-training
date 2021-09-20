@@ -30,7 +30,7 @@
             <div class="quiz-id">{{ quizzes[quiz].id }}</div>
             <div class="quiz-question">{{ quizzes[quiz].question }}</div>
         </div>
-        <div v-for="choice in choices" ref="choice" v-bind:key="choice.i" v-bind:data-i="choice.i" class="choice">
+        <div v-for="choice in choices" v-bind:key="choice.i" v-bind:data-i="choice.i" class="choice">
             <div v-show="(type === 'quiz' || (choice.voters > 0 && reveal)) || (choice.total && !reveal)"
                 class="name" v-bind:class="{ win: choice.win && disclose, max: choice.max && reveal,
                     abstain: choice.abstain, invalid: choice.invalid, total: choice.total }">
@@ -41,7 +41,7 @@
             </div>
             <div v-show="(type === 'quiz' || (choice.voters > 0 && reveal)) || (choice.total && !reveal)"
                 class="bar-container">
-                <div v-show="reveal || (choice.total && !reveal)" ref="bar" class="bar" v-bind:data-i="choice.i"
+                <div v-show="reveal || (choice.total && !reveal)" v-bind:ref="(el) => bar.push(el)" class="bar" v-bind:data-i="choice.i"
                     v-bind:class="{ win: choice.win && disclose, max: choice.max && reveal,
                         abstain: choice.abstain, invalid: choice.invalid, total: choice.total }">
                     <div class="voters">
@@ -259,6 +259,11 @@ module.exports = {
     computed: {
         style: HUDS.vueprop2cssvar()
     },
+    setup () {
+        const bar = Vue.ref([])
+        Vue.onBeforeUpdate(() => { bar.value = [] })
+        return { bar }
+    },
     methods: {
         /*  recalculate the scenario  */
         recalc () {
@@ -435,11 +440,11 @@ module.exports = {
             this.timer = setTimeout(() => {
                 this.recalc()
                 this.$nextTick(() => {
-                    const bars = this.$refs.bar
-                    if (bars === undefined)
-                        return
+                    const bars = this.bar
                     let changes = false
                     for (const bar of bars) {
+                        if (bar === null)
+                            continue
                         const i = bar.getAttribute("data-i")
                         const width = this.choices[i].width
                         if (width !== bar.style.width) {
@@ -450,6 +455,8 @@ module.exports = {
                     if (changes) {
                         soundfx.play("slide1")
                         for (const bar of bars) {
+                            if (bar === null)
+                                continue
                             const i = bar.getAttribute("data-i")
                             const width = this.choices[i].width
                             anime({
@@ -464,11 +471,10 @@ module.exports = {
                     }
                 })
             }, 500)
-        }
-    },
-    created () {
+        },
+
         /*  receive the attendee events  */
-        this.$on("attendance", (data) => {
+        attendanceEvent (data) {
             if (data.event === "begin")
                 this.attendance[data.client] = { seen: (new Date()).getTime() }
             else if (data.event === "refresh") {
@@ -478,22 +484,10 @@ module.exports = {
             else if (data.event === "end")
                 delete this.attendance[data.client]
             this.attendees = Object.keys(this.attendance).length
-        })
-
-        /*  track the attendees (similar to "attendance" widget to be in sync)  */
-        this.timer2 = setInterval(() => {
-            /*  expire attendees not seen recently
-                (refresh usually every 10min, but we accept also up to 20min)  */
-            const now = (new Date()).getTime()
-            for (const client of Object.keys(this.attendance)) {
-                const seen = this.attendance[client].seen
-                if (seen + ((20 + 2) * 60 * 1000) < now)
-                    delete this.attendance[client]
-            }
-        }, 2 * 1000)
+        },
 
         /*  toggle votes on/off  */
-        this.$on("votes-toggle", () => {
+        toggle () {
             this.show = !this.show
             if (this.show) {
                 /*  toggle on  */
@@ -508,10 +502,10 @@ module.exports = {
                 /*  toggle off  */
                 soundfx.play("whoosh2")
             }
-        })
+        },
 
         /*  force a voting type  */
-        this.$on("votes-type", (type) => {
+        setType (type) {
             this.type = type
             if (type === "quiz") {
                 this.reveal   = false
@@ -522,28 +516,28 @@ module.exports = {
                 this.disclose = true
             }
             this.update()
-        })
+        },
 
         /*  reveal individual votings  */
-        this.$on("votes-reveal", () => {
+        doReveal () {
             this.reveal = !this.reveal
             if (this.reveal)
                 soundfx.play("scale1")
             this.update()
-        })
+        },
 
         /*  disclose results of (quiz) votings  */
-        this.$on("votes-disclose", () => {
+        doDisclose () {
             this.disclose = !this.disclose
             if (this.disclose) {
                 soundfx.play("scale1")
                 this.reveal = true
             }
             this.update()
-        })
+        },
 
         /*  receive a single vote  */
-        this.$on("votes-receive", ({ client, choice }) => {
+        receive ({ client, choice }) {
             choice = choice.toUpperCase()
             if (this.votes[client] === undefined) {
                 this.votes[client] = choice
@@ -552,12 +546,9 @@ module.exports = {
             else
                 soundfx.play("error4")
             this.update()
-        })
+        },
 
-        /*  determine selected quiz  */
-        if (this.quizzes.length > 0)
-            this.quiz = 0
-        this.$on("votes-quiz-prev", () => {
+        quizPrev () {
             if (this.quiz > 0) {
                 this.quiz--
                 this.reveal   = false
@@ -566,8 +557,9 @@ module.exports = {
                 this.votes    = {}
                 this.update()
             }
-        })
-        this.$on("votes-quiz-next", () => {
+        },
+
+        quizNext () {
             if (this.quiz < this.quizzes.length - 1) {
                 this.quiz++
                 this.reveal   = false
@@ -576,7 +568,24 @@ module.exports = {
                 this.votes    = {}
                 this.update()
             }
-        })
+        }
+    },
+    created () {
+        /*  track the attendees (similar to "attendance" widget to be in sync)  */
+        this.timer2 = setInterval(() => {
+            /*  expire attendees not seen recently
+                (refresh usually every 10min, but we accept also up to 20min)  */
+            const now = (new Date()).getTime()
+            for (const client of Object.keys(this.attendance)) {
+                const seen = this.attendance[client].seen
+                if (seen + ((20 + 2) * 60 * 1000) < now)
+                    delete this.attendance[client]
+            }
+        }, 2 * 1000)
+
+        /*  determine selected quiz  */
+        if (this.quizzes.length > 0)
+            this.quiz = 0
     }
 }
 </script>

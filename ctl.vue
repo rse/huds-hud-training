@@ -36,6 +36,7 @@
             v-bind:namecolorbg="config.attendees.namecolorbg"
             v-bind:namecolorfg="config.attendees.namecolorfg"
             v-bind:noattendeestext="config.attendees.noattendeestext"
+            v-bind:privacylevel="config.attendees.privacylevel"
         ></attendees>
         <feeling ref="feeling" class="feeling"
             v-bind:background="config.feeling.background"
@@ -75,7 +76,7 @@
             v-bind:currcolorfg="config.agenda.currcolorfg"
             v-bind:todocolorbg="config.agenda.todocolorbg"
             v-bind:todocolorfg="config.agenda.todocolorfg"
-            v-bind:slots="config.agenda.slots"
+            v-bind:slotlist="config.agenda.slots"
         ></agenda>
         <popup ref="popup" class="popup"
             v-bind:questionbackground="config.popup.questionbackground"
@@ -152,12 +153,12 @@ module.exports = {
         debug:    typeof huds.options.debug === "boolean" ? huds.options.debug : false
     }),
     components: {
-        "attendance":   "url:ctl-widget-attendance.vue",
-        "attendees":    "url:ctl-widget-attendees.vue",
-        "feeling":      "url:ctl-widget-feeling.vue",
-        "timer":        "url:ctl-widget-timer.vue",
-        "agenda":       "url:ctl-widget-agenda.vue",
-        "popup":        "url:ctl-widget-popup.vue"
+        "attendance":   Vue.loadComponent("ctl-widget-attendance.vue"),
+        "attendees":    Vue.loadComponent("ctl-widget-attendees.vue"),
+        "feeling":      Vue.loadComponent("ctl-widget-feeling.vue"),
+        "timer":        Vue.loadComponent("ctl-widget-timer.vue"),
+        "agenda":       Vue.loadComponent("ctl-widget-agenda.vue"),
+        "popup":        Vue.loadComponent("ctl-widget-popup.vue")
     },
     created () {
         /*  receive messages for the attendance channel  */
@@ -167,13 +168,13 @@ module.exports = {
                   && typeof data.event   === "string" && data.event  !== ""))
                 return
             const a1 = this.$refs.attendance
-            a1.$emit("attendance", data)
+            a1.attendance(data)
             const a2 = this.$refs.attendees
-            a2.$emit("attendance", data)
+            a2.attendance(data)
             const f = this.$refs.feeling
-            f.$emit("attendance", data)
+            f.attendance(data)
             const p = this.$refs.popup
-            p.$emit("attendance", data)
+            p.attendance(data)
         })
 
         /*  receive messages for the attendance channel  */
@@ -183,7 +184,7 @@ module.exports = {
                   && typeof data.challenge === "number" && typeof data.mood === "number"))
                 return
             const f = this.$refs.feeling
-            f.$emit("event", data)
+            f.event(data)
         })
 
         /*  receive messages for the progress and agenda channel  */
@@ -191,23 +192,23 @@ module.exports = {
             const t = this.$refs.timer
             const a = this.$refs.agenda
             if (event === "progress.prev") {
-                a.$emit("prev")
-                t.$emit("restart")
+                a.prev()
+                t.restart()
             }
             else if (event === "progress.next") {
-                a.$emit("next")
-                t.$emit("restart")
+                a.next()
+                t.restart()
             }
         })
 
         /*  receive messages for the popup channel  */
         huds.bind("popup.add", (event, data) => {
             const a = this.$refs.popup
-            a.$emit("popup-add", data)
+            a.add(data)
         })
         huds.bind("popup.remove", (event, data) => {
             const a = this.$refs.popup
-            a.$emit("popup-remove")
+            a.remove()
         })
 
         /*  receive messages for the voting channel  */
@@ -244,15 +245,15 @@ module.exports = {
             /*  react on particular message types  */
             if (data.text.match(/^(.+?)\?$/)) {
                 const a = this.$refs.popup
-                a.$emit("popup-add", { ...data, type: "question" })
+                a.add({ ...data, type: "question" })
             }
             else if (data.text.match(/^(.+?)!$/)) {
                 const a = this.$refs.popup
-                a.$emit("popup-add", { ...data, type: "objection" })
+                a.add({ ...data, type: "objection" })
             }
             else {
                 const a = this.$refs.popup
-                a.$emit("popup-add", { ...data, type: "comment" })
+                a.add({ ...data, type: "comment" })
             }
         })
     }

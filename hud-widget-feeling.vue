@@ -279,24 +279,35 @@ module.exports = {
                     }
                 })
             }, 500)
-        }
-    },
-    created () {
+        },
+
+        /*  receive the attendee events  */
+        attendance (data) {
+            if (data.event === "end")
+                delete this.feelings[data.client]
+        },
+
+        /*  toggle the widget  */
+        toggle () {
+            this.show = !this.show
+            if (this.show) {
+                this.update()
+                soundfx.play("beep3")
+            }
+            else
+                soundfx.play("whoosh2")
+        },
+
         /*  receive the feedback events  */
-        this.$on("event", (data) => {
+        event (data) {
             this.feelings[data.client] = {
                 seen:      (new Date()).getTime(),
                 challenge: data.challenge,
                 mood:      data.mood
             }
-        })
-
-        /*  receive the attendee events  */
-        this.$on("attendance", (data) => {
-            if (data.event === "end")
-                delete this.feelings[data.client]
-        })
-
+        }
+    },
+    created () {
         /*  expire feedbacks  */
         this.timer1 = setInterval(() => {
             /*  expire feelings not seen recently  */
@@ -308,17 +319,6 @@ module.exports = {
             }
             this.update()
         }, 2 * 1000)
-
-        /*  toggle the widget  */
-        this.$on("toggle", () => {
-            this.show = !this.show
-            if (this.show) {
-                this.update()
-                soundfx.play("beep3")
-            }
-            else
-                soundfx.play("whoosh2")
-        })
     },
     mounted () {
         /*  initialize heights  */

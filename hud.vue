@@ -109,6 +109,7 @@
             v-bind:breakcolorbg="config.progress.breakcolorbg"
             v-bind:breakcolorfg="config.progress.breakcolorfg"
             v-bind:slotlist="config.agenda.slots"
+            v-on:pos="progressPos"
         ></progress-bar>
         <banner
             v-for="banner in config.banner.banner"
@@ -396,23 +397,23 @@ module.exports = {
         minimize: false
     }),
     components: {
-        "background":   "url:hud-widget-background.vue",
-        "banner":       "url:hud-widget-banner.vue",
-        "title-bar":    "url:hud-widget-title.vue",
-        "attendance":   "url:hud-widget-attendance.vue",
-        "attendees":    "url:hud-widget-attendees.vue",
-        "feedback":     "url:hud-widget-feedback.vue",
-        "feeling":      "url:hud-widget-feeling.vue",
-        "progress-bar": "url:hud-widget-progress.vue",
-        "agenda":       "url:hud-widget-agenda.vue",
-        "logo":         "url:hud-widget-logo.vue",
-        "closure":      "url:hud-widget-closure.vue",
-        "popup":        "url:hud-widget-popup.vue",
-        "votes":        "url:hud-widget-votes.vue",
-        "timer":        "url:hud-widget-timer.vue",
-        "latency":      "url:hud-widget-latency.vue",
-        "confetti":     "url:hud-widget-confetti.vue",
-        "snowfall":     "url:hud-widget-snowfall.vue"
+        "background":   Vue.loadComponent("hud-widget-background.vue"),
+        "banner":       Vue.loadComponent("hud-widget-banner.vue"),
+        "title-bar":    Vue.loadComponent("hud-widget-title.vue"),
+        "attendance":   Vue.loadComponent("hud-widget-attendance.vue"),
+        "attendees":    Vue.loadComponent("hud-widget-attendees.vue"),
+        "feedback":     Vue.loadComponent("hud-widget-feedback.vue"),
+        "feeling":      Vue.loadComponent("hud-widget-feeling.vue"),
+        "progress-bar": Vue.loadComponent("hud-widget-progress.vue"),
+        "agenda":       Vue.loadComponent("hud-widget-agenda.vue"),
+        "logo":         Vue.loadComponent("hud-widget-logo.vue"),
+        "closure":      Vue.loadComponent("hud-widget-closure.vue"),
+        "popup":        Vue.loadComponent("hud-widget-popup.vue"),
+        "votes":        Vue.loadComponent("hud-widget-votes.vue"),
+        "timer":        Vue.loadComponent("hud-widget-timer.vue"),
+        "latency":      Vue.loadComponent("hud-widget-latency.vue"),
+        "confetti":     Vue.loadComponent("hud-widget-confetti.vue"),
+        "snowfall":     Vue.loadComponent("hud-widget-snowfall.vue")
     },
     created () {
         /*  interaction for logo */
@@ -429,7 +430,7 @@ module.exports = {
         })
         huds.bind("logo.animate", (event, data) => {
             const logo = this.$refs.logo
-            logo.$emit("animate")
+            logo.animate()
         })
 
         /*  interaction for progress widget  */
@@ -442,9 +443,9 @@ module.exports = {
         huds.bind("progress.*", (event, data) => {
             const pb = this.$refs.progressBar
             if (event === "progress.prev")
-                pb.$emit("prev")
+                pb.prev()
             else if (event === "progress.next")
-                pb.$emit("next")
+                pb.next()
         })
 
         /*  interaction for closure  */
@@ -460,11 +461,11 @@ module.exports = {
         huds.bind("closure.*", (event, data) => {
             const closure = this.$refs.closure
             if (event === "closure.begin.toggle")
-                closure.$emit("begin-toggle")
+                closure.toggle("begin")
             else if (event === "closure.pause.toggle")
-                closure.$emit("pause-toggle")
+                closure.toggle("pause")
             else if (event === "closure.end.toggle")
-                closure.$emit("end-toggle")
+                closure.toggle("end")
         })
 
         /*  interaction for title widget  */
@@ -473,7 +474,7 @@ module.exports = {
         })
         huds.bind("title.animate", (event, data) => {
             const tb = this.$refs.titleBar
-            tb.$emit("animate")
+            tb.animate()
         })
 
         /*  interaction for agenda widget  */
@@ -482,7 +483,7 @@ module.exports = {
         })
         huds.bind("agenda.toggle", (event, data) => {
             const a = this.$refs.agenda
-            a.$emit("toggle")
+            a.toggle()
         })
 
         /*  interaction for popup widget  */
@@ -491,18 +492,18 @@ module.exports = {
         })
         huds.bind("popup.add", (event, data) => {
             const a = this.$refs.popup
-            a.$emit("popup-add", data)
+            a.add(data)
         })
         huds.bind("popup.remove", (event, data) => {
             const a = this.$refs.popup
-            a.$emit("popup-remove")
+            a.remove()
         })
         Mousetrap.bind("space", (e) => {
             huds.send("popup.play")
         })
         huds.bind("popup.play", (event, data) => {
             const a = this.$refs.popup
-            a.$emit("popup-play")
+            a.play()
         })
 
         /*  interaction for latency widget  */
@@ -511,7 +512,7 @@ module.exports = {
         })
         huds.bind("latency.toggle", (event, data) => {
             const l = this.$refs.latency
-            l.$emit("toggle")
+            l.toggle()
         })
 
         /*  interaction for progress widget  */
@@ -523,11 +524,11 @@ module.exports = {
             huds.bind(`banner.${banner.name}.toggle`, (event, data) => {
                 if (progress)
                     return
-                const b = this.$refs[`banner-${banner.name}`][0]
+                const b = this.$refs[`banner-${banner.name}`]
                 if (this.banner === b) {
                     /*  disable ourself  */
                     progress = true
-                    this.banner.$emit("toggle")
+                    this.banner.toggle()
                     setTimeout(() => {
                         this.banner = null
                         progress = false
@@ -536,9 +537,9 @@ module.exports = {
                 else if (this.banner !== null) {
                     /*  disable foreign, then enable ourself  */
                     progress = true
-                    this.banner.$emit("toggle")
+                    this.banner.toggle()
                     setTimeout(() => {
-                        b.$emit("toggle")
+                        b.toggle()
                         setTimeout(() => {
                             this.banner = b
                             progress = false
@@ -548,7 +549,7 @@ module.exports = {
                 else {
                     /*  enable ourself  */
                     progress = true
-                    b.$emit("toggle")
+                    b.toggle()
                     setTimeout(() => {
                         this.banner = b
                         progress = false
@@ -594,7 +595,7 @@ module.exports = {
             const v = this.$refs.votes
             if (event === "votes.toggle") {
                 votesEnabled = !votesEnabled
-                v.$emit("votes-toggle")
+                v.toggle()
                 if (votesEnabled)
                     huds.send("voting-begin", {}, this.config.id.peer)
                 else
@@ -602,19 +603,19 @@ module.exports = {
             }
             else if ((m = event.match(/^votes\.type\.(.+)$/)) !== null) {
                 const [ , type ] = m
-                v.$emit("votes-type", type)
+                v.setType(type)
                 huds.send("voting-type", { type }, this.config.id.peer)
             }
             else if (event === "votes.receive")
-                v.$emit("votes-receive", data)
+                v.receive(data)
             else if (event === "votes.reveal")
-                v.$emit("votes-reveal")
+                v.doReveal()
             else if (event === "votes.disclose")
-                v.$emit("votes-disclose")
+                v.doDisclose()
             else if (event === "votes.quiz.next")
-                v.$emit("votes-quiz-next")
+                v.quizNext()
             else if (event === "votes.quiz.prev")
-                v.$emit("votes-quiz-prev")
+                v.quizPrev()
         })
 
         /*  interaction for timer widget  */
@@ -630,11 +631,11 @@ module.exports = {
         Mousetrap.bind("9", (e) => { huds.send("timer.start", 45) })
         huds.bind("timer.start", (event, data) => {
             const t = this.$refs.timer
-            t.$emit("start", data)
+            t.start(data)
         })
         huds.bind("timer.stop", (event, data) => {
             const t = this.$refs.timer
-            t.$emit("stop")
+            t.stop()
         })
 
         /*  receive messages from a companion chat  */
@@ -660,19 +661,19 @@ module.exports = {
             /*  react on particular message types  */
             if (votesEnabled) {
                 const v = this.$refs.votes
-                v.$emit("votes-receive", { client: data.client, choice: data.text })
+                v.receive({ client: data.client, choice: data.text })
             }
             else if (data.text.match(/^(.+?)\?$/)) {
                 const a = this.$refs.popup
-                a.$emit("popup-add", { ...data, type: "question" })
+                a.add({ ...data, type: "question" })
             }
             else if (data.text.match(/^(.+?)!$/)) {
                 const a = this.$refs.popup
-                a.$emit("popup-add", { ...data, type: "objection" })
+                a.add({ ...data, type: "objection" })
             }
             else {
                 const a = this.$refs.popup
-                a.$emit("popup-add", { ...data, type: "comment" })
+                a.add({ ...data, type: "comment" })
             }
         })
 
@@ -682,7 +683,7 @@ module.exports = {
         })
         huds.bind("attendance.animate", () => {
             const a = this.$refs.attendance
-            a.$emit("animate")
+            a.animate()
         })
 
         /*  receive messages from the attendance channel  */
@@ -692,15 +693,15 @@ module.exports = {
                   && typeof data.event   === "string" && data.event  !== ""))
                 return
             const a1 = this.$refs.attendance
-            a1.$emit("attendance", data)
+            a1.attendance(data)
             const a2 = this.$refs.attendees
-            a2.$emit("attendance", data)
+            a2.attendance(data)
             const v = this.$refs.votes
-            v.$emit("attendance", data)
+            v.attendanceEvent(data)
             const f = this.$refs.feeling
-            f.$emit("attendance", data)
+            f.attendance(data)
             const p = this.$refs.popup
-            p.$emit("attendance", data)
+            p.attendance(data)
         })
 
         /*  allow attendees widget to be interactively controlled  */
@@ -709,7 +710,7 @@ module.exports = {
         })
         huds.bind("attendees.toggle", () => {
             const a = this.$refs.attendees
-            a.$emit("toggle")
+            a.toggle()
         })
 
         /*  receive messages from the feedback channel  */
@@ -719,7 +720,7 @@ module.exports = {
                   && typeof data.type      === "string" && data.type    !== ""))
                 return
             const f = this.$refs.feedback
-            f.$emit("event", data)
+            f.event(data)
         })
 
         /*  allow feeling widget to be interactively controlled  */
@@ -728,7 +729,7 @@ module.exports = {
         })
         huds.bind("feeling.toggle", () => {
             const f = this.$refs.feeling
-            f.$emit("toggle")
+            f.toggle()
         })
 
         /*  receive messages from the attendance channel  */
@@ -738,7 +739,7 @@ module.exports = {
                   && typeof data.challenge === "number" && typeof data.mood === "number"))
                 return
             const f = this.$refs.feeling
-            f.$emit("event", data)
+            f.event(data)
         })
 
         /*  allow confetti to be raised  */
@@ -747,16 +748,16 @@ module.exports = {
         })
         huds.bind("confetti.raise", () => {
             const c = this.$refs.confetti
-            c.$emit("raise")
+            c.raise()
         })
 
-        /*  allow confetti to be raised  */
+        /*  allow snowfall to be raised  */
         Mousetrap.bind("s", (e) => {
             huds.send("snowfall.toggle")
         })
         huds.bind("snowfall.toggle", () => {
             const s = this.$refs.snowfall
-            s.$emit("toggle")
+            s.toggle()
         })
 
         /*  control peers  */
@@ -767,15 +768,12 @@ module.exports = {
             huds.send("disconnect", {}, this.config.id.peer)
         })
     },
-    mounted () {
-        /*  forward progress position to agenda  */
-        setTimeout(() => {
-            const pb = this.$refs.progressBar
-            const a  = this.$refs.agenda
-            pb.$on("pos", (pos) => {
-                a.$emit("pos", pos)
-            })
-        }, 1500)
+    methods: {
+        progressPos (pos) {
+            /*  forward progress position to agenda  */
+            if (this.$refs.agenda)
+                this.$refs.agenda.setPos(pos)
+        }
     }
 }
 </script>

@@ -91,7 +91,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            perspective: 0px;
             .icon {
                 font-size: 400px;
                 transform-origin: 50% 50%;
@@ -169,9 +168,9 @@ module.exports = {
     computed: {
         style: HUDS.vueprop2cssvar()
     },
-    created () {
+    methods: {
         /*  animate a particular closure to open or close  */
-        const animate = (which, el, direction) => {
+        animate (which, el, direction) {
             /*  determine references to left and right parts  */
             const left  = el.querySelector(".left")
             const right = el.querySelector(".right")
@@ -220,22 +219,15 @@ module.exports = {
                 soundfx.play("click7")
             })
             return promise
-        }
-
-        /*  toggle a particular closure  */
-        const toggle = (which) => {
+        },
+        toggle (which) {
             if (this[which] === "open")
-                animate(which, this.$refs[which], "close")
+                this.animate(which, this.$refs[which], "close")
                     .then(() => { this[which] = "close" })
             else
-                animate(which, this.$refs[which], "open")
+                this.animate(which, this.$refs[which], "open")
                     .then(() => { this[which] = "open" })
         }
-
-        /*  allow all three closures to be toggled  */
-        this.$on("begin-toggle", () => toggle("begin"))
-        this.$on("pause-toggle", () => toggle("pause"))
-        this.$on("end-toggle",   () => toggle("end"))
     },
     mounted () {
         /*  create the animated icons  */

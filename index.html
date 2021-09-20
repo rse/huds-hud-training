@@ -31,10 +31,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="data:image/x-icon;base64,AAABAAEAAQEAAAEAGAAsAAAAFgAAACgAAAABAAAAAgAAAAEAGAAAAAAACAAAACgAAAAoAAAAAAAAAAAAAADwgEEAAAAAAA==">
         <script type="text/javascript" src="huds"></script>
-        <script type="text/javascript" src="@vue/dist/vue.min.js"></script>
-        <script type="text/javascript" src="@http-vue-loader/src/httpVueLoader.js"></script>
-        <script type="text/javascript" src="@vue-resize/dist/vue-resize.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="@vue-resize/dist/vue-resize.css">
+        <script type="text/javascript" src="@vue/dist/vue.global.prod.js"></script>
+        <script type="text/javascript" src="@vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+        <script type="text/javascript" src="@vue3-resize/dist/vue3-resize.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="@vue3-resize/dist/vue3-resize.css">
         <script type="text/javascript" src="@mousetrap/mousetrap.min.js"></script>
         <script type="text/javascript" src="@animejs/lib/anime.min.js"></script>
         <script type="text/javascript" src="@howler/dist/howler.min.js"></script>
@@ -93,11 +93,36 @@
             for (const key of Object.keys(vars))
                 if (typeof vars[key] === "string")
                     vars[key] = vars[key].replace(/'/g, "\\'")
-            httpVueLoader.langProcessor.less = (lessText) =>
-                less.render(lessText, { globalVars: vars }).then((result) => result.css)
-            Vue.use(httpVueLoader)
-            Vue.use(VueResize)
-            vm = new Vue({ el: "#index", components: { "index": "url:index.vue" }})
+            Vue.load = (name) => {
+                return window["vue3-sfc-loader"].loadModule(name, {
+                    moduleCache: {
+                        vue:  Vue,
+                        less: less
+                    },
+                    getFile (url) {
+                        return fetch(url).then((res) => res.ok ? res.text() :
+                            Promise.reject(Object.assign(new Error(`${url}: ${res.statusText}`), { res })))
+                    },
+                    addStyle (textContent) {
+                        const style = Object.assign(document.createElement("style"), { textContent })
+                        const ref = document.head.getElementsByTagName("style")[0] || null
+                        document.head.insertBefore(style, ref)
+                    },
+                    log (type, ...args) {
+                        console.log("vue3-sfc-loader", type, ...args)
+                    },
+                    additionalModuleHandlers: {
+                        ".css": (source, path, options) => {
+                            return less.render(source, { globalVars: vars }).then((result) => result.css)
+                        }
+                    }
+                })
+            }
+            Vue.loadComponent = (name) =>
+                Vue.defineAsyncComponent(() => Vue.load(name))
+            app = Vue.createApp({ components: { "index": Vue.loadComponent("index.vue") }})
+            app.use(Vue3Resize)
+            app.mount("#index")
         </script>
     </body>
 </html>

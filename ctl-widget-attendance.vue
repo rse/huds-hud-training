@@ -80,15 +80,16 @@ module.exports = {
     computed: {
         style: HUDS.vueprop2cssvar()
     },
-    created () {
+    methods: {
         /*  receive the attendee events  */
-        this.$on("attendance", (data) => {
+        attendance (data) {
             if (data.event === "begin" || data.event === "refresh")
                 this.seen[data.client] = (new Date()).getTime()
             else if (data.event === "end")
                 delete this.seen[data.client]
-        })
-
+        }
+    },
+    created () {
         /*  track the attendees  */
         this.timer = setInterval(() => {
             /*  expire attendees not seen recently
@@ -103,10 +104,8 @@ module.exports = {
             /*  determine current attendees  */
             const before = this.attendees
             const after  = Object.keys(this.seen).length
-            if (after !== before) {
+            if (after !== before)
                 this.attendees = after
-                this.$emit("animate")
-            }
         }, 2 * 1000)
     }
 }

@@ -27,14 +27,14 @@
 <template>
     <div v-bind:style="style" class="agenda">
         <div ref="canvas" class="canvas">
-            <div v-for="(slot, i) in slots"
+            <div v-for="(slot, i) in slotlist"
                 v-bind:key="slot"
                 v-bind:class="{
                     first: i === 0,
                     done:  i < pos,
                     curr:  i === pos,
                     todo:  i > pos,
-                    last:  i === slots.length - 1 }"
+                    last:  i === slotlist.length - 1 }"
                 class="slot">
                 <div class="num">{{ i + 1 }}</div>
                 <div class="text">{{ slot }}</div>
@@ -107,29 +107,15 @@ module.exports = {
         currcolorfg: { type: String, default: "" },
         todocolorbg: { type: String, default: "" },
         todocolorfg: { type: String, default: "" },
-        slots:       { type: String, default: [] }
+        slotlist:    { type: String, default: [] }
     },
     data: () => ({
-        pos:        0,
-        slotheight: 0,
-        slots:      0
+        pos: 0
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
     },
     created () {
-        this.$on("prev", () => {
-            if (this.pos > 0) {
-                this.pos--
-                this.$nextTick(() => this.update())
-            }
-        })
-        this.$on("next", () => {
-            if (this.pos < this.slots.length - 1) {
-                this.pos++
-                this.$nextTick(() => this.update())
-            }
-        })
     },
     mounted () {
         this.update()
@@ -143,6 +129,18 @@ module.exports = {
                 block:    "center",
                 inline:   "center"
             })
+        },
+        prev () {
+            if (this.pos > 0) {
+                this.pos--
+                this.$nextTick(() => this.update())
+            }
+        },
+        next () {
+            if (this.pos < this.slotlist.length - 1) {
+                this.pos++
+                this.$nextTick(() => this.update())
+            }
         }
     }
 }

@@ -173,11 +173,10 @@ module.exports = {
             /*  finally deliver results  */
             this.cellsize = s + "px"
             this.cells = cells.slice(0, k)
-        }
-    },
-    created () {
+        },
+
         /*  receive the attendee events  */
-        this.$on("attendance", (data) => {
+        attendance (data) {
             if (data.event === "begin") {
                 let image     = data.data && data.data.image   ? data.data.image   : ""
                 let name      = data.data && data.data.name    ? data.data.name    : ""
@@ -200,27 +199,10 @@ module.exports = {
             else if (data.event === "end")
                 delete this.attendees[data.client]
             this.recalc()
-        })
-
-        /*  track the attendees (similar to "attendance" widget to be in sync)  */
-        this.timer = setInterval(() => {
-            /*  expire attendees not seen recently
-                (refresh usually every 10min, but we accept also up to 20min)  */
-            let changed = false
-            const now = (new Date()).getTime()
-            for (const client of Object.keys(this.attendees)) {
-                const seen = this.attendees[client].seen
-                if (seen + ((20 + 2) * 60 * 1000) < now) {
-                    delete this.attendees[client]
-                    changed = true
-                }
-            }
-            if (changed)
-                this.recalc()
-        }, 2 * 1000)
+        },
 
         /*  toggle attendees on/off  */
-        this.$on("toggle", () => {
+        toggle () {
             /*  do nothing if we are still progressing  */
             if (this.progress)
                 return
@@ -264,7 +246,25 @@ module.exports = {
                 this.enabled  = newstate
                 this.progress = false
             })
-        })
+        }
+    },
+    created () {
+        /*  track the attendees (similar to "attendance" widget to be in sync)  */
+        this.timer = setInterval(() => {
+            /*  expire attendees not seen recently
+                (refresh usually every 10min, but we accept also up to 20min)  */
+            let changed = false
+            const now = (new Date()).getTime()
+            for (const client of Object.keys(this.attendees)) {
+                const seen = this.attendees[client].seen
+                if (seen + ((20 + 2) * 60 * 1000) < now) {
+                    delete this.attendees[client]
+                    changed = true
+                }
+            }
+            if (changed)
+                this.recalc()
+        }, 2 * 1000)
     }
 }
 </script>

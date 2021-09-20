@@ -36,7 +36,7 @@
                     todo:  i > pos,
                     last:  i === slotlist.length - 1 }"
                 class="slot">
-                <div class="num">{{ i+1 }}</div>
+                <div class="num">{{ i + 1 }}</div>
                 <div class="text">{{ slot }}</div>
             </div>
         </div>
@@ -97,6 +97,14 @@
 </style>
 
 <script>
+const bindCSSVars = (vars) => {
+    return function () {
+        const css = {}
+        for (const key of vars)
+            css[`--${key}`] = this[key]
+        return css
+    }
+}
 module.exports = {
     name: "agenda",
     props: {
@@ -107,25 +115,32 @@ module.exports = {
         currcolorfg: { type: String, default: "" },
         todocolorbg: { type: String, default: "" },
         todocolorfg: { type: String, default: "" },
-        slotheight:  { type: String, default: 0 },
         slotlist:    { type: String, default: [] }
     },
     data: () => ({
-        enabled:  false,
-        progress: false,
-        pos:      0
+        enabled:    false,
+        progress:   false,
+        pos:        0,
+        slotheight: "0"
     }),
     computed: {
-        style: HUDS.vueprop2cssvar()
+        style: bindCSSVars([
+            "opacity",
+            "donecolorbg",
+            "donecolorfg",
+            "currcolorbg",
+            "currcolorfg",
+            "todocolorbg",
+            "todocolorfg",
+            "slotheight"
+        ])
     },
-    created () {
-        /*  receive particular agenda position (from progress bar)  */
-        this.$on("pos", (pos) => {
+    methods: {
+        setPos (pos) {
+            /*  receive particular agenda position (from progress bar)  */
             this.pos = pos
-        })
-
-        /*  toggle agenda on/off  */
-        this.$on("toggle", () => {
+        },
+        toggle () {
             /*  do nothing if we are still progressing  */
             if (this.progress)
                 return
@@ -169,13 +184,13 @@ module.exports = {
                 this.enabled  = newstate
                 this.progress = false
             })
-        })
+        }
     },
     mounted () {
         /*  dynamically determine height of an agenda slot  */
         const el = this.$refs.canvas
         const slots = el.querySelectorAll(".slot")
-        let height = Math.ceil(this.$el.clientHeight / slots.length)
+        let height = Math.floor(this.$el.clientHeight / slots.length) - 2
         if (height > 50)
             height = 50
         this.slotheight = height + "px"

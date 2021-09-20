@@ -38,11 +38,11 @@
 module.exports = {
     name: "index",
     data: () => ({
-        mode:     typeof huds.options.mode === "string" ? huds.options.mode : "hud"
+        mode: typeof huds.options.mode === "string" ? huds.options.mode : "hud"
     }),
     components: {
-        "hud":    "url:hud.vue",
-        "ctl":    "url:ctl.vue"
+        "hud": Vue.loadComponent("hud.vue"),
+        "ctl": Vue.loadComponent("ctl.vue")
     }
 }
 </script>

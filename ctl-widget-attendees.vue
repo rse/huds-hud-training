@@ -101,10 +101,11 @@
 module.exports = {
     name: "attendees",
     props: {
-        background:      { type: String, default: "" },
-        namecolorbg:     { type: String, default: "" },
-        namecolorfg:     { type: String, default: "" },
-        noattendeestext: { type: String, default: "" }
+        background:        { type: String, default: "" },
+        namecolorbg:       { type: String, default: "" },
+        namecolorfg:       { type: String, default: "" },
+        noattendeestext:   { type: String, default: "" },
+        privacylevel:      { type: String, default: "" }
     },
     data: () => ({
         enabled:      true,
@@ -169,16 +170,22 @@ module.exports = {
             /*  finally deliver results  */
             this.cellsize = s + "px"
             this.cells = cells.slice(0, k)
-        }
-    },
-    created () {
+        },
+
         /*  receive the attendee events  */
-        this.$on("attendance", (data) => {
+        attendance (data) {
             if (data.event === "begin") {
+                let image     = data.data && data.data.image   ? data.data.image   : ""
+                let name      = data.data && data.data.name    ? data.data.name    : ""
+                const privacy = data.data && data.data.privacy ? data.data.privacy : "private"
+                if (   (this.privacylevel === "closed" && (privacy === "anonymous"))
+                    || (this.privacylevel === "open"   && (privacy === "private" || privacy === "anonymous"))) {
+                    image = "avatar-undisclosed.svg"
+                    name  = "UNDISCLOSED IDENTITY"
+                }
                 this.attendees[data.client] = {
-                    version: data.agent ? data.agent.replace(/^.*\//, "") : "?.?.?",
-                    image:   data.data && data.data.image ? data.data.image : "",
-                    name:    data.data && data.data.name  ? data.data.name  : "",
+                    image:   image,
+                    name:    name,
                     seen:    (new Date()).getTime()
                 }
             }
@@ -189,8 +196,9 @@ module.exports = {
             else if (data.event === "end")
                 delete this.attendees[data.client]
             this.recalc()
-        })
-
+        }
+    },
+    created () {
         /*  track the attendees (similar to "attendance" widget to be in sync)  */
         this.timer = setInterval(() => {
             /*  expire attendees not seen recently

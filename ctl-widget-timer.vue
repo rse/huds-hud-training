@@ -77,9 +77,6 @@ module.exports = {
     },
     mounted () {
         this.restart()
-        this.$on("restart", () => {
-            this.restart()
-        })
         this.timer = setInterval(() => {
             this.update()
         }, 50)

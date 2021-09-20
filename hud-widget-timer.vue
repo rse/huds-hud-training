@@ -84,16 +84,6 @@ module.exports = {
     computed: {
         style: HUDS.vueprop2cssvar()
     },
-    created () {
-    },
-    mounted () {
-        this.$on("start", (duration) => {
-            this.start(duration)
-        })
-        this.$on("stop", () => {
-            this.stop()
-        })
-    },
     methods: {
         start (duration) {
             /*   allow restarting the timer  */

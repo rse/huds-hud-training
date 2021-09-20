@@ -26,7 +26,7 @@
 
 <template>
     <div v-bind:style="style" class="popup">
-        <div v-for="popup in popups" ref="box" v-bind:key="popup.i" v-bind:data-i="popup.i"
+        <div v-for="(popup, i) in popups" v-bind:ref="(el) => boxes[i] = el" v-bind:key="popup.i" v-bind:data-i="popup.i"
             v-bind:class="{ box: true, [ popup.type ]: true }">
             <img v-if="popup.image" class="image" v-bind:src="popup.image" />
             <div v-if="popup.title" class="title">
@@ -130,7 +130,8 @@ module.exports = {
         objectionmessagecolor: { type: String, default: "" },
         commentbackground:     { type: String, default: "" },
         commenttitlecolor:     { type: String, default: "" },
-        commentmessagecolor:   { type: String, default: "" }
+        commentmessagecolor:   { type: String, default: "" },
+        privacylevel:          { type: String, default: "" }
     },
     data: () => ({
         queue:     [],
@@ -140,6 +141,11 @@ module.exports = {
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
+    },
+    setup () {
+        const boxes = Vue.ref([])
+        Vue.onBeforeUpdate(() => { boxes.value = [] })
+        return { boxes }
     },
     methods: {
         /*  add a popup box  */
@@ -165,7 +171,7 @@ module.exports = {
                 this.popups.unshift(data)
                 this.$nextTick(() => {
                     /*  determine DOM elements  */
-                    const els = this.$refs.box.sort((a, b) =>
+                    const els = this.boxes.filter((x) => x !== null).sort((a, b) =>
                         parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
                     const newer  = els[0]
                     const others = els.slice(1)
@@ -197,7 +203,7 @@ module.exports = {
                 return
             return new Promise((resolve, reject) => {
                 /*  determine DOM elements  */
-                const els = this.$refs.box.sort((a, b) =>
+                const els = this.boxes.filter((x) => x !== null).sort((a, b) =>
                     parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
                 const others = els.slice(0, els.length - 1)
                 const older  = els[els.length - 1]
@@ -241,16 +247,43 @@ module.exports = {
                     })
                 })
             })
-        }
-    },
-    created () {
+        },
+
+        /*  allow a new popup to be added  */
+        add: (function () {
+            let i = 0
+            return function (data) {
+                data.i = i++
+                if (this.attendees[data.client] !== undefined) {
+                    if (typeof data.title !== "string" && this.attendees[data.client].name !== "")
+                        data.title = this.attendees[data.client].name
+                    if (typeof data.image !== "string" && this.attendees[data.client].image !== "")
+                        data.image = this.attendees[data.client].image
+                }
+                this.queue.push({ method: "addBox", args: [ data ] })
+            }
+        })(),
+
+        /*  allow the oldest popup to be removed  */
+        remove () {
+            this.queue.push({ method: "removeBox", args: [] })
+        },
+
         /*  receive the attendee events  */
-        this.$on("attendance", (data) => {
+        attendance (data) {
             if (data.event === "begin") {
+                let image     = data.data && data.data.image   ? data.data.image   : ""
+                let name      = data.data && data.data.name    ? data.data.name    : ""
+                const privacy = data.data && data.data.privacy ? data.data.privacy : "private"
+                if (   (this.privacylevel === "closed" && (privacy === "anonymous"))
+                    || (this.privacylevel === "open"   && (privacy === "private" || privacy === "anonymous"))) {
+                    image = "avatar-undisclosed.svg"
+                    name  = "UNDISCLOSED IDENTITY"
+                }
                 this.attendees[data.client] = {
-                    image: data.data && data.data.image ? data.data.image : "",
-                    name:  data.data && data.data.name  ? data.data.name  : "",
-                    seen:  (new Date()).getTime()
+                    image:   image,
+                    name:    name,
+                    seen:    (new Date()).getTime()
                 }
             }
             else if (data.event === "refresh") {
@@ -259,8 +292,9 @@ module.exports = {
             }
             else if (data.event === "end")
                 delete this.attendees[data.client]
-        })
-
+        }
+    },
+    created () {
         /*  track the attendees (similar to "attendance" widget to be in sync)  */
         this.timer = setInterval(() => {
             /*  expire attendees not seen recently
@@ -272,24 +306,6 @@ module.exports = {
                     delete this.attendees[client]
             }
         }, 2 * 1000)
-
-        /*  allow a new popup to be added  */
-        let i = 0
-        this.$on("popup-add", (data) => {
-            data.i = i++
-            if (this.attendees[data.client] !== undefined) {
-                if (typeof data.title !== "string" && this.attendees[data.client].name !== "")
-                    data.title = this.attendees[data.client].name
-                if (typeof data.image !== "string" && this.attendees[data.client].image !== "")
-                    data.image = this.attendees[data.client].image
-            }
-            this.queue.push({ method: "addBox", args: [ data ] })
-        })
-
-        /*  allow the oldest popup to be removed  */
-        this.$on("popup-remove", () => {
-            this.queue.push({ method: "removeBox", args: [] })
-        })
 
         /*  queue worker loop  */
         const progress = async () => {

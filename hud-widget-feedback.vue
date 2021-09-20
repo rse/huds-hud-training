@@ -30,7 +30,7 @@
             <div
                 v-for="item of items"
                 v-bind:key="item.type"
-                ref="item"
+                v-bind:ref="(el) => itemEls.push(el)"
                 v-bind:data-type="item.type"
                 v-bind:class="[ 'item', 'item-' + item.type ]">
                 <div class="icon-bg">
@@ -168,15 +168,21 @@ module.exports = {
     computed: {
         style: HUDS.vueprop2cssvar()
     },
-    created () {
+    setup () {
+        const itemEls = Vue.ref([])
+        Vue.onBeforeUpdate(() => { itemEls.value = [] })
+        return { itemEls }
+    },
+    methods: {
         /*  receive the feedback events  */
-        this.$on("event", (data) => {
+        event (data) {
             this.feedbacks[data.client] = {
                 seen: (new Date()).getTime(),
                 type: data.type
             }
-        })
-
+        }
+    },
+    created () {
         /*  expire feedbacks  */
         this.timer = setInterval(() => {
             /*  expire or take over feedbacks  */
@@ -229,7 +235,7 @@ module.exports = {
             /*  animate items (once Vue has updated the DOM)  */
             this.$nextTick(() => {
                 const findElement = (type) => {
-                    const els = this.$refs.item
+                    const els = this.itemEls
                     for (let i = 0; i < els.length; i++)
                         if (els[i].getAttribute("data-type") === type)
                             return els[i]

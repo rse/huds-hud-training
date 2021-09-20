@@ -84,15 +84,32 @@ module.exports = {
     computed: {
         style: HUDS.vueprop2cssvar()
     },
-    created () {
+    methods: {
         /*  receive the attendee events  */
-        this.$on("attendance", (data) => {
+        attendance (data) {
             if (data.event === "begin" || data.event === "refresh")
                 this.seen[data.client] = (new Date()).getTime()
             else if (data.event === "end")
                 delete this.seen[data.client]
-        })
+        },
 
+        /*  allow the box to be animated  */
+        animate () {
+            const bar = this.$refs.bar
+            /* soundfx.play("beep6") */
+            const tl = anime.timeline({
+                targets: bar,
+                duration: 400,
+                autoplay: true,
+                direction: "normal",
+                loop: 1,
+                easing: "easeInOutSine"
+            })
+            tl.add({ scaleX: 1.10, scaleY: 1.20, translateY: -3, translateX: -2 })
+                .add({ scaleX: 1.00, scaleY: 1.00, translateY: 0, translateX: 0 })
+        }
+    },
+    created () {
         /*  track the attendees  */
         this.timer = setInterval(() => {
             /*  expire attendees not seen recently
@@ -109,25 +126,9 @@ module.exports = {
             const after  = Object.keys(this.seen).length
             if (after !== before) {
                 this.attendees = after
-                this.$emit("animate")
+                this.animate()
             }
         }, 2 * 1000)
-
-        /*  allow the box to be animated  */
-        this.$on("animate", () => {
-            const bar = this.$refs.bar
-            /* soundfx.play("beep6") */
-            const tl = anime.timeline({
-                targets: bar,
-                duration: 400,
-                autoplay: true,
-                direction: "normal",
-                loop: 1,
-                easing: "easeInOutSine"
-            })
-            tl.add({ scaleX: 1.10, scaleY: 1.20, translateY: -3, translateX: -2 })
-                .add({ scaleX: 1.00, scaleY: 1.00, translateY: 0, translateX: 0 })
-        })
     }
 }
 </script>
