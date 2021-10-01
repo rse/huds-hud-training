@@ -52,9 +52,7 @@ module.exports = {
         currcolorbg:  { type: String, default: "" },
         currcolorfg:  { type: String, default: "" },
         todocolorbg:  { type: String, default: "" },
-        todocolorfg:  { type: String, default: "" },
-        breakcolorbg: { type: String, default: "" },
-        breakcolorfg: { type: String, default: "" }
+        todocolorfg:  { type: String, default: "" }
     },
     emits: [ "pos" ],
     data: () => ({
@@ -143,6 +141,29 @@ module.exports = {
                         .L(r, h / 2)
                         .L(0, r)
                         .Q(0, 0, r, 0)
+                if (this.slotlist[i].match(/^(?:BREAK|LUNCH)$/)) {
+                    const R = Math.floor(h * 0.08)
+                    const X = R * 3
+                    const Y = R * 2
+                    if (this.slotlist[i] === "BREAK") {
+                        /*  optionally mark break  */
+                        p.M(X, h - Y)
+                        p.m(-R, 0)
+                        p.a(R, R, 0, 1, 0, { x:    R * 2,  y: 0 })
+                        p.a(R, R, 0, 1, 0, { x: - (R * 2), y: 0 })
+                    }
+                    else if (this.slotlist[i] === "LUNCH") {
+                        /*  optionally mark lunch  */
+                        p.M(X, h - Y)
+                        p.m(-R, 0)
+                        p.a(R, R, 0, 1, 0, { x:    R * 2,  y: 0 })
+                        p.a(R, R, 0, 1, 0, { x: - (R * 2), y: 0 })
+                        p.M(X + R * 2.3, h - Y)
+                        p.m(-R, 0)
+                        p.a(R, R, 0, 1, 0, { x:    R * 2,  y: 0 })
+                        p.a(R, R, 0, 1, 0, { x: - (R * 2), y: 0 })
+                    }
+                }
                 p.Z()
                 p.move(b, b)
 
@@ -191,12 +212,6 @@ module.exports = {
                         .add({ scaleX: 1.1, scaleY: 1.1, translateY:  -3, translateX: -10 })
                         .add({ scaleX: 1.0, scaleY: 1.0, translateY:   0, translateX:   0, duration: 800 })
                         .finished.then(() => {})
-                }
-                else if (this.slotlist[i].match(/^(?:BREAK|LUNCH)$/i)) {
-                    /*  update all todo break boxes  */
-                    p.fill(this.breakcolorbg)
-                    t.fill(this.breakcolorfg)
-                        .font({ weight: "normal" })
                 }
                 else {
                     /*  update all todo other boxes  */

@@ -106,8 +106,6 @@
             v-bind:currcolorfg="config.progress.currcolorfg"
             v-bind:todocolorbg="config.progress.todocolorbg"
             v-bind:todocolorfg="config.progress.todocolorfg"
-            v-bind:breakcolorbg="config.progress.breakcolorbg"
-            v-bind:breakcolorfg="config.progress.breakcolorfg"
             v-bind:slotlist="config.agenda.slots"
             v-on:pos="progressPos"
         ></progress-bar>
