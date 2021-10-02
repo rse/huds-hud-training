@@ -36,6 +36,10 @@
                     todo:  i > pos,
                     last:  i === slotlist.length - 1 }"
                 class="slot">
+                <div class="dots">
+                    <div class="dot"><i v-if="slot === 'BREAK' || slot === 'LUNCH'" class="fas fa-circle"></i></div>
+                    <div class="dot"><i v-if="slot === 'LUNCH'" class="fas fa-circle"></i></div>
+                </div>
                 <div class="num">{{ i + 1 }}</div>
                 <div class="text">{{ slot }}</div>
             </div>
@@ -54,6 +58,7 @@
         justify-content: flex-end;
         .slot {
             height: var(--slotheight);
+            padding-top: 2px;
             margin-bottom: 2px;
             font-family: "TypoPRO Fira Sans";
             font-size: calc(var(--slotheight) * 0.70);
@@ -79,8 +84,21 @@
                 background-color: var(--todocolorbg);
                 color: var(--todocolorfg);
             }
+            .dots {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+                padding-left:  10px;
+                width: 40px;
+                font-size: calc(var(--slotheight) * 0.25);
+                .dot {
+                    display: block;
+                    margin-left: 2px;
+                }
+            }
             .num {
-                padding-left:  30px;
+                padding-left:  10px;
                 padding-right: 10px;
                 text-align: center;
                 width: 50px;
