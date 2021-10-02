@@ -13,7 +13,7 @@
         "client":                          "index.html"
     },
     "dependencies": {
-        "vue":                             "3.2.12",
+        "vue":                             "3.2.19",
         "vue3-sfc-loader":                 "0.8.4",
         "vue3-resize":                     "0.2.0",
         "less":                            "4.1.1",
