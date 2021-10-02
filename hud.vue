@@ -228,6 +228,7 @@
 </template>
 
 <style lang="less" scoped>
+html,
 body {
     background-color: transparent;
 }
