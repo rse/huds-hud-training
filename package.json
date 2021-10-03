@@ -1,7 +1,7 @@
 {
     "name":                                "huds-hud-training",
     "description":                         "Training HUD for HUDS",
-    "version":                             "2.4.2",
+    "version":                             "2.4.3",
     "author": {
         "name":                            "Dr. Ralf S. Engelschall",
         "email":                           "rse@engelschall.com",
