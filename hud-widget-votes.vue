@@ -504,6 +504,8 @@ module.exports = {
             else {
                 /*  toggle off  */
                 soundfx.play("whoosh2")
+                if (this.type === "quiz")
+                    this.quizNext()
             }
         },
 
