@@ -96,7 +96,7 @@
         font-family: "TypoPRO Fira Sans";
         font-size: 32px;
         border-radius: 10px;
-        margin-top: 10px;
+        margin-top: 5px;
         padding: 10px 30px 10px 30px;
         background-color: var(--hintcolorbg);
         color:            var(--hintcolorfg);
@@ -109,7 +109,7 @@
     }
     .choice {
         width: 100%;
-        margin-top: 10px;
+        margin-top: 5px;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
