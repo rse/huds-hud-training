@@ -419,23 +419,31 @@ This HUD provides the following on-screen widgets:
 
     ```yaml
     votes:
-        opacity:               0.80
+        opacity:               0.90
         winnamecolorbg:        "#b06820"
         winnamecolorfg:        "#ffffff"
         maxnamecolorbg:        "#336699"
         maxnamecolorfg:        "#ffffff"
         stdnamecolorbg:        "#6699cc"
         stdnamecolorfg:        "#ffffff"
+        xtrnamecolorbg:        "#999999"
+        xtrnamecolorfg:        "#ffffff"
         winvotecolorbg:        "#ffffff"
         winvotecolorfg:        "#666666"
         maxvotecolorbg:        "#ffffff"
         maxvotecolorfg:        "#666666"
         stdvotecolorbg:        "#f0f0f0"
         stdvotecolorfg:        "#999999"
+        xtrvotecolorbg:        "#f0f0f0"
+        xtrvotecolorfg:        "#999999"
+        allvotecolorbg:        "#60606080"
+        allvotecolorbd:        "#999999"
         quizidcolorbg:         "#225588"
         quizidcolorfg:         "#e0e0ff"
         quiztxtcolorbg:        "#336699"
         quiztxtcolorfg:        "#ffffff"
+        hintcolorbg:           "#f0f0f0"
+        hintcolorfg:           "#666666"
     ```
 
     ...and is toggled interactively with the keystroke <kbd>v</kbd> or
