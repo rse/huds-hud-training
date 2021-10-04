@@ -178,6 +178,7 @@ module.exports = {
                 let image     = data.data && data.data.image   ? data.data.image   : ""
                 let name      = data.data && data.data.name    ? data.data.name    : ""
                 const privacy = data.data && data.data.privacy ? data.data.privacy : "private"
+                const version = data.agent ? data.agent.replace(/^.*\//, "") : "?.?.?"
                 if (   (this.privacylevel === "closed" && (privacy === "anonymous"))
                     || (this.privacylevel === "open"   && (privacy === "private" || privacy === "anonymous"))) {
                     image = "avatar-undisclosed.svg"
@@ -186,7 +187,8 @@ module.exports = {
                 this.attendees[data.client] = {
                     image:   image,
                     name:    name,
-                    seen:    (new Date()).getTime()
+                    seen:    (new Date()).getTime(),
+                    version: version
                 }
             }
             else if (data.event === "refresh") {
