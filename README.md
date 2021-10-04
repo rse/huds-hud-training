@@ -118,7 +118,7 @@ Usage
 	curl -D- http://127.0.0.1:9999/training/event/votes.type.quiz
 	curl -D- http://127.0.0.1:9999/training/event/votes.type.choose
 	curl -D- http://127.0.0.1:9999/training/event/votes.type.propose
-	curl -D- http://127.0.0.1:9999/training/event/votes.receive?data={"person":"...","choice":"..."}
+	curl -D- http://127.0.0.1:9999/training/event/votes.receive?data={"client":"...","choice":"..."}
 	curl -D- http://127.0.0.1:9999/training/event/votes.reveal
 	curl -D- http://127.0.0.1:9999/training/event/votes.disclose
 	curl -D- http://127.0.0.1:9999/training/event/votes.quiz.prev
