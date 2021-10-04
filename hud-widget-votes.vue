@@ -165,9 +165,10 @@
             display: block;
             padding: 0;
             margin: 0;
-            border-top:    2px solid var(--stdvotecolorbg);
-            border-bottom: 2px solid var(--stdvotecolorbg);
-            border-right:  2px solid var(--stdvotecolorbg);
+            border-top:    2px solid var(--allvotecolorbd);
+            border-bottom: 2px solid var(--allvotecolorbd);
+            border-right:  2px solid var(--allvotecolorbd);
+            background-color: var(--allvotecolorbg);
             border-top-right-radius: 10px;
             border-bottom-right-radius: 10px;
             position: relative;
@@ -230,6 +231,8 @@ module.exports = {
         stdvotecolorfg:  { type: String, default: "" },
         xtrvotecolorbg:  { type: String, default: "" },
         xtrvotecolorfg:  { type: String, default: "" },
+        allvotecolorbg:  { type: String, default: "" },
+        allvotecolorbd:  { type: String, default: "" },
         quizidcolorbg:   { type: String, default: "" },
         quizidcolorfg:   { type: String, default: "" },
         quiztxtcolorbg:  { type: String, default: "" },

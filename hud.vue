@@ -166,6 +166,8 @@
             v-bind:stdvotecolorfg="config.votes.stdvotecolorfg"
             v-bind:xtrvotecolorbg="config.votes.xtrvotecolorbg"
             v-bind:xtrvotecolorfg="config.votes.xtrvotecolorfg"
+            v-bind:allvotecolorbg="config.votes.allvotecolorbg"
+            v-bind:allvotecolorbd="config.votes.allvotecolorbd"
             v-bind:quizidcolorbg="config.votes.quizidcolorbg"
             v-bind:quizidcolorfg="config.votes.quizidcolorfg"
             v-bind:quiztxtcolorbg="config.votes.quiztxtcolorbg"
