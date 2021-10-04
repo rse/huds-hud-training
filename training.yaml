@@ -151,7 +151,7 @@ progress:
     todocolorfg:           "#999999"
 
 votes:
-    opacity:               0.85
+    opacity:               0.90
     winnamecolorbg:        "#b06820"
     winnamecolorfg:        "#ffffff"
     maxnamecolorbg:        "#336699"
