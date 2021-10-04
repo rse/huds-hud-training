@@ -149,19 +149,19 @@ module.exports = {
                         /*  optionally mark break  */
                         p.M(X, h - Y)
                         p.m(-R, 0)
-                        p.a(R, R, 0, 1, 0, { x:    R * 2,  y: 0 })
-                        p.a(R, R, 0, 1, 0, { x: - (R * 2), y: 0 })
+                        p.a(R, R, 0, 1, 0, { x:   R * 2,  y: 0 })
+                        p.a(R, R, 0, 1, 0, { x: -(R * 2), y: 0 })
                     }
                     else if (this.slotlist[i] === "LUNCH") {
                         /*  optionally mark lunch  */
                         p.M(X, h - Y)
                         p.m(-R, 0)
-                        p.a(R, R, 0, 1, 0, { x:    R * 2,  y: 0 })
-                        p.a(R, R, 0, 1, 0, { x: - (R * 2), y: 0 })
+                        p.a(R, R, 0, 1, 0, { x:   R * 2,  y: 0 })
+                        p.a(R, R, 0, 1, 0, { x: -(R * 2), y: 0 })
                         p.M(X + R * 2.3, h - Y)
                         p.m(-R, 0)
-                        p.a(R, R, 0, 1, 0, { x:    R * 2,  y: 0 })
-                        p.a(R, R, 0, 1, 0, { x: - (R * 2), y: 0 })
+                        p.a(R, R, 0, 1, 0, { x:   R * 2,  y: 0 })
+                        p.a(R, R, 0, 1, 0, { x: -(R * 2), y: 0 })
                     }
                 }
                 p.Z()
