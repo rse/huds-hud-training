@@ -97,7 +97,8 @@ feeling:
 
 closure:
     opacity:               0.75
-    background:            "#000000"
+    background1:           "#000000"
+    background2:           "#222222"
     beginiconname:         "play-circle"
     beginiconcolor:        "#b06820"
     beginhinttext:         "The training will start soon.<br/>Please be patient!"

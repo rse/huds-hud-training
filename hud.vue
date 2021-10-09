@@ -203,7 +203,8 @@
         ></latency>
         <closure ref="closure" class="closure"
             v-bind:opacity="config.closure.opacity"
-            v-bind:background="config.closure.background"
+            v-bind:background1="config.closure.background1"
+            v-bind:background2="config.closure.background2"
             v-bind:beginiconname="config.closure.beginiconname"
             v-bind:beginiconcolor="config.closure.beginiconcolor"
             v-bind:beginhinttext="config.closure.beginhinttext"

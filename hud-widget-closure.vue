@@ -82,7 +82,7 @@
         width: 100vw;
         height: 100vh;
         .left {
-            background-color: var(--background);
+            background: linear-gradient(90deg, var(--background1) 0%, var(--background2) 100%);
             position: absolute;
             left: -50%;
             width: 50vw;
@@ -98,7 +98,7 @@
             }
         }
         .right {
-            background-color: var(--background);
+            background: linear-gradient(90deg, var(--background2) 0%, var(--background1) 100%);
             position: absolute;
             right: -50%;
             width: 50vw;
@@ -119,6 +119,9 @@
                     margin-top: 50px;
                     font-size: 20pt;
                 }
+                .privacy::v-deep b {
+                    font-weight: 500;
+                }
             }
         }
     }
@@ -136,7 +139,8 @@ module.exports = {
     name: "closure",
     props: {
         opacity:           { type: Number, default: 1.0 },
-        background:        { type: String, default: "" },
+        background1:       { type: String, default: "" },
+        background2:       { type: String, default: "" },
         beginiconname:     { type: String, default: "" },
         beginiconcolor:    { type: String, default: "" },
         beginhinttext:     { type: String, default: "" },
