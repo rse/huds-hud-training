@@ -12,18 +12,19 @@
     "huds": {
         "client":                          "index.html"
     },
+    "upd":                                 [ "!eslint" ],
     "dependencies": {
-        "vue":                             "3.2.20",
+        "vue":                             "3.2.23",
         "vue3-sfc-loader":                 "rse/FOREIGN-vue3-sfc-loader#6d05173",
         "vue3-resize":                     "0.2.0",
         "less":                            "4.1.2",
         "@fortawesome/fontawesome-free":   "5.15.4",
-        "typopro-web":                     "4.2.5",
+        "typopro-web":                     "4.2.6",
         "mousetrap":                       "1.6.5",
         "animejs":                         "3.2.1",
         "howler":                          "2.2.3",
         "@svgdotjs/svg.js":                "3.1.1",
-        "@svgdotjs/svg.filter.js":         "3.0.7",
+        "@svgdotjs/svg.filter.js":         "3.0.8",
         "svg.easing.js":                   "2.0.0",
         "svg.screenbbox.js":               "0.1.2",
         "svg.path.js":                     "otm/svg.path.js#6981166",
@@ -42,9 +43,9 @@
         "babel-eslint":                    "10.1.0",
         "eslint":                          "7.32.0",
         "eslint-config-standard":          "16.0.3",
-        "eslint-plugin-import":            "2.24.2",
+        "eslint-plugin-import":            "2.25.3",
         "eslint-plugin-node":              "11.1.0",
-        "eslint-plugin-vue":               "7.19.1"
+        "eslint-plugin-vue":               "8.1.1"
     },
     "scripts": {
         "huds":                            "huds",
