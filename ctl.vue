@@ -88,6 +88,7 @@
             v-bind:commentbackground="config.popup.commentbackground"
             v-bind:commenttitlecolor="config.popup.commenttitlecolor"
             v-bind:commentmessagecolor="config.popup.commentmessagecolor"
+            v-bind:privacylevel="config.popup.privacylevel"
         ></popup>
     </div>
 </template>
