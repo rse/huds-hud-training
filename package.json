@@ -14,7 +14,7 @@
     },
     "upd":                                 [ "!eslint" ],
     "dependencies": {
-        "vue":                             "3.2.23",
+        "vue":                             "3.2.26",
         "vue3-sfc-loader":                 "rse/FOREIGN-vue3-sfc-loader#6d05173",
         "vue3-resize":                     "0.2.0",
         "less":                            "4.1.2",
