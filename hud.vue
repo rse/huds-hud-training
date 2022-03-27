@@ -418,7 +418,7 @@ module.exports = {
         "snowfall":     Vue.loadComponent("hud-widget-snowfall.vue")
     },
     created () {
-        /*  interaction for logo */
+        /*  interaction for minimization  */
         Mousetrap.bind("m", (e) => {
             huds.send("minimize.toggle")
         })
@@ -426,7 +426,7 @@ module.exports = {
             this.minimize = !this.minimize
         })
 
-        /*  interaction for logo */
+        /*  interaction for logo  */
         Mousetrap.bind("l", (e) => {
             huds.send("logo.animate")
         })
