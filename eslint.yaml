@@ -31,8 +31,7 @@ extends:
     - plugin:vue/essential
 
 parserOptions:
-    parser: babel-eslint
-    ecmaVersion: 8
+    ecmaVersion: 12
     sourceType:  module
     ecmaFeatures:
         jsx:     false
@@ -95,4 +94,5 @@ rules:
     "vue/no-v-html":                     off
     "vue/v-on-style":                    off
     "vue/component-tags-order":          off
+    "vue/first-attribute-linebreak":     off
 
