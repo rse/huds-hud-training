@@ -311,8 +311,8 @@ module.exports = {
                     name  = "UNDISCLOSED IDENTITY"
                 }
                 this.attendees[data.client] = {
-                    image:   image,
-                    name:    name,
+                    image,
+                    name,
                     seen:    (new Date()).getTime()
                 }
             }

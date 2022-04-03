@@ -272,7 +272,7 @@ module.exports = {
                                     autoplay:  true,
                                     direction: "normal",
                                     easing:    "easeOutSine",
-                                    height:    height
+                                    height
                                 })
                             }
                         }

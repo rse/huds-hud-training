@@ -468,7 +468,7 @@ module.exports = {
                                 autoplay:  true,
                                 direction: "normal",
                                 easing:    "easeOutSine",
-                                width:     width
+                                width
                             })
                         }
                     }
