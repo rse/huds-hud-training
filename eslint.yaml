@@ -95,4 +95,5 @@ rules:
     "vue/v-on-style":                    off
     "vue/component-tags-order":          off
     "vue/first-attribute-linebreak":     off
+    "vue/no-v-text-v-html-on-component": off
 
