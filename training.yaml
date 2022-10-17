@@ -46,7 +46,7 @@ attendees:
     background:            "#336699"
     namecolorbg:           "#003366"
     namecolorfg:           "#e0f0ff"
-    noattendeestext:       "This training has still no attendees."
+    noattendeestext:       "This training has still no identified attendees."
     privacylevel:          closed
 
 feedback:
