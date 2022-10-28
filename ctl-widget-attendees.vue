@@ -29,8 +29,8 @@
         <div ref="canvas" class="canvas">
             <div v-if="cells.length > 0">
                 <div v-for="(cell, i) in cells" v-bind:key="i" class="cell">
-                    <img class="image" v-bind:src="cell.image" alt="" />
-                    <div class="name">{{ cell.name }} ({{ cell.version }})</div>
+                    <img v-if="cell.image" class="image" v-bind:src="cell.image" alt="" />
+                    <div v-if="cell.name"  class="name">{{ cell.name }} ({{ cell.version }})</div>
                 </div>
             </div>
             <div v-if="cells.length == 0" class="noattendees">
@@ -139,12 +139,13 @@ module.exports = {
             /*  determine all potential cells  */
             const cells = Object.keys(this.attendees)
                 .map((client) => this.attendees[client])
+                .filter((client) => client.name || client.image)
                 .sort((a, b) => a.name.localeCompare(b.name))
 
             /*  determine canvas size (can differ on minimize HUD view)  */
             const el = this.$refs.canvas
             const H  = el.clientHeight - 4
-            const W = el.clientWidth  - 4
+            const W  = el.clientWidth  - 4
 
             /*  determine maximum cell size  */
             let k = cells.length
