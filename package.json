@@ -30,7 +30,7 @@
         "svg.path.js":                     "otm/svg.path.js#6981166",
         "hashtag-similarity":              "0.9.3",
         "moment":                          "2.29.4",
-        "canvas-confetti":                 "1.5.1",
+        "canvas-confetti":                 "1.6.0",
         "fitty":                           "2.3.6",
         "@rse/soundfx":                    "1.1.3",
         "@rse/soundlp":                    "1.1.1"
@@ -40,7 +40,7 @@
     },
     "devDependencies": {
         "huds":                            ">=1.6.0",
-        "eslint":                          "8.25.0",
+        "eslint":                          "8.26.0",
         "eslint-config-standard":          "17.0.0",
         "eslint-plugin-import":            "2.26.0",
         "eslint-plugin-node":              "11.1.0",
