@@ -25,7 +25,7 @@
 all: build
 
 bootstrap:
-	if [ ! -d node_modules ]; then npm install; fi
+	@if [ ! -d node_modules ]; then npm install; fi
 
 build: bootstrap
 
