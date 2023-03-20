@@ -36,10 +36,10 @@
         "@rse/soundlp":                    "1.1.1"
     },
     "peerDependencies": {
-        "huds":                            ">=1.6.0"
+        "huds":                            ">=2.0.0"
     },
     "devDependencies": {
-        "huds":                            ">=1.6.0",
+        "huds":                            "2.0.7",
         "eslint":                          "8.36.0",
         "eslint-config-standard":          "17.0.0",
         "eslint-plugin-import":            "2.27.5",
@@ -48,8 +48,7 @@
     },
     "scripts": {
         "huds":                            "huds",
-        "start":                           "huds -a 0.0.0.0 -p 9999 -d training:.,training.yaml",
-        "test":                            "node ../huds/src/huds-server-cli.js -v3 -a 0.0.0.0 -p 9999 -d training:.,training.yaml",
+        "start":                           "huds -v3 -a 0.0.0.0 -p 9999 -d training:.,training.yaml",
         "lint":                            "eslint --config eslint.yaml --ext js,vue *.vue"
     }
 }
