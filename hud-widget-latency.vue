@@ -75,7 +75,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "latency",
     props: {
         opacity:    { type: Number, default: 1.0 },

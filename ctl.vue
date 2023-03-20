@@ -147,7 +147,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "ctl",
     data: () => ({
         config:   huds.config(),

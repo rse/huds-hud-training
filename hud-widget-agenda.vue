@@ -123,7 +123,7 @@ const bindCSSVars = (vars) => {
         return css
     }
 }
-module.exports = {
+export default {
     name: "agenda",
     props: {
         opacity:     { type: Number, default: 1.0 },

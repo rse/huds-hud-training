@@ -98,7 +98,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "agenda",
     props: {
         donecolorbg: { type: String, default: "" },

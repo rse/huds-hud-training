@@ -100,7 +100,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "attendees",
     props: {
         opacity:           { type: Number, default: 1.0 },

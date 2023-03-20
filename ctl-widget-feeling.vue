@@ -155,7 +155,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "feeling",
     props: {
         background:  { type: String, default: "" },

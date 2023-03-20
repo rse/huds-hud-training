@@ -31,11 +31,8 @@
     </div>
 </template>
 
-<style lang="less" scoped>
-</style>
-
 <script>
-module.exports = {
+export default {
     name: "index",
     data: () => ({
         mode: typeof huds.options.mode === "string" ? huds.options.mode : "hud"

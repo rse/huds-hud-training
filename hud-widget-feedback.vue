@@ -131,7 +131,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "feedback",
     props: {
         opacity:        { type: Number, default: 1.0 },

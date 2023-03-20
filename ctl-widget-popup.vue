@@ -119,7 +119,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "title-bar",
     props: {
         questionbackground:    { type: String, default: "" },

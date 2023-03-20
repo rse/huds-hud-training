@@ -43,7 +43,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "confetti",
     props: {
         opacity: { type: Number, default: 1.0 }

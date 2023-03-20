@@ -41,7 +41,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "snowfall",
     props: {
         opacity: { type: Number, default: 1.0 }

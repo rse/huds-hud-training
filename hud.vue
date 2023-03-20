@@ -389,7 +389,7 @@ body {
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "hud",
     data: () => ({
         config:   huds.config(),

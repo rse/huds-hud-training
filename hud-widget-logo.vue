@@ -42,7 +42,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "logo",
     props: {
         opacity: { type: Number, default: 1.0 }

@@ -156,7 +156,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "feeling",
     props: {
         opacity:     { type: Number, default: 1.0 },

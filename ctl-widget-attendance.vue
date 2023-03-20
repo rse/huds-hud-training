@@ -66,7 +66,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "attendance",
     props: {
         background: { type: String, default: "" },

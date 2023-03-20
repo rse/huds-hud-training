@@ -41,7 +41,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "background",
     props: {
     },

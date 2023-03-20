@@ -51,7 +51,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "timer",
     props: {
         opacity:     { type: Number, default: 1.0 },

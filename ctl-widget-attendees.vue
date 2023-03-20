@@ -98,7 +98,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "attendees",
     props: {
         background:        { type: String, default: "" },

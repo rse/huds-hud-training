@@ -82,7 +82,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "title-bar",
     props: {
         opacity:    { type: Number, default: 1.0 },

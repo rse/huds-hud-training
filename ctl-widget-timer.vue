@@ -49,7 +49,7 @@
 </style>
 
 <script>
-module.exports = {
+export default {
     name: "timer",
     props: {
         duration:    { type: Number, default: 0 },
