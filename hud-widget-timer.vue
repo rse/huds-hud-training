@@ -55,7 +55,6 @@ export default {
     name: "timer",
     props: {
         opacity:     { type: Number, default: 1.0 },
-        duration:    { type: Number, default: 0 },
         background1: { type: String, default: "" },
         background2: { type: String, default: "" },
         ticks:       { type: String, default: "" },
@@ -70,13 +69,14 @@ export default {
     },
     data: () => ({
         config:    huds.config(),
-        duration:  0,
-        remaining: 0,
         started:   null,
-        show:      false,
+        ending:    null,
+        ended:     false,
+        segFrom:   0,
+        segNow:    0,
+        segTo:     0,
         timer:     null,
         ticked:    false,
-        ended:     false,
         svg:       null,
         svgRefs:   {},
         soundid:   0

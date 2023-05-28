@@ -107,7 +107,7 @@ export default {
         currcolorfg: { type: String, default: "" },
         todocolorbg: { type: String, default: "" },
         todocolorfg: { type: String, default: "" },
-        slotlist:    { type: String, default: [] }
+        slotlist:    { type: Array,  default () { return [] } }
     },
     data: () => ({
         pos: 0

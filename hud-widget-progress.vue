@@ -46,7 +46,7 @@ export default {
     name: "progress",
     props: {
         opacity:      { type: Number, default: 1.0 },
-        slotlist:     { type: String, default: [] },
+        slotlist:     { type: Array,  default () { return [] } },
         donecolorbg:  { type: String, default: "" },
         donecolorfg:  { type: String, default: "" },
         currcolorbg:  { type: String, default: "" },

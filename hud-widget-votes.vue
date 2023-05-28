@@ -244,7 +244,7 @@ export default {
         hintquiz:        { type: String, default: "" },
         hintchoose:      { type: String, default: "" },
         hintpropose:     { type: String, default: "" },
-        quizzes:         { type: Object, default: [] }
+        quizzes:         { type: Array,  default () { return [] } }
     },
     data: () => ({
         show:       false,

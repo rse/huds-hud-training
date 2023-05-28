@@ -110,16 +110,16 @@
             v-on:pos="progressPos"
         ></progress-bar>
         <banner
-            v-for="banner in config.banner.banner"
-            v-bind:key="banner.name"
-            v-bind:ref="'banner-' + banner.name"
+            v-for="b in config.banner.banner"
+            v-bind:key="b.name"
+            v-bind:ref="'banner-' + b.name"
             class="banner"
             v-bind:opacity="config.banner.opacity"
             v-bind:background="config.banner.background"
-            v-bind:iconname="banner.iconname"
-            v-bind:iconcolor="banner.iconcolor"
-            v-bind:titletext="banner.titletext"
-            v-bind:titlecolor="banner.titlecolor"
+            v-bind:iconname="b.iconname"
+            v-bind:iconcolor="b.iconcolor"
+            v-bind:titletext="b.titletext"
+            v-bind:titlecolor="b.titlecolor"
         ></banner>
         <logo ref="logo" class="logo"
             v-bind:opacity="config.logo.opacity"
