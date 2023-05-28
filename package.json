@@ -39,7 +39,7 @@
         "huds":                            ">=2.0.0"
     },
     "devDependencies": {
-        "huds":                            "2.0.7",
+        "huds":                            "2.0.8",
         "eslint":                          "8.41.0",
         "eslint-config-standard":          "17.0.0",
         "eslint-plugin-import":            "2.27.5",
