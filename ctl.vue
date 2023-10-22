@@ -31,13 +31,6 @@
             v-bind:iconcolor="config.attendance.iconcolor"
             v-bind:textcolor="config.attendance.textcolor"
         ></attendance>
-        <attendees ref="attendees" class="attendees"
-            v-bind:background="config.attendees.background"
-            v-bind:namecolorbg="config.attendees.namecolorbg"
-            v-bind:namecolorfg="config.attendees.namecolorfg"
-            v-bind:noattendeestext="config.attendees.noattendeestext"
-            v-bind:privacylevel="config.attendees.privacylevel"
-        ></attendees>
         <feeling ref="feeling" class="feeling"
             v-bind:background="config.feeling.background"
             v-bind:textcolor="config.feeling.textcolor"
@@ -103,38 +96,32 @@
     overflow: hidden;
     background-color: #333333;
     color: #ffffff;
-    > .attendance {
+    > .agenda {
         position: absolute;
-        right: 520px;
-        bottom: 20px;
-        width: 270px;
-    }
-    > .attendees {
-        position: absolute;
-        top: 20px;
         left: 20px;
-        width:  calc(100vw - 830px);
-        height: calc(100vh - 40px);
+        bottom: 20px;
+        width:  calc(100vw - 820px);
+        height: 470px;
     }
     > .feeling {
         position: absolute;
-        right: 520px;
+        right: 20px;
         bottom: 100px;
         width: 270px;
     }
     > .timer {
         position: absolute;
-        right: 20px;
+        right: 310px;
         bottom: 20px;
         width: 470px;
         height: 470px;
     }
-    > .agenda {
+    > .attendance {
         position: absolute;
-        top: 20px;
-        right: 30px;
-        width: 760px;
-        height: calc(100vh - 530px);
+        bottom: 40px;
+        right: 20px;
+        width: 270px;
+        height: 40px;
     }
     > .popup {
         position: absolute;
@@ -155,7 +142,6 @@ export default {
     }),
     components: {
         "attendance":   Vue.loadComponent("ctl-widget-attendance.vue"),
-        "attendees":    Vue.loadComponent("ctl-widget-attendees.vue"),
         "feeling":      Vue.loadComponent("ctl-widget-feeling.vue"),
         "timer":        Vue.loadComponent("ctl-widget-timer.vue"),
         "agenda":       Vue.loadComponent("ctl-widget-agenda.vue"),
@@ -170,8 +156,6 @@ export default {
                 return
             const a1 = this.$refs.attendance
             a1.attendance(data)
-            const a2 = this.$refs.attendees
-            a2.attendance(data)
             const f = this.$refs.feeling
             f.attendance(data)
             const p = this.$refs.popup
