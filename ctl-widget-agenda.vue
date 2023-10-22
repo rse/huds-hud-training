@@ -46,7 +46,7 @@
 <style lang="less" scoped>
 .agenda {
     .canvas {
-        overflow-y: scroll;
+        overflow-y: auto;
         overflow-x: hidden;
         height: 100%;
         display: flex;
@@ -55,7 +55,7 @@
         .slot {
             margin-bottom: 2px;
             font-family: "TypoPRO Fira Sans";
-            font-size: 26pt;
+            font-size: 28pt;
             display: flex;
             flex-direction: row;
             &.first {
