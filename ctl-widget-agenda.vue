@@ -55,7 +55,7 @@
         .slot {
             margin-bottom: 2px;
             font-family: "TypoPRO Fira Sans";
-            font-size: 24pt;
+            font-size: 26pt;
             display: flex;
             flex-direction: row;
             &.first {
