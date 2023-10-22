@@ -46,7 +46,8 @@
 <style lang="less" scoped>
 .agenda {
     .canvas {
-        overflow: scroll;
+        overflow-y: scroll;
+        overflow-x: hidden;
         height: 100%;
         display: flex;
         flex-direction: column;
