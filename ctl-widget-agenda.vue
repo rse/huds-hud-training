@@ -87,7 +87,7 @@
             .text {
                 padding-left:  10px;
                 padding-right: 30px;
-                width: 100%;
+                width: calc(100% - 160px);
                 text-align: left;
                 white-space: nowrap;
                 overflow: hidden;
