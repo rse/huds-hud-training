@@ -27,7 +27,7 @@
         "@svgdotjs/svg.filter.js":         "3.0.8",
         "svg.easing.js":                   "2.0.0",
         "svg.screenbbox.js":               "0.1.2",
-        "svg.path.js":                     "otm/svg.path.js#6981166",
+        "svg.path.js":                     "git+https://github.com/otm/svg.path.js#6981166",
         "hashtag-similarity":              "0.9.4",
         "moment":                          "2.29.4",
         "canvas-confetti":                 "1.9.0",
