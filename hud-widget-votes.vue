@@ -257,7 +257,8 @@ export default {
         attendees:  0,
         reveal:     true,
         disclose:   true,
-        timer2:     null
+        timer2:     null,
+        timer3:     null
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -506,6 +507,10 @@ export default {
                 soundfx.play("whoosh2")
                 if (this.type === "quiz")
                     this.quizNext()
+                if (this.timer3 !== null) {
+                    clearTimeout(this.timer3)
+                    this.timer3 = null
+                }
             }
         },
 
@@ -537,6 +542,13 @@ export default {
             if (this.disclose) {
                 soundfx.play("scale1")
                 this.reveal = true
+
+                /*  automatically close 5 minutes after disclose  */
+                this.timer3 = setTimeout(() => {
+                    this.timer3 = null
+                    if (this.show)
+                        this.toggle()
+                }, 5 * 60 * 1000)
             }
             this.update()
         },
