@@ -236,7 +236,7 @@ export default {
                 const a = this.$refs.popup
                 a.add({ ...data, type: "objection" })
             }
-            else {
+            else if (!data.text.match(/^(?:[1-9]|YES|NO|ABSTAIN|-2|-1|0|\+1|\+2)$/)) {
                 const a = this.$refs.popup
                 a.add({ ...data, type: "comment" })
             }
