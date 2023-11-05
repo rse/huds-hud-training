@@ -429,7 +429,7 @@ export default {
                     i:      i++,
                     name:   "(total)",
                     voters: total,
-                    width:  this.attendees > 0 ? Math.ceil((total / this.attendees) * 100) + "%" : "0%",
+                    width:  total <= this.attendees ? (this.attendees > 0 ? Math.ceil((total / this.attendees) * 100) + "%" : "0%") : "100%",
                     total:  true
                 })
             }
