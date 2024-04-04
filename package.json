@@ -14,11 +14,11 @@
     },
     "upd":                                 [],
     "dependencies": {
-        "vue":                             "3.4.14",
-        "vue3-sfc-loader":                 "0.9.0",
+        "vue":                             "3.4.21",
+        "vue3-sfc-loader":                 "0.9.5",
         "vue3-resize":                     "0.2.0",
         "less":                            "4.2.0",
-        "@fortawesome/fontawesome-free":   "6.5.1",
+        "@fortawesome/fontawesome-free":   "6.5.2",
         "typopro-web":                     "4.2.6",
         "mousetrap":                       "1.6.5",
         "animejs":                         "3.2.2",
@@ -28,7 +28,7 @@
         "svg.easing.js":                   "2.0.0",
         "svg.screenbbox.js":               "0.1.2",
         "svg.path.js":                     "git+https://github.com/otm/svg.path.js.git#6981166",
-        "hashtag-similarity":              "0.9.4",
+        "hashtag-similarity":              "0.9.5",
         "moment":                          "2.30.1",
         "canvas-confetti":                 "1.9.2",
         "fitty":                           "2.4.2",
@@ -39,12 +39,12 @@
         "huds":                            ">=2.0.0"
     },
     "devDependencies": {
-        "huds":                            "2.1.2",
-        "eslint":                          "8.56.0",
+        "huds":                            "2.1.4",
+        "eslint":                          "8.57.0",
         "eslint-config-standard":          "17.1.0",
         "eslint-plugin-import":            "2.29.1",
         "eslint-plugin-node":              "11.1.0",
-        "eslint-plugin-vue":               "9.20.1"
+        "eslint-plugin-vue":               "9.24.0"
     },
     "scripts": {
         "huds":                            "huds",
