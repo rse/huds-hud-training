@@ -131,6 +131,7 @@ Usage
 	curl -D- http://127.0.0.1:9999/training/event/banner.pause.toggle
 	curl -D- http://127.0.0.1:9999/training/event/banner.rant.toggle
 	curl -D- http://127.0.0.1:9999/training/event/banner.qna.toggle
+	curl -D- http://127.0.0.1:9999/training/event/raisehand.teardown
 	curl -D- http://127.0.0.1:9999/training/event/closure.begin.toggle
 	curl -D- http://127.0.0.1:9999/training/event/closure.pause.toggle
 	curl -D- http://127.0.0.1:9999/training/event/closure.end.toggle
@@ -484,6 +485,31 @@ This HUD provides the following on-screen widgets:
     comment. In addition to the HUDS event `message` one can also use the
     `popup.add` event with the data `{ client, text, title?, image?, type }`
     to add a popup.
+
+-   **RAISEHAND**:<br/>
+    This widget displays popups at the bottom-center of the
+    screen. The intention of this widget is to let attendees raise
+    their hand virtually during the training. Their name and
+    optionally their message is displayed.
+    It has to be configured with...
+
+    ```yaml
+    raisehand:
+        opacity:               0.80
+        background:            "#cc9900"
+        iconforeground:        "#663300"
+        nameforeground:        "#000000"
+        textforeground:        "#663300"
+        badgebackground:       "#bb8800"
+        badgeforeground:       "#ffffff"
+    ```
+
+    ...and is controlled interactively with the keystroke
+    <kbd>t</kbd> (for tearing down a raised hand) or
+    programmatically with the remote HUDS event `raisehand.teardown`. The
+    popups of the attendees are extracted from `name` and `text` fields in data
+    received with the remote HUDS event `raisehand` (usually injected into
+    HUDS via MQTT through the integration of a companion chat system).
 
 -   **BANNER**:<br/>
     This widget displays arbitrary banners at the top-left corner of the

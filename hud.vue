@@ -201,6 +201,15 @@
             v-bind:foreground="config.latency.foreground"
             v-bind:iconcolor="config.latency.iconcolor"
         ></latency>
+        <raisehand ref="raisehand" class="raisehand"
+            v-bind:opacity="config.raisehand.opacity"
+            v-bind:background="config.raisehand.background"
+            v-bind:iconforeground="config.raisehand.iconforeground"
+            v-bind:nameforeground="config.raisehand.nameforeground"
+            v-bind:textforeground="config.raisehand.textforeground"
+            v-bind:badgebackground="config.raisehand.badgebackground"
+            v-bind:badgeforeground="config.raisehand.badgeforeground"
+        ></raisehand>
         <closure ref="closure" class="closure"
             v-bind:opacity="config.closure.opacity"
             v-bind:background1="config.closure.background1"
@@ -330,6 +339,13 @@ body {
         bottom: 120px;
         left:   30px;
     }
+    > .raisehand {
+        position: absolute;
+        top:    0;
+        left:   0;
+        width:  100vw;
+        height: 100vh;
+    }
     > .confetti {
         position: absolute;
         top:    0;
@@ -401,6 +417,7 @@ export default {
     components: {
         "background":   Vue.loadComponent("hud-widget-background.vue"),
         "banner":       Vue.loadComponent("hud-widget-banner.vue"),
+        "raisehand":    Vue.loadComponent("hud-widget-raisehand.vue"),
         "title-bar":    Vue.loadComponent("hud-widget-title.vue"),
         "attendance":   Vue.loadComponent("hud-widget-attendance.vue"),
         "attendees":    Vue.loadComponent("hud-widget-attendees.vue"),
@@ -742,6 +759,27 @@ export default {
                 return
             const f = this.$refs.feeling
             f.event(data)
+        })
+
+        /*  allow raisehand widget to be interactively controlled  */
+        Mousetrap.bind("t", (e) => {
+            huds.send("raisehand.teardown")
+        })
+        huds.bind("raisehand.teardown", () => {
+            const rh = this.$refs.raisehand
+            rh.teardown()
+        })
+
+        /*  receive raisehand events from the attendance channel  */
+        huds.bind("raisehand", (event, data) => {
+            /*  just react on correctly structured messages  */
+            if (!(   typeof data.client === "string" && data.client !== ""
+                  && typeof data.name === "string" && data.name !== ""
+                  && typeof data.text === "string"
+                  && typeof data.raised === "boolean"))
+                return
+            const rh = this.$refs.raisehand
+            rh.event(data)
         })
 
         /*  allow confetti to be raised  */

@@ -230,6 +230,15 @@ banner:
             titletext:     "Q&A"
             titlecolor:    "#000000"
 
+raisehand:
+    opacity:               0.80
+    background:            "#cc9900"
+    iconforeground:        "#663300"
+    nameforeground:        "#000000"
+    textforeground:        "#663300"
+    badgebackground:       "#bb8800"
+    badgeforeground:       "#ffffff"
+
 logo:
     opacity:               0.60
     svg: |
