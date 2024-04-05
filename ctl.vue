@@ -83,6 +83,15 @@
             v-bind:commentmessagecolor="config.popup.commentmessagecolor"
             v-bind:privacylevel="config.popup.privacylevel"
         ></popup>
+        <raisehand ref="raisehand" class="raisehand"
+            v-bind:opacity="config.raisehand.opacity"
+            v-bind:background="config.raisehand.background"
+            v-bind:iconforeground="config.raisehand.iconforeground"
+            v-bind:nameforeground="config.raisehand.nameforeground"
+            v-bind:textforeground="config.raisehand.textforeground"
+            v-bind:badgebackground="config.raisehand.badgebackground"
+            v-bind:badgeforeground="config.raisehand.badgeforeground"
+        ></raisehand>
     </div>
 </template>
 
@@ -130,6 +139,13 @@
         height: calc(100vh - 80px);
         left: 40px;
     }
+    > .raisehand {
+        position: absolute;
+        top:    0;
+        left:   0;
+        width:  100vw;
+        height: 100vh;
+    }
 }
 </style>
 
@@ -145,7 +161,8 @@ export default {
         "feeling":      Vue.loadComponent("ctl-widget-feeling.vue"),
         "timer":        Vue.loadComponent("ctl-widget-timer.vue"),
         "agenda":       Vue.loadComponent("ctl-widget-agenda.vue"),
-        "popup":        Vue.loadComponent("ctl-widget-popup.vue")
+        "popup":        Vue.loadComponent("ctl-widget-popup.vue"),
+        "raisehand":    Vue.loadComponent("ctl-widget-raisehand.vue")
     },
     created () {
         /*  receive messages for the attendance channel  */
@@ -240,6 +257,24 @@ export default {
                 const a = this.$refs.popup
                 a.add({ ...data, type: "comment" })
             }
+        })
+
+        /*  allow raisehand widget to be interactively controlled  */
+        huds.bind("raisehand.teardown", () => {
+            const rh = this.$refs.raisehand
+            rh.teardown()
+        })
+
+        /*  receive raisehand events from the attendance channel  */
+        huds.bind("raisehand", (event, data) => {
+            /*  just react on correctly structured messages  */
+            if (!(   typeof data.client === "string" && data.client !== ""
+                  && typeof data.name === "string" && data.name !== ""
+                  && typeof data.text === "string"
+                  && typeof data.raised === "boolean"))
+                return
+            const rh = this.$refs.raisehand
+            rh.event(data)
         })
     }
 }
