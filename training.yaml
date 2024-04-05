@@ -231,7 +231,7 @@ banner:
             titlecolor:    "#000000"
 
 raisehand:
-    opacity:               0.80
+    opacity:               0.90
     background:            "#cc9900"
     iconforeground:        "#663300"
     nameforeground:        "#000000"
