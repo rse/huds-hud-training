@@ -54,8 +54,6 @@
         transform: scale(2.0);
         opacity: 0;
         font-family: "TypoPRO Fira Sans";
-        font-weight: bold;
-        font-size: 100pt;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -166,8 +164,8 @@ export default {
                     targets:  this.$refs.box,
                     autoplay: true
                 })
-                tl.add({ easing: "easeInSine",  scaleX: 2.2, scaleY: 2.2, duration: 400 })
-                tl.add({ easing: "easeOutSine", scaleX: 2.0, scaleY: 2.0, duration: 800 })
+                tl.add({ easing: "easeInSine",  scale: [ 2.0, 2.2 ], duration: 400 })
+                tl.add({ easing: "easeOutSine", scale: [ 2.2, 2.0 ], duration: 800 })
                 return tl.finished
             }))
         },
