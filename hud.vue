@@ -543,7 +543,7 @@ export default {
             huds.bind(`banner.${banner.name}.toggle`, (event, data) => {
                 if (progress)
                     return
-                const b = this.$refs[`banner-${banner.name}`]
+                const b = this.$refs[`banner-${banner.name}`][0]
                 if (this.banner === b) {
                     /*  disable ourself  */
                     progress = true
@@ -762,7 +762,7 @@ export default {
         })
 
         /*  allow raisehand widget to be interactively controlled  */
-        Mousetrap.bind("t", (e) => {
+        Mousetrap.bind("d", (e) => {
             huds.send("raisehand.teardown")
         })
         huds.bind("raisehand.teardown", () => {
