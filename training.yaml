@@ -96,7 +96,7 @@ feeling:
     m5color:               "#225588"
 
 closure:
-    opacity:               0.75
+    opacity:               0.80
     background1:           "#000000"
     background2:           "#222222"
     beginiconname:         "play-circle"
