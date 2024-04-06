@@ -130,6 +130,7 @@ Usage
 	curl -D- http://127.0.0.1:9999/training/event/feedback?data={"client":"...","type":"..."}
 	curl -D- http://127.0.0.1:9999/training/event/banner.pause.toggle
 	curl -D- http://127.0.0.1:9999/training/event/banner.rant.toggle
+	curl -D- http://127.0.0.1:9999/training/event/banner.praise.toggle
 	curl -D- http://127.0.0.1:9999/training/event/banner.qna.toggle
 	curl -D- http://127.0.0.1:9999/training/event/raisehand.teardown
 	curl -D- http://127.0.0.1:9999/training/event/closure.begin.toggle
@@ -535,10 +536,16 @@ This HUD provides the following on-screen widgets:
                 iconcolor:     "#bb0000"
                 titletext:     RANT
                 titlecolor:    "#000000"
+            -   name:          praise
+                key:           x
+                iconname:      award
+                iconcolor:     "#336699"
+                titletext:     PRAISE
+                titlecolor:    "#000000"
             -   name:          qna
                 key:           q
                 iconname:      comments
-                iconcolor:     "#ccaa00"
+                iconcolor:     "#b06820"
                 titletext:     "Q&A"
                 titlecolor:    "#000000"
     ```
@@ -547,7 +554,7 @@ This HUD provides the following on-screen widgets:
     keystrokes (in the example <kbd>p</kbd>, <kbd>r</kbd> and
     <kbd>q</kbd>) or programmatically with the remote HUDS events
     `banner.<i>name</i>.toggle` (in the example with the
-    names `pause`, `rant` and `qna`).
+    names `pause`, `rant`, `praise` and `qna`).
 
 -   **CLOSURE**:<br/>
     This widget displays three partly-transparent full-screen closures.
