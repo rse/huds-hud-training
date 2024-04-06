@@ -47,6 +47,7 @@
         font-family: "TypoPRO Fira Sans";
         font-weight: bold;
         font-size: 100pt;
+        letter-spacing: -4px;
         top: 550px;
         left: -260px;
         transform: rotate(-45deg);

@@ -229,6 +229,12 @@ banner:
             iconcolor:     "#b06820"
             titletext:     "Q&A"
             titlecolor:    "#000000"
+        -   name:          notice
+            key:           n
+            iconname:      circle-exclamation
+            iconcolor:     "#b06820"
+            titletext:     "NOTICE"
+            titlecolor:    "#000000"
 
 raisehand:
     opacity:               0.90
