@@ -706,11 +706,31 @@ export default {
         })
 
         /*  receive messages from the attendance channel  */
+        const attendees = {}
         huds.bind("attendance", (event, data) => {
             /*  just react on correctly structured messages  */
             if (!(   typeof data.client  === "string" && data.client !== ""
                   && typeof data.event   === "string" && data.event  !== ""))
                 return
+
+            /*  track attendee information  */
+            if (data.event === "begin" || data.event === "refresh")
+                attendees[data.client] = (new Date()).getTime()
+            else if (data.event === "end")
+                delete attendees[data.client]
+
+            /*  expire attendee information  */
+            const now = (new Date()).getTime()
+            for (const client of Object.keys(attendees)) {
+                const seen = attendees[client]
+                if (seen + ((20 + 2) * 60 * 1000) < now)
+                    delete attendees[client]
+            }
+
+            /*  notify all peers about current attendee information  */
+            huds.send("attendees", { attendees: Object.keys(attendees).length }, this.config.id.peer)
+
+            /*  pass-through information to widgets  */
             const a1 = this.$refs.attendance
             a1.attendance(data)
             const a2 = this.$refs.attendees
