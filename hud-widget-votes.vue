@@ -530,6 +530,8 @@ export default {
 
         /*  reveal individual votings  */
         doReveal () {
+            if (this.type !== "quiz")
+                return
             this.reveal = !this.reveal
             if (this.reveal)
                 soundfx.play("scale1")
@@ -538,6 +540,8 @@ export default {
 
         /*  disclose results of (quiz) votings  */
         doDisclose () {
+            if (this.type !== "quiz")
+                return
             this.disclose = !this.disclose
             if (this.disclose) {
                 soundfx.play("scale1")
