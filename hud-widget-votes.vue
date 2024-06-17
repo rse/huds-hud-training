@@ -31,7 +31,7 @@
             <div class="quiz-question">{{ quizzes[quiz].question }}</div>
         </div>
         <div v-for="choice in choices" v-bind:key="choice.i" v-bind:data-i="choice.i" class="choice">
-            <div v-show="(type === 'quiz' || (choice.voters > 0 && reveal)) || (choice.total && !reveal)"
+            <div v-show="(type === 'quiz' || type === 'evaluate' || type === 'judge' || reveal) || (choice.total && !reveal)"
                 class="name" v-bind:class="{ win: choice.win && disclose, max: choice.max && reveal,
                     abstain: choice.abstain, invalid: choice.invalid, total: choice.total }">
                 {{ choice.name }}
@@ -39,7 +39,7 @@
                     +{{ choice.similars }}
                 </div>
             </div>
-            <div v-show="(type === 'quiz' || (choice.voters > 0 && reveal)) || (choice.total && !reveal)"
+            <div v-show="(type === 'quiz' || type === 'evaluate' || type === 'judge' || reveal) || (choice.total && !reveal)"
                 class="bar-container">
                 <div v-show="reveal || (choice.total && !reveal)" v-bind:ref="(el) => bar.push(el)" class="bar" v-bind:data-i="choice.i"
                     v-bind:class="{ win: choice.win && disclose, max: choice.max && reveal,
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="choices.length === 0 || (type === 'quiz' && !reveal)" class="hint">
+        <div v-if="choices.length === 0 || ((type === 'quiz' || type === 'evaluate' || type === 'judge') && !reveal)" class="hint">
             <div v-show="type === 'judge'"    v-html="hintjudge"></div>
             <div v-show="type === 'evaluate'" v-html="hintevaluate"></div>
             <div v-show="type === 'quiz'"     v-html="hintquiz"></div>
@@ -284,23 +284,20 @@ export default {
                     else if (choice === "ABSTAIN") choices.abstain++
                     else                           choices.invalid++
                 }
-                if (choices.yes > 0)      result.push({ name: "Yes",        voters: choices.yes })
-                if (choices.no > 0)       result.push({ name: "No",         voters: choices.no })
+                result.push({ name: "Yes", voters: choices.yes })
+                result.push({ name: "No",  voters: choices.no })
                 if (choices.abstain > 0)  result.push({ name: "(abstain)",  voters: choices.abstain })
                 if (choices.invalid > 0)  result.push({ name: "(invalid)",  voters: choices.invalid })
             }
             else if (this.type === "evaluate") {
                 /*  handle evaluate/numeric choices only  */
-                const choices = {}
+                const choices = { "-2": 0, "-1": 0, "0": 0, "+1": 0, "+2": 0 }
                 let abstain = 0
                 let invalid = 0
                 for (const client of Object.keys(this.votes)) {
                     const choice = this.votes[client]
-                    if (choice.match(/^(?:-2|-1|0|\+1|\+2)$/)) {
-                        if (choices[choice] === undefined)
-                            choices[choice] = 0
+                    if (choice.match(/^(?:-2|-1|0|\+1|\+2)$/))
                         choices[choice]++
-                    }
                     else if (choice === "ABSTAIN")
                         abstain++
                     else
@@ -521,6 +518,10 @@ export default {
                 this.reveal   = false
                 this.disclose = false
             }
+            else if (type === "evaluate" || type === "judge") {
+                this.reveal   = false
+                this.disclose = true
+            }
             else {
                 this.reveal   = true
                 this.disclose = true
@@ -530,7 +531,7 @@ export default {
 
         /*  reveal individual votings  */
         doReveal () {
-            if (this.type !== "quiz")
+            if (!(this.type === "quiz" || this.type === "evaluate" || this.type === "judge"))
                 return
             this.reveal = !this.reveal
             if (this.reveal)
@@ -540,7 +541,7 @@ export default {
 
         /*  disclose results of (quiz) votings  */
         doDisclose () {
-            if (this.type !== "quiz")
+            if (!(this.type === "quiz"))
                 return
             this.disclose = !this.disclose
             if (this.disclose) {
