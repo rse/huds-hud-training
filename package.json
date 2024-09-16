@@ -14,16 +14,16 @@
     },
     "upd":                                 [],
     "dependencies": {
-        "vue":                             "3.4.29",
+        "vue":                             "3.5.6",
         "vue3-sfc-loader":                 "0.9.5",
         "vue3-resize":                     "0.2.0",
         "less":                            "4.2.0",
-        "@fortawesome/fontawesome-free":   "6.5.2",
+        "@fortawesome/fontawesome-free":   "6.6.0",
         "typopro-web":                     "4.2.7",
         "mousetrap":                       "1.6.5",
         "animejs":                         "3.2.2",
         "howler":                          "2.2.4",
-        "@svgdotjs/svg.js":                "3.2.0",
+        "@svgdotjs/svg.js":                "3.2.4",
         "@svgdotjs/svg.filter.js":         "3.0.8",
         "svg.easing.js":                   "2.0.0",
         "svg.screenbbox.js":               "0.1.2",
@@ -39,16 +39,16 @@
         "huds":                            ">=2.0.0"
     },
     "devDependencies": {
-        "huds":                            "2.1.5",
+        "huds":                            "2.1.7",
         "eslint":                          "8.57.0",
         "eslint-config-standard":          "17.1.0",
         "eslint-plugin-import":            "2.29.1",
         "eslint-plugin-node":              "11.1.0",
-        "eslint-plugin-vue":               "9.26.0"
+        "eslint-plugin-vue":               "9.28.0"
     },
     "scripts": {
         "huds":                            "huds",
-        "start":                           "huds -v3 -a 0.0.0.0 -p 9999 -d training:.,training.yaml",
+        "start":                           "huds -v3 -a 0.0.0.0 -p 9998 -d training:.,training.yaml",
         "lint":                            "eslint --config eslint.yaml --ext js,vue *.vue"
     }
 }
