@@ -139,7 +139,8 @@ export default {
         async raiseUp () {
             return (queue = queue.then(() => {
                 this.animateStop()
-                soundfx.play("chime3")
+                const id = soundfx.play("chime3")
+                soundfx.volume(0.8, id)
                 this.raised = true
                 const tl = anime.timeline({ targets: this.$refs.box, autoplay: true })
                 tl.add({ easing: "easeOutSine", opacity: [ 0.0, 1.0 ], duration: 1000 })
