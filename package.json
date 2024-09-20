@@ -14,7 +14,7 @@
     },
     "upd":                                 [],
     "dependencies": {
-        "vue":                             "3.5.6",
+        "vue":                             "3.5.7",
         "vue3-sfc-loader":                 "0.9.5",
         "vue3-resize":                     "0.2.0",
         "less":                            "4.2.0",
@@ -39,7 +39,7 @@
         "huds":                            ">=2.0.0"
     },
     "devDependencies": {
-        "huds":                            "2.1.7",
+        "huds":                            "2.1.8",
         "eslint":                          "8.57.0",
         "eslint-config-standard":          "17.1.0",
         "eslint-plugin-import":            "2.29.1",
