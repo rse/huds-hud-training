@@ -260,6 +260,7 @@ export default {
         timer2:     null,
         timer3:     null
     }),
+    emits: [ "show" ],
     computed: {
         style: HUDS.vueprop2cssvar()
     },
@@ -509,6 +510,7 @@ export default {
                     this.timer3 = null
                 }
             }
+            this.$emit("show", this.show)
         },
 
         /*  force a voting type  */

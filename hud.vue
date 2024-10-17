@@ -180,6 +180,7 @@
             v-bind:hintchoose="config.votes.hintchoose"
             v-bind:hintpropose="config.votes.hintpropose"
             v-bind:quizzes="config.votes.quizzes"
+            v-on:show="onVotesShow"
         ></votes>
         <timer ref="timer" class="timer"
             v-bind:opacity="config.timer.opacity"
@@ -578,7 +579,6 @@ export default {
         }
 
         /*  interaction for votes widget  */
-        let votesEnabled = false
         Mousetrap.bind("v", (e) => {
             huds.send("votes.toggle")
         })
@@ -612,14 +612,8 @@ export default {
         huds.bind("votes.*", (event, data) => {
             let m
             const v = this.$refs.votes
-            if (event === "votes.toggle") {
-                votesEnabled = !votesEnabled
+            if (event === "votes.toggle")
                 v.toggle()
-                if (votesEnabled)
-                    huds.send("voting-begin", {}, this.config.id.peer)
-                else
-                    huds.send("voting-end", {}, this.config.id.peer)
-            }
             else if ((m = event.match(/^votes\.type\.(.+)$/)) !== null) {
                 const [ , type ] = m
                 v.setType(type)
@@ -678,22 +672,16 @@ export default {
             })
 
             /*  react on particular message types  */
-            if (votesEnabled) {
-                const v = this.$refs.votes
+            const v = this.$refs.votes
+            const a = this.$refs.popup
+            if (v.show)
                 v.receive({ client: data.client, choice: data.text })
-            }
-            else if (data.text.match(/^(.+?)\?$/)) {
-                const a = this.$refs.popup
+            else if (data.text.match(/^(.+?)\?$/))
                 a.add({ ...data, type: "question" })
-            }
-            else if (data.text.match(/^(.+?)!$/)) {
-                const a = this.$refs.popup
+            else if (data.text.match(/^(.+?)!$/))
                 a.add({ ...data, type: "objection" })
-            }
-            else if (!data.text.match(/^(?:[1-9]|YES|NO|ABSTAIN|-2|-1|0|\+1|\+2)$/)) {
-                const a = this.$refs.popup
+            else if (!data.text.match(/^(?:[1-9]|YES|NO|ABSTAIN|-2|-1|0|\+1|\+2)$/))
                 a.add({ ...data, type: "comment" })
-            }
         })
 
         /*  allow attendance widget to be interactively controlled  */
@@ -833,6 +821,13 @@ export default {
             /*  forward progress position to agenda  */
             if (this.$refs.agenda)
                 this.$refs.agenda.setPos(pos)
+        },
+        onVotesShow (show) {
+            /*  notify clients about voting begin/end  */
+            if (show)
+                huds.send("voting-begin", {}, this.config.id.peer)
+            else
+                huds.send("voting-end", {}, this.config.id.peer)
         }
     }
 }
