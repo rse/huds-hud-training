@@ -14,11 +14,11 @@
     },
     "upd":                                 [],
     "dependencies": {
-        "vue":                             "3.5.12",
+        "vue":                             "3.5.13",
         "vue3-sfc-loader":                 "0.9.5",
         "vue3-resize":                     "0.2.0",
-        "less":                            "4.2.0",
-        "@fortawesome/fontawesome-free":   "6.6.0",
+        "less":                            "4.2.1",
+        "@fortawesome/fontawesome-free":   "6.7.2",
         "typopro-web":                     "4.2.7",
         "mousetrap":                       "1.6.5",
         "animejs":                         "3.2.2",
@@ -44,7 +44,7 @@
         "eslint-config-standard":          "17.1.0",
         "eslint-plugin-import":            "2.31.0",
         "eslint-plugin-node":              "11.1.0",
-        "eslint-plugin-vue":               "9.29.0"
+        "eslint-plugin-vue":               "9.32.0"
     },
     "scripts": {
         "huds":                            "huds",
