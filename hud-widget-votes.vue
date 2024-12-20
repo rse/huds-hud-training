@@ -318,6 +318,8 @@ export default {
                 let k = 0
                 for (let i = 0; i < quiz.question.length; i++)
                     k = (k + quiz.question.charCodeAt(i)) % answers.length
+                if (k === 0)
+                    k = Math.trunc(answers.length / 2)
                 answers.splice(k, 0, { name: quiz.right, win: true })
 
                 /*  file votings into choices  */
