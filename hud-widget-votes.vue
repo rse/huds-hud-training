@@ -574,6 +574,7 @@ export default {
             this.update()
         },
 
+        /*  switch to previous quiz question  */
         quizPrev () {
             if (this.quiz > 0) {
                 this.quiz--
@@ -585,6 +586,7 @@ export default {
             }
         },
 
+        /*  switch to next quiz question  */
         quizNext () {
             if (this.quiz < this.quizzes.length - 1) {
                 this.quiz++
