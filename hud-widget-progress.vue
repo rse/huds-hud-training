@@ -101,7 +101,7 @@ export default {
             /*  determine the box sizes  */
             const b = 20
             const d = 4
-            const w = Math.round((W - b * 2) / this.slots) - d
+            const w = ((W - b * 2) / this.slots) - d
             const h = H - b * 2
 
             /*  create the progress bar boxes  */
