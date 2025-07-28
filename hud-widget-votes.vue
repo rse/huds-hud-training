@@ -556,7 +556,7 @@ export default {
                 this.timer3 = setTimeout(() => {
                     this.timer3 = null
                     if (this.show)
-                        this.toggle()
+                        huds.send("votes.toggle")
                 }, 5 * 60 * 1000)
             }
             this.update()
