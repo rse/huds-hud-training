@@ -139,7 +139,8 @@ export default {
         enabled:    false,
         progress:   false,
         pos:        0,
-        slotheight: "0"
+        slotheight: "0",
+        offTimer:   null
     }),
     computed: {
         style: bindCSSVars([
@@ -201,6 +202,21 @@ export default {
                     soundfx.play("click1")
                 this.enabled  = newstate
                 this.progress = false
+
+                /*  kill a still pending "toggle off timer"  */
+                if (this.offTimer !== null) {
+                    clearTimeout(this.offTimer)
+                    this.offTimer = null
+                }
+
+                if (newstate) {
+                    /*  automatically toggle off 5 minutes after toggling on  */
+                    this.offTimer = setTimeout(() => {
+                        this.offTimer = null
+                        if (this.enabled)
+                            huds.send("agenda.toggle")
+                    }, 5 * 60 * 1000)
+                }
             })
         }
     },
@@ -212,6 +228,13 @@ export default {
         if (height > 50)
             height = 50
         this.slotheight = height + "px"
+    },
+    beforeUnmount () {
+        /*  cleanup timer  */
+        if (this.offTimer !== null) {
+            clearInterval(this.offTimer)
+            this.offTimer = null
+        }
     }
 }
 </script>
