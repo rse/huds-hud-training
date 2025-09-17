@@ -100,4 +100,5 @@ rules:
     "vue/component-definition-name-casing": off
     "vue/order-in-components":           off
     "vue/no-reserved-component-names":   off
+    "vue/block-order":                   off
 
