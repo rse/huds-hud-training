@@ -121,7 +121,7 @@
 
 <script>
 export default {
-    name: "title-bar",
+    name: "popup",
     props: {
         opacity:               { type: Number, default: 1.0 },
         questionbackground:    { type: String, default: "" },
