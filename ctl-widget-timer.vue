@@ -185,6 +185,11 @@ export default {
             makeSegment(this.svgRefs.segment1, rad1, rad2, max12, 0, this.segment1)
             makeSegment(this.svgRefs.segment2, rad1, rad2, max12, b, this.segment2)
         }
+    },
+    beforeUnmount () {
+        /*  cleanup timer to prevent memory leaks  */
+        if (this.timer)
+            clearInterval(this.timer)
     }
 }
 </script>

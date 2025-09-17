@@ -266,6 +266,13 @@ export default {
             makeSegment(this.svgRefs.segment3, rad2, rad3, max23, 0, this.segment3)
             makeSegment(this.svgRefs.segment4, rad2, rad3, max23, b, this.segment4)
         }
+    },
+    beforeUnmount () {
+        /*  cleanup timer to prevent memory leaks  */
+        if (this.timer)
+            clearTimeout(this.timer)
+        if (this.soundid)
+            soundlp.stop(this.soundid)
     }
 }
 </script>

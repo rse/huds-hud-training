@@ -324,6 +324,13 @@ export default {
         /*  initialize heights  */
         for (const col of this.$el.getElementsByClassName("col"))
             col.style.height = "0%"
+    },
+    beforeUnmount () {
+        /*  cleanup timers to prevent memory leaks  */
+        if (this.timer1)
+            clearInterval(this.timer1)
+        if (this.timer2)
+            clearTimeout(this.timer2)
     }
 }
 </script>
