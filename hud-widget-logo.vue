@@ -47,6 +47,9 @@ export default {
     props: {
         opacity: { type: Number, default: 1.0 }
     },
+    data: () => ({
+        timer: null
+    }),
     computed: {
         style: HUDS.vueprop2cssvar()
     },
@@ -71,7 +74,14 @@ export default {
     },
     mounted () {
         /*  animate every 5 minutes or on manual request  */
-        setInterval(() => { this.animate() }, 5 * 60 * 1000)
+        this.timer = setInterval(() => { this.animate() }, 5 * 60 * 1000)
+    },
+    beforeUnmount () {
+        /*  cleanup timer to prevent memory leaks  */
+        if (this.timer) {
+            clearInterval(this.timer)
+            this.timer = null
+        }
     }
 }
 </script>

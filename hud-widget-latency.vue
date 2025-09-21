@@ -95,7 +95,7 @@ export default {
         start () {
             /*  start widget  */
             if (this.timer !== null)
-                clearTimeout(this.timer)
+                clearInterval(this.timer)
             this.timer = setInterval(() => {
                 /*  update current time  */
                 this.time = moment().format("HH:mm:ss.S")
@@ -104,7 +104,7 @@ export default {
         stop () {
             /*  stop widget  */
             if (this.timer !== null) {
-                clearTimeout(this.timer)
+                clearInterval(this.timer)
                 this.timer = null
             }
         },
@@ -114,6 +114,13 @@ export default {
                 this.start()
             else
                 this.stop()
+        }
+    },
+    beforeUnmount () {
+        /*  cleanup timer to prevent memory leaks  */
+        if (this.timer) {
+            clearInterval(this.timer)
+            this.timer = null
         }
     }
 }

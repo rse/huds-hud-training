@@ -266,6 +266,13 @@ export default {
             if (changed)
                 this.recalc()
         }, 2 * 1000)
+    },
+    beforeUnmount () {
+        /*  cleanup timer  */
+        if (this.timer) {
+            clearInterval(this.timer)
+            this.timer = null
+        }
     }
 }
 </script>

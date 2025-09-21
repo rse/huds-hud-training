@@ -292,6 +292,13 @@ export default {
                 }
             })
         }, 1 * 1000)
+    },
+    beforeUnmount () {
+        /*  cleanup timer to prevent memory leaks  */
+        if (this.timer) {
+            clearInterval(this.timer)
+            this.timer = null
+        }
     }
 }
 </script>

@@ -136,10 +136,11 @@ export default {
         privacylevel:          { type: String, default: "" }
     },
     data: () => ({
-        queue:     [],
-        popups:    [],
-        attendees: {},
-        timer:     null
+        queue:      [],
+        popups:     [],
+        attendees:  {},
+        timer:      null,
+        queueTimer: null
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -348,9 +349,20 @@ export default {
                     /*  no-op  */
                 }
             }
-            this.timer = setTimeout(progress, 50)
+            this.queueTimer = setTimeout(progress, 50)
         }
-        this.timer = setTimeout(progress, 50)
+        this.queueTimer = setTimeout(progress, 50)
+    },
+    beforeUnmount () {
+        /*  cleanup timers to prevent memory leaks  */
+        if (this.timer) {
+            clearInterval(this.timer)
+            this.timer = null
+        }
+        if (this.queueTimer) {
+            clearTimeout(this.queueTimer)
+            this.queueTimer = null
+        }
     }
 }
 </script>

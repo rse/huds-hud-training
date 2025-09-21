@@ -232,7 +232,7 @@ export default {
     beforeUnmount () {
         /*  cleanup timer  */
         if (this.offTimer !== null) {
-            clearInterval(this.offTimer)
+            clearTimeout(this.offTimer)
             this.offTimer = null
         }
     }

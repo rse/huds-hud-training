@@ -87,8 +87,10 @@ export default {
     methods: {
         start (duration) {
             /*   allow restarting the timer  */
-            if (this.timer)
+            if (this.timer) {
                 clearTimeout(this.timer)
+                this.timer = null
+            }
 
             /*  determine the duration-related information  */
             this.started   = Math.floor((new Date()).getTime() / 1000)
@@ -268,9 +270,11 @@ export default {
         }
     },
     beforeUnmount () {
-        /*  cleanup timer to prevent memory leaks  */
-        if (this.timer)
+        /*  cleanup timer  */
+        if (this.timer) {
             clearTimeout(this.timer)
+            this.timer = null
+        }
         if (this.soundid)
             soundlp.stop(this.soundid)
     }

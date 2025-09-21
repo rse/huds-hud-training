@@ -614,6 +614,21 @@ export default {
         /*  determine selected quiz  */
         if (this.quizzes.length > 0)
             this.quiz = 0
+    },
+    beforeUnmount () {
+        /*  cleanup timers to prevent memory leaks  */
+        if (this.timer) {
+            clearTimeout(this.timer)
+            this.timer = null
+        }
+        if (this.timer2) {
+            clearInterval(this.timer2)
+            this.timer2 = null
+        }
+        if (this.timer3) {
+            clearTimeout(this.timer3)
+            this.timer3 = null
+        }
     }
 }
 </script>
