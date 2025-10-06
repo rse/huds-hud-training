@@ -311,10 +311,11 @@ export default {
         /*  expire feedbacks  */
         this.timer1 = setInterval(() => {
             /*  expire feelings not seen recently  */
-            const now = (new Date()).getTime()
+            const now     = (new Date()).getTime()
+            const timeout = (20 + 2) * 60 * 1000
             for (const client of Object.keys(this.feelings)) {
                 const seen = this.feelings[client].seen
-                if (seen + ((20 + 2) * 60 * 1000) < now)
+                if (seen + timeout < now)
                     delete this.feelings[client]
             }
             this.update()

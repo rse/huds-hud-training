@@ -603,10 +603,11 @@ export default {
         this.timer2 = setInterval(() => {
             /*  expire attendees not seen recently
                 (refresh usually every 10min, but we accept also up to 20min)  */
-            const now = (new Date()).getTime()
+            const now     = (new Date()).getTime()
+            const timeout = (20 + 2) * 60 * 1000
             for (const client of Object.keys(this.attendance)) {
                 const seen = this.attendance[client].seen
-                if (seen + ((20 + 2) * 60 * 1000) < now)
+                if (seen + timeout < now)
                     delete this.attendance[client]
             }
         }, 2 * 1000)

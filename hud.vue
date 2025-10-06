@@ -708,10 +708,11 @@ export default {
                 delete attendees[data.client]
 
             /*  expire attendee information  */
-            const now = (new Date()).getTime()
+            const now     = (new Date()).getTime()
+            const timeout = (20 + 2) * 60 * 1000
             for (const client of Object.keys(attendees)) {
                 const seen = attendees[client]
-                if (seen + ((20 + 2) * 60 * 1000) < now)
+                if (seen + timeout < now)
                     delete attendees[client]
             }
 
