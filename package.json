@@ -14,11 +14,11 @@
     },
     "upd":                                 [ "!eslint", "!animejs" ],
     "dependencies": {
-        "vue":                             "3.5.21",
+        "vue":                             "3.5.22",
         "vue3-sfc-loader":                 "0.9.5",
         "vue3-resize":                     "0.2.0",
-        "less":                            "4.4.1",
-        "@fortawesome/fontawesome-free":   "7.0.1",
+        "less":                            "4.4.2",
+        "@fortawesome/fontawesome-free":   "7.1.0",
         "typopro-web":                     "4.2.7",
         "mousetrap":                       "1.6.5",
         "animejs":                         "3.2.2",
@@ -39,12 +39,12 @@
         "huds":                            ">=2.0.0"
     },
     "devDependencies": {
-        "huds":                            "2.1.11",
+        "huds":                            "2.1.12",
         "eslint":                          "8.57.0",
         "eslint-config-standard":          "17.1.0",
         "eslint-plugin-import":            "2.32.0",
         "eslint-plugin-node":              "11.1.0",
-        "eslint-plugin-vue":               "10.4.0"
+        "eslint-plugin-vue":               "10.5.0"
     },
     "scripts": {
         "huds":                            "huds",
