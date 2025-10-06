@@ -328,11 +328,11 @@ export default {
     },
     beforeUnmount () {
         /*  cleanup timers to prevent memory leaks  */
-        if (this.timer1) {
+        if (this.timer1 !== null) {
             clearInterval(this.timer1)
             this.timer1 = null
         }
-        if (this.timer2) {
+        if (this.timer2 !== null) {
             clearTimeout(this.timer2)
             this.timer2 = null
         }

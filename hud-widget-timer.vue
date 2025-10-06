@@ -271,11 +271,11 @@ export default {
     },
     beforeUnmount () {
         /*  cleanup timer  */
-        if (this.timer) {
+        if (this.timer !== null) {
             clearTimeout(this.timer)
             this.timer = null
         }
-        if (this.soundid)
+        if (this.soundid !== 0)
             soundlp.stop(this.soundid)
     }
 }

@@ -133,7 +133,7 @@ export default {
     },
     beforeUnmount () {
         /*  cleanup timer  */
-        if (this.timer) {
+        if (this.timer !== null) {
             clearInterval(this.timer)
             this.timer = null
         }
