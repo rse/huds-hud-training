@@ -67,7 +67,7 @@ export default {
             for (let i = 0; i < Math.ceil(W / G); i++)
                 for (let j = 0; j < Math.ceil(H / G); j++)
                     svg.rect(G, G).move(G * i, G * j)
-                        .fill((i + j % 2) % 2 === 0 ? "#909090" : "#a0a0a0")
+                        .fill((i + j) % 2 === 0 ? "#909090" : "#a0a0a0")
         }
     }
 }
