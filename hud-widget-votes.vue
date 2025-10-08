@@ -569,13 +569,15 @@ export default {
 
         /*  receive a single vote  */
         receive ({ client, choice }) {
+            if (!this.show)
+                return
+            if (this.type === "quiz" && this.reveal)
+                return
             choice = choice.toUpperCase()
-            if (!this.reveal) {
-                this.votes[client] = choice
-                soundfx.play("beep1")
-            }
-            else
-                soundfx.play("error4")
+            this.votes[client] = choice
+            if (this.votesLog[client] === undefined)
+                this.votesLog[client] = []
+            soundfx.play("beep1")
             this.update()
         },
 
