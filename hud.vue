@@ -181,6 +181,8 @@
             v-bind:hintpropose="config.votes.hintpropose"
             v-bind:quizzes="config.votes.quizzes"
             v-on:show="onVotesShow"
+            v-on:reveal="onVotesReveal"
+            v-on:disclose="onVotesDisclose"
         ></votes>
         <timer ref="timer" class="timer"
             v-bind:opacity="config.timer.opacity"
@@ -829,6 +831,14 @@ export default {
                 huds.send("voting-begin", {}, this.config.id.peer)
             else
                 huds.send("voting-end", {}, this.config.id.peer)
+        },
+        onVotesReveal () {
+            /*  notify clients about voting reveal  */
+            huds.send("voting-reveal", {}, this.config.id.peer)
+        },
+        onVotesDisclose (choice) {
+            /*  notify clients about voting disclose  */
+            huds.send("voting-disclose", { choice }, this.config.id.peer)
         }
     }
 }

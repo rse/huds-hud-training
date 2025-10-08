@@ -345,7 +345,7 @@ export default {
                 /*  create result  */
                 for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b))) {
                     const i = parseInt(choice) - 1
-                    const item = { name: `${choice}: ${answers[i].name}`, voters: choices[choice] }
+                    const item = { choice, name: `${choice}: ${answers[i].name}`, voters: choices[choice] }
                     if (answers[i].win)
                         item.win = true
                     result.push(item)
@@ -540,6 +540,7 @@ export default {
             this.reveal = !this.reveal
             if (this.reveal)
                 soundfx.play("scale1")
+            this.$emit("reveal")
             this.update()
         },
 
@@ -551,6 +552,10 @@ export default {
             if (this.disclose) {
                 soundfx.play("scale1")
                 this.reveal = true
+
+                /*  disclose winner to remote peers  */
+                const winner = this.choices.find((choice) => choice.win)
+                this.$emit("disclose", winner.choice)
 
                 /*  automatically close 5 minutes after disclose  */
                 this.timer3 = setTimeout(() => {
@@ -565,7 +570,7 @@ export default {
         /*  receive a single vote  */
         receive ({ client, choice }) {
             choice = choice.toUpperCase()
-            if (this.votes[client] === undefined) {
+            if (!this.reveal) {
                 this.votes[client] = choice
                 soundfx.play("beep1")
             }
