@@ -575,8 +575,6 @@ export default {
                 return
             choice = choice.toUpperCase()
             this.votes[client] = choice
-            if (this.votesLog[client] === undefined)
-                this.votesLog[client] = []
             soundfx.play("beep1")
             this.update()
         },
