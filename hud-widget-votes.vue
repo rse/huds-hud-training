@@ -212,7 +212,7 @@
 
 <script>
 export default {
-    name: "title-bar",
+    name: "votes-widget",
     props: {
         opacity:         { type: Number, default: 1.0 },
         winnamecolorbg:  { type: String, default: "" },
