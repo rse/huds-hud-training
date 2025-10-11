@@ -270,6 +270,18 @@ export default {
         return { bar }
     },
     methods: {
+        /*  determine quiz answers with correct answer inserted at calculated position  */
+        determineQuizAnswers (quiz) {
+            const answers = quiz.wrong.map((text) => ({ name: text }))
+            let insertIdx = 0
+            for (let i = 0; i < quiz.question.length; i++)
+                insertIdx = (insertIdx + quiz.question.charCodeAt(i)) % answers.length
+            if (insertIdx === 0)
+                insertIdx = Math.trunc(answers.length / 2)
+            answers.splice(insertIdx, 0, { name: quiz.right, win: true })
+            return answers
+        },
+
         /*  recalculate the scenario  */
         recalc () {
             const result = []
@@ -314,13 +326,7 @@ export default {
                 const quiz = this.quizzes[this.quiz]
 
                 /*  determine answers  */
-                const answers = quiz.wrong.map((text) => ({ name: text }))
-                let k = 0
-                for (let i = 0; i < quiz.question.length; i++)
-                    k = (k + quiz.question.charCodeAt(i)) % answers.length
-                if (k === 0)
-                    k = Math.trunc(answers.length / 2)
-                answers.splice(k, 0, { name: quiz.right, win: true })
+                const answers = this.determineQuizAnswers(quiz)
 
                 /*  file votings into choices  */
                 const choices = {}
