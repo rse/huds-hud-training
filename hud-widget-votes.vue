@@ -260,7 +260,7 @@ export default {
         timer2:     null,
         timer3:     null
     }),
-    emits: [ "show" ],
+    emits: [ "show", "reveal", "disclose" ],
     computed: {
         style: HUDS.vueprop2cssvar()
     },
