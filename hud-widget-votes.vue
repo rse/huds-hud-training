@@ -159,7 +159,6 @@
             }
         }
         .bar-container {
-            display: block;
             flex-grow: 1;
             flex-shrink: 1;
             display: block;
