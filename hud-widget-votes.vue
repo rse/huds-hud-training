@@ -424,7 +424,7 @@ export default {
             let i = 0
             for (const choice of result) {
                 choice.i = i++
-                choice.width = Math.ceil((choice.voters / max) * 100) + "%"
+                choice.width = max > 0 ? Math.ceil((choice.voters / max) * 100) + "%" : "0%"
                 if (choice.voters > 0 && choice.voters === max)
                     choice.max = true
                 if (choice.name === "(abstain)") choice.abstain = true
@@ -563,7 +563,8 @@ export default {
 
                 /*  disclose winner to remote peers  */
                 const winner = this.choices.find((choice) => choice.win)
-                this.$emit("disclose", winner.choice)
+                if (winner !== undefined)
+                    this.$emit("disclose", winner.choice)
 
                 /*  disclose current ranking to remote peers  */
                 const ranking = this.determineRanking()
