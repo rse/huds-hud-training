@@ -57,7 +57,9 @@ export default {
     emits: [ "pos" ],
     data: () => ({
         pos: 0,
-        config: huds.config()
+        config: huds.config(),
+        svg: null,
+        box: null
     }),
     computed: {
         style: HUDS.vueprop2cssvar(),

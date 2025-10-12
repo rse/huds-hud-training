@@ -99,6 +99,7 @@ export default [
 
             "vue/html-indent":                             "off",
             "vue/v-bind-style":                            [ "error", "longform" ],
+            "vue/no-undef-properties":                     "off",
             "vue/max-attributes-per-line":                 "off",
             "vue/html-self-closing":                       "off",
             "vue/no-multi-spaces":                         "off",

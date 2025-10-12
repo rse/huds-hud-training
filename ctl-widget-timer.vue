@@ -68,7 +68,9 @@ export default {
         timer:     null,
         ticked:    false,
         svg:       null,
-        svgRefs:   {}
+        svgRefs:   {},
+        segFrom:   0,
+        segNow:    0
     }),
     computed: {
         style: HUDS.vueprop2cssvar()

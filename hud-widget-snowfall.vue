@@ -48,7 +48,15 @@ export default {
     },
     data: () => ({
         enabled: false,
-        snowflakes: []
+        snowflakes: [],
+        c: 0,
+        w: 0,
+        h: 0,
+        x: 0,
+        y: 0,
+        radius:  0,
+        color:   "",
+        radians: 0
     }),
     computed: {
         style: HUDS.vueprop2cssvar()

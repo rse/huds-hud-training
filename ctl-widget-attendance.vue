@@ -75,7 +75,8 @@ export default {
     },
     data: () => ({
         attendees: 0,
-        seen:      {}
+        seen:      {},
+        timer:     null
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -111,7 +112,7 @@ export default {
     },
     beforeUnmount () {
         /*  cleanup timer  */
-        if (this.timer) {
+        if (this.timer !== null) {
             clearInterval(this.timer)
             this.timer = null
         }

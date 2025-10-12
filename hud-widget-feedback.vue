@@ -163,7 +163,8 @@ export default {
     data: () => ({
         feedbacks: {},
         shown:     false,
-        items:     []
+        items:     [],
+        timer:     null
     }),
     computed: {
         style: HUDS.vueprop2cssvar()
@@ -295,7 +296,7 @@ export default {
     },
     beforeUnmount () {
         /*  cleanup timer to prevent memory leaks  */
-        if (this.timer) {
+        if (this.timer !== null) {
             clearInterval(this.timer)
             this.timer = null
         }
