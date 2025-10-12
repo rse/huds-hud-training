@@ -274,10 +274,12 @@ export default {
         determineQuizAnswers (quiz) {
             const answers = quiz.wrong.map((text) => ({ name: text }))
             let insertIdx = 0
-            for (let i = 0; i < quiz.question.length; i++)
-                insertIdx = (insertIdx + quiz.question.charCodeAt(i)) % answers.length
-            if (insertIdx === 0)
-                insertIdx = Math.trunc(answers.length / 2)
+            if (answers.length > 0) {
+                for (let i = 0; i < quiz.question.length; i++)
+                    insertIdx = (insertIdx + quiz.question.charCodeAt(i)) % answers.length
+                if (insertIdx === 0)
+                    insertIdx = Math.trunc(answers.length / 2)
+            }
             answers.splice(insertIdx, 0, { name: quiz.right, win: true })
             return answers
         },
