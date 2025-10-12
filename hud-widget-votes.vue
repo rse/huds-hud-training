@@ -284,132 +284,158 @@ export default {
             return answers
         },
 
-        /*  recalculate the scenario  */
-        recalc () {
+        /*  recalculate the scenario for judge type  */
+        recalcJudge () {
+            const result = []
+            const choices = { yes: 0, no: 0, abstain: 0, invalid: 0 }
+            for (const client of Object.keys(this.votes)) {
+                const choice = this.votes[client]
+                if      (choice === "YES")     choices.yes++
+                else if (choice === "NO")      choices.no++
+                else if (choice === "ABSTAIN") choices.abstain++
+                else                           choices.invalid++
+            }
+            result.push({ name: "Yes", voters: choices.yes })
+            result.push({ name: "No",  voters: choices.no })
+            if (choices.abstain > 0)  result.push({ name: "(abstain)",  voters: choices.abstain })
+            if (choices.invalid > 0)  result.push({ name: "(invalid)",  voters: choices.invalid })
+            return result
+        },
+
+        /*  recalculate the scenario for evaluate type  */
+        recalcEvaluate () {
+            const result = []
+            const choices = { "-2": 0, "-1": 0, "0": 0, "+1": 0, "+2": 0 }
+            let abstain = 0
+            let invalid = 0
+            for (const client of Object.keys(this.votes)) {
+                const choice = this.votes[client]
+                if (choice.match(/^(?:-2|-1|0|\+1|\+2)$/))
+                    choices[choice]++
+                else if (choice === "ABSTAIN")
+                    abstain++
+                else
+                    invalid++
+            }
+            for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b)))
+                result.push({ name: choice, voters: choices[choice] })
+            if (abstain > 0) result.push({ name: "(abstain)", voters: abstain })
+            if (invalid > 0) result.push({ name: "(invalid)", voters: invalid })
+            return result
+        },
+
+        /*  recalculate the scenario for quiz type  */
+        recalcQuiz () {
+            const result = []
+            if (this.quiz < 0)
+                return result
+
+            const quiz = this.quizzes[this.quiz]
+            const answers = this.determineQuizAnswers(quiz)
+
+            /*  file votings into choices  */
+            const choices = {}
+            for (let i = 0; i < answers.length; i++)
+                choices[String(i + 1)] = 0
+            let abstain = 0
+            let invalid = 0
+            for (const client of Object.keys(this.votes)) {
+                const choice = this.votes[client]
+                if (choice.match(/^[1-9]$/)) {
+                    if (choices[choice] === undefined)
+                        invalid++
+                    else
+                        choices[choice]++
+                }
+                else if (choice === "ABSTAIN")
+                    abstain++
+                else
+                    invalid++
+            }
+
+            /*  create result  */
+            for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b))) {
+                const i = parseInt(choice) - 1
+                const item = { choice, name: `${choice}: ${answers[i].name}`, voters: choices[choice] }
+                if (answers[i].win)
+                    item.win = true
+                result.push(item)
+            }
+            if (abstain > 0) result.push({ name: "(abstain)", voters: abstain })
+            if (invalid > 0) result.push({ name: "(invalid)", voters: invalid })
+            return result
+        },
+
+        /*  recalculate the scenario for choose type  */
+        recalcChoose () {
+            const result = []
+            const choices = {}
+            let abstain = 0
+            let invalid = 0
+            for (const client of Object.keys(this.votes)) {
+                const choice = this.votes[client]
+                if (choice.match(/^[1-9]$/)) {
+                    if (choices[choice] === undefined)
+                        choices[choice] = 0
+                    choices[choice]++
+                }
+                else if (choice === "ABSTAIN")
+                    abstain++
+                else
+                    invalid++
+            }
+            for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b)))
+                result.push({ name: choice, voters: choices[choice] })
+            if (abstain > 0) result.push({ name: "(abstain)", voters: abstain })
+            if (invalid > 0) result.push({ name: "(invalid)", voters: invalid })
+            return result
+        },
+
+        /*  recalculate the scenario for propose type  */
+        recalcPropose () {
             const result = []
 
+            /*  determine votes  */
+            let votes = {}
+            for (const client of Object.keys(this.votes)) {
+                const vote = this.votes[client]
+                if (votes[vote] === undefined)
+                    votes[vote] = 0
+                votes[vote]++
+            }
+            votes = hashTagSimilarity(votes)
+            votes = votes.sort((a, b) => {
+                const A = Object.keys(a).sort((x, y) => a[x] - a[y])[0]
+                const B = Object.keys(b).sort((x, y) => b[x] - b[y])[0]
+                return A.localeCompare(B)
+            })
+
+            for (const vote of votes) {
+                const name   = Object.keys(vote).sort((x, y) => vote[x] - vote[y])[0]
+                let voters   = 0
+                const similars = Object.keys(vote).length - 1
+                for (const choice of Object.keys(vote))
+                    voters += vote[choice]
+                result.push({ name, voters, similars })
+            }
+            return result
+        },
+
+        /*  recalculate the scenario  */
+        recalc () {
+            let result = []
+
             /*  dispatch according to type  */
-            if (this.type === "judge") {
-                /*  handle judge/boolean choices only  */
-                const choices = { yes: 0, no: 0, abstain: 0, invalid: 0 }
-                for (const client of Object.keys(this.votes)) {
-                    const choice = this.votes[client]
-                    if      (choice === "YES")     choices.yes++
-                    else if (choice === "NO")      choices.no++
-                    else if (choice === "ABSTAIN") choices.abstain++
-                    else                           choices.invalid++
-                }
-                result.push({ name: "Yes", voters: choices.yes })
-                result.push({ name: "No",  voters: choices.no })
-                if (choices.abstain > 0)  result.push({ name: "(abstain)",  voters: choices.abstain })
-                if (choices.invalid > 0)  result.push({ name: "(invalid)",  voters: choices.invalid })
-            }
-            else if (this.type === "evaluate") {
-                /*  handle evaluate/numeric choices only  */
-                const choices = { "-2": 0, "-1": 0, "0": 0, "+1": 0, "+2": 0 }
-                let abstain = 0
-                let invalid = 0
-                for (const client of Object.keys(this.votes)) {
-                    const choice = this.votes[client]
-                    if (choice.match(/^(?:-2|-1|0|\+1|\+2)$/))
-                        choices[choice]++
-                    else if (choice === "ABSTAIN")
-                        abstain++
-                    else
-                        invalid++
-                }
-                for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b)))
-                    result.push({ name: choice, voters: choices[choice] })
-                if (abstain > 0) result.push({ name: "(abstain)", voters: abstain })
-                if (invalid > 0) result.push({ name: "(invalid)", voters: invalid })
-            }
-            else if (this.type === "quiz" && this.quiz >= 0) {
-                /*  handle quiz/numeric choices only  */
-                const quiz = this.quizzes[this.quiz]
-
-                /*  determine answers  */
-                const answers = this.determineQuizAnswers(quiz)
-
-                /*  file votings into choices  */
-                const choices = {}
-                for (let i = 0; i < answers.length; i++)
-                    choices[String(i + 1)] = 0
-                let abstain = 0
-                let invalid = 0
-                for (const client of Object.keys(this.votes)) {
-                    const choice = this.votes[client]
-                    if (choice.match(/^[1-9]$/)) {
-                        if (choices[choice] === undefined)
-                            invalid++
-                        else
-                            choices[choice]++
-                    }
-                    else if (choice === "ABSTAIN")
-                        abstain++
-                    else
-                        invalid++
-                }
-
-                /*  create result  */
-                for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b))) {
-                    const i = parseInt(choice) - 1
-                    const item = { choice, name: `${choice}: ${answers[i].name}`, voters: choices[choice] }
-                    if (answers[i].win)
-                        item.win = true
-                    result.push(item)
-                }
-                if (abstain > 0) result.push({ name: "(abstain)", voters: abstain })
-                if (invalid > 0) result.push({ name: "(invalid)", voters: invalid })
-            }
-            else if (this.type === "choose") {
-                /*  handle choose/numeric choices only  */
-                const choices = {}
-                let abstain = 0
-                let invalid = 0
-                for (const client of Object.keys(this.votes)) {
-                    const choice = this.votes[client]
-                    if (choice.match(/^[1-9]$/)) {
-                        if (choices[choice] === undefined)
-                            choices[choice] = 0
-                        choices[choice]++
-                    }
-                    else if (choice === "ABSTAIN")
-                        abstain++
-                    else
-                        invalid++
-                }
-                for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b)))
-                    result.push({ name: choice, voters: choices[choice] })
-                if (abstain > 0) result.push({ name: "(abstain)", voters: abstain })
-                if (invalid > 0) result.push({ name: "(invalid)", voters: invalid })
-            }
-            else if (this.type === "propose") {
-                /*  handle propose/textual choices  */
-
-                /*  determine votes  */
-                let votes = {}
-                for (const client of Object.keys(this.votes)) {
-                    const vote = this.votes[client]
-                    if (votes[vote] === undefined)
-                        votes[vote] = 0
-                    votes[vote]++
-                }
-                votes = hashTagSimilarity(votes)
-                votes = votes.sort((a, b) => {
-                    const A = Object.keys(a).sort((x, y) => a[x] - a[y])[0]
-                    const B = Object.keys(b).sort((x, y) => b[x] - b[y])[0]
-                    return A.localeCompare(B)
-                })
-
-                for (const vote of votes) {
-                    const name   = Object.keys(vote).sort((x, y) => vote[x] - vote[y])[0]
-                    let voters   = 0
-                    const similars = Object.keys(vote).length - 1
-                    for (const choice of Object.keys(vote))
-                        voters += vote[choice]
-                    result.push({ name, voters, similars })
-                }
-            }
+            if (this.type === "judge")
+                result = this.recalcJudge()
+            else if (this.type === "evaluate")
+                result = this.recalcEvaluate()
+            else if (this.type === "quiz")
+                result = this.recalcQuiz()
+            else if (this.type === "choose")
+                result = this.recalcChoose()
+            else if (this.type === "propose")
+                result = this.recalcPropose()
 
             /*  post-processing PASS 1: determine maximum-voted choice (winner)  */
             let max = 0
