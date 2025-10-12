@@ -253,6 +253,7 @@ export default {
         type:       "propose",
         timer:      null,
         quiz:       -1,
+        quizLog:    {},
         attendance: {},
         attendees:  0,
         reveal:     true,
@@ -260,7 +261,7 @@ export default {
         timer2:     null,
         timer3:     null
     }),
-    emits: [ "show", "reveal", "disclose" ],
+    emits: [ "show", "reveal", "disclose", "ranking" ],
     computed: {
         style: HUDS.vueprop2cssvar()
     },
@@ -565,6 +566,10 @@ export default {
                 const winner = this.choices.find((choice) => choice.win)
                 this.$emit("disclose", winner.choice)
 
+                /*  disclose current ranking to remote peers  */
+                const ranking = this.determineRanking()
+                this.$emit("ranking", ranking)
+
                 /*  automatically close 5 minutes after disclose  */
                 this.timer3 = setTimeout(() => {
                     this.timer3 = null
@@ -575,6 +580,58 @@ export default {
             this.update()
         },
 
+        /*  determine current ranking of all clients over all quizzes  */
+        determineRanking () {
+            /*  determine quiz answers  */
+            const answers = []
+            for (let i = 0; i < this.quizzes.length; i++)
+                answers[i] = this.determineQuizAnswers(this.quizzes[i])
+
+            /*  determine quiz winners  */
+            const winners = []
+            for (let i = 0; i < this.quizzes.length; i++) {
+                winners[i] = []
+                for (const client of Object.keys(this.quizLog)) {
+                    const vote = this.quizLog[client][i]
+                    if (vote === undefined)
+                        continue
+                    const choice = typeof vote.choice === "string" && vote.choice.match(/^[1-9]$/) ?
+                        parseInt(vote.choice, 10) - 1 :
+                        -1
+                    if (choice === -1)
+                        continue
+                    if (answers[i][choice] !== undefined && answers[i][choice].win === true)
+                        winners[i].push({ client, time: vote.time })
+                }
+                winners[i].sort((a, b) => a.time - b.time) /* sort ascending */
+            }
+
+            /*  calculate total points for all clients over all quizzes  */
+            const pointsList = []
+            for (const client of Object.keys(this.quizLog)) {
+                let points = 0
+                for (let i = 0; i < answers.length; i++) {
+                    const idx = winners[i].findIndex((entry) => entry.client === client)
+                    if (idx >= 0) {
+                        const bonus = winners[i].length > 1 ? (1 - (idx / (winners[i].length - 1))) : 1
+                        points += 100 + bonus
+                    }
+                }
+                pointsList.push({ client, points })
+            }
+            pointsList.sort((a, b) => b.points - a.points) /* sort descending */
+
+            /*  calculate ranking for all clients over all quizzes  */
+            const ranking = {}
+            for (let i = 0; i < pointsList.length; i++) {
+                const client = pointsList[i].client
+                const points = pointsList[i].points
+                const rank   = points > 0 ? String(i + 1) : "X"
+                ranking[client] = rank
+            }
+            return ranking
+        },
+
         /*  receive a single vote  */
         receive ({ client, choice }) {
             if (!this.show)
@@ -583,6 +640,12 @@ export default {
                 return
             choice = choice.toUpperCase()
             this.votes[client] = choice
+            if (this.type === "quiz") {
+                const time = (new Date()).getTime()
+                if (this.quizLog[client] === undefined)
+                    this.quizLog[client] = {}
+                this.quizLog[client][this.quiz] = { time, choice }
+            }
             soundfx.play("beep1")
             this.update()
         },
