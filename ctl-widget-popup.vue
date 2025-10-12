@@ -32,7 +32,7 @@
             <div v-if="popup.title" class="title">
                 {{ popup.title }}
             </div>
-            <div v-if="popup.audio" v-bind:class="{ audio: true, audioOnly: popup.text === '' }">
+            <div v-if="popup.audio" v-bind:class="{ audio: true, 'audio-only': popup.text === '' }">
                 <div v-show="!popup.audioPlaying">
                     <i class="fas fa-play-circle"></i>
                 </div>
@@ -58,7 +58,7 @@
         width: calc(1000px);
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 2px 2px 10px 0px rgb(0 0 0 / 75%);
         .image {
             float: right;
             width: 200px;
@@ -80,7 +80,7 @@
             margin-top: 10px;
             margin-bottom: 2px;
         }
-        .audio.audioOnly {
+        .audio.audio-only {
             font-size: 70pt;
         }
         .message {
