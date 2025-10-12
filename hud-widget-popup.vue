@@ -345,8 +345,8 @@ export default {
                 try {
                     await this[cmd.method](...cmd.args)
                 }
-                catch (err) {
-                    /*  no-op  */
+                catch (_err) {
+                    void(_err)
                 }
             }
             this.queueTimer = setTimeout(progress, 50)

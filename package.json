@@ -12,7 +12,7 @@
     "huds": {
         "client":                          "index.html"
     },
-    "upd":                                 [ "!eslint", "!animejs" ],
+    "upd":                                 [ "!animejs" ],
     "dependencies": {
         "vue":                             "3.5.22",
         "vue3-sfc-loader":                 "0.9.5",
@@ -40,15 +40,16 @@
     },
     "devDependencies": {
         "huds":                            "2.1.12",
-        "eslint":                          "8.57.0",
-        "eslint-config-standard":          "17.1.0",
+        "eslint":                          "9.37.0",
+        "@eslint/js":                      "9.37.0",
         "eslint-plugin-import":            "2.32.0",
-        "eslint-plugin-node":              "11.1.0",
-        "eslint-plugin-vue":               "10.5.0"
+        "eslint-plugin-n":                 "17.23.1",
+        "eslint-plugin-vue":               "10.5.0",
+        "globals":                         "16.4.0"
     },
     "scripts": {
         "huds":                            "huds",
         "start":                           "huds -v3 -a 0.0.0.0 -p 9998 -d training:.,training.yaml",
-        "lint":                            "eslint --config eslint.yaml --ext js,vue *.vue"
+        "lint":                            "eslint --config eslint.mjs *.vue"
     }
 }

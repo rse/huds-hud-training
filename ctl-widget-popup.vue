@@ -168,7 +168,7 @@ export default {
                 data.audioDuration = audioBuffer.duration
                 data.audioPlaying = false
             }
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve, _reject) => {
                 this.popups.unshift(data)
                 this.$nextTick(() => {
                     /*  determine DOM elements  */
@@ -202,7 +202,7 @@ export default {
         async removeBox () {
             if (this.popups.length === 0)
                 return
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve, _reject) => {
                 /*  determine DOM elements  */
                 const els = this.boxes.filter((x) => x !== null).sort((a, b) =>
                     parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
@@ -315,8 +315,8 @@ export default {
                 try {
                     await this[cmd.method](...cmd.args)
                 }
-                catch (err) {
-                    /*  no-op  */
+                catch (_err) {
+                    void(_err)
                 }
             }
             this.queueTimer = setTimeout(progress, 50)
