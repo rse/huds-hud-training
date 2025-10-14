@@ -551,6 +551,8 @@ export default {
 
         /*  force a voting type  */
         setType (type) {
+            if (!this.show)
+                return
             this.type = type
             if (type === "quiz") {
                 this.reveal   = false
@@ -569,6 +571,8 @@ export default {
 
         /*  reveal individual votings  */
         doReveal () {
+            if (!this.show)
+                return
             if (!(this.type === "quiz" || this.type === "evaluate" || this.type === "judge"))
                 return
             this.reveal = !this.reveal
@@ -580,6 +584,8 @@ export default {
 
         /*  disclose results of (quiz) votings  */
         doDisclose () {
+            if (!this.show)
+                return
             if (!(this.type === "quiz"))
                 return
             this.disclose = !this.disclose
