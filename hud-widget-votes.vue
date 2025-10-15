@@ -260,7 +260,7 @@ export default {
         timer2:     null,
         timer3:     null
     }),
-    emits: [ "show", "reveal", "disclose", "ranking" ],
+    emits: [ "show", "type", "reveal", "disclose", "ranking" ],
     computed: {
         style: HUDS.vueprop2cssvar()
     },
@@ -554,6 +554,7 @@ export default {
             if (!this.show)
                 return
             this.type = type
+            this.$emit("type", type)
             if (type === "quiz") {
                 this.reveal   = false
                 this.disclose = false
