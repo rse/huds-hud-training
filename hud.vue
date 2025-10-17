@@ -64,6 +64,10 @@
             v-bind:thumbsdncolor2="config.feedback.thumbsdncolor2"
             v-bind:thumbsdncolor3="config.feedback.thumbsdncolor3"
             v-bind:thumbsdncolor4="config.feedback.thumbsdncolor4"
+            v-bind:applausecolor1="config.feedback.applausecolor1"
+            v-bind:applausecolor2="config.feedback.applausecolor2"
+            v-bind:applausecolor3="config.feedback.applausecolor3"
+            v-bind:applausecolor4="config.feedback.applausecolor4"
         ></feedback>
         <attendance ref="attendance" class="attendance"
             v-bind:opacity="config.attendance.opacity"
@@ -304,7 +308,7 @@ body {
         position: absolute;
         right: 50px;
         bottom: 100px;
-        width: 400px;
+        width: 700px;
     }
     > .agenda {
         position: absolute;

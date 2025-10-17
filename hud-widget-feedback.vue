@@ -52,7 +52,7 @@
     opacity: var(--opacity);
     position: relative;
     .feedback-container {
-        width: 400px;
+        width: 700px;
         height: 990px;
         display: flex;
         flex-direction: row;
@@ -63,7 +63,6 @@
             height: 100px;
             position: relative;
             .icon-bg {
-                opacity: 0.8;
                 position: absolute;
                 left: 0px;
                 bottom: 0px;
@@ -77,8 +76,8 @@
             }
             .badge {
                 position: absolute;
-                right: 0px;
-                top: -4px;
+                right: -10px;
+                top: -10px;
                 width: 30px;
                 height: 30px;
                 text-align: center;
@@ -115,15 +114,21 @@
             }
             &.item-thumbsup {
                 .icon-bg { color:            var(--thumbsupcolor1); }
-                .icon    { color:            var(--thumbsupcolor2); font-size: 60px; left: 22px; top: 3px; }
+                .icon    { color:            var(--thumbsupcolor2); font-size: 60px; left: 26px; top: 5px; }
                 .badge   { background-color: var(--thumbsupcolor3);
                            color:            var(--thumbsupcolor4); }
             }
             &.item-thumbsdn {
                 .icon-bg { color:            var(--thumbsdncolor1); }
-                .icon    { color:            var(--thumbsdncolor2); font-size: 60px; left: 20px; top: 10px; }
+                .icon    { color:            var(--thumbsdncolor2); font-size: 60px; left: 26px; top: 10px; }
                 .badge   { background-color: var(--thumbsdncolor3);
                            color:            var(--thumbsdncolor4); }
+            }
+            &.item-applause {
+                .icon-bg { color:            var(--applausecolor1); }
+                .icon    { color:            var(--applausecolor2); font-size: 60px; left: 24px; top: 5px; }
+                .badge   { background-color: var(--applausecolor3);
+                           color:            var(--applausecolor4); }
             }
         }
     }
@@ -158,7 +163,11 @@ export default {
         thumbsdncolor1: { type: String, default: "" },
         thumbsdncolor2: { type: String, default: "" },
         thumbsdncolor3: { type: String, default: "" },
-        thumbsdncolor4: { type: String, default: "" }
+        thumbsdncolor4: { type: String, default: "" },
+        applausecolor1: { type: String, default: "" },
+        applausecolor2: { type: String, default: "" },
+        applausecolor3: { type: String, default: "" },
+        applausecolor4: { type: String, default: "" }
     },
     data: () => ({
         feedbacks: {},
@@ -216,6 +225,7 @@ export default {
                     else if (type === "sadness")  icon = "sad-tear"
                     else if (type === "thumbsup") icon = "thumbs-up"
                     else if (type === "thumbsdn") icon = "thumbs-down"
+                    else if (type === "applause") icon = "hands-clapping"
                     else                          icon = "smile"
                     item = { type, count: items[type], icon, coming: true }
                     this.items.push(item)

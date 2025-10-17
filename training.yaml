@@ -71,10 +71,14 @@ feedback:
     thumbsupcolor2:        "#e0f0ff"
     thumbsupcolor3:        "#003366"
     thumbsupcolor4:        "#ffffff"
-    thumbsdncolor1:        "#904800"
-    thumbsdncolor2:        "#ffb870"
-    thumbsdncolor3:        "#702200"
+    thumbsdncolor1:        "#333333"
+    thumbsdncolor2:        "#cccccc"
+    thumbsdncolor3:        "#000000"
     thumbsdncolor4:        "#ffffff"
+    applausecolor1:        "#904800"
+    applausecolor2:        "#ffb870"
+    applausecolor3:        "#603000"
+    applausecolor4:        "#ffffff"
 
 feeling:
     opacity:               0.80
