@@ -767,7 +767,7 @@ export default {
             f.toggle()
         })
 
-        /*  receive messages from the attendance channel  */
+        /*  receive messages from the feeling channel  */
         huds.bind("feeling", (event, data) => {
             /*  just react on correctly structured messages  */
             if (!(   typeof data.client    === "string" && data.client !== ""

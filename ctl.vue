@@ -179,7 +179,7 @@ export default {
             p.attendance(data)
         })
 
-        /*  receive messages for the attendance channel  */
+        /*  receive messages for the feeling channel  */
         huds.bind("feeling", (event, data) => {
             /*  just react on correctly structured messages  */
             if (!(   typeof data.client    === "string" && data.client !== ""
