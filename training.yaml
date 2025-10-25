@@ -218,7 +218,7 @@ banner:
         -   name:          rant
             key:           r
             iconname:      radiation-alt
-            iconcolor:     "#bb0000"
+            iconcolor:     "#b06820"
             titletext:     RANT
             titlecolor:    "#000000"
         -   name:          praise
