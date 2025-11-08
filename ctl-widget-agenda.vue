@@ -158,8 +158,6 @@ export default {
     computed: {
         style: HUDS.vueprop2cssvar()
     },
-    created () {
-    },
     mounted () {
         this.update()
     },

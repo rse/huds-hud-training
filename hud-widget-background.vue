@@ -43,8 +43,6 @@
 <script>
 export default {
     name: "background",
-    props: {
-    },
     data: () => ({
         config: huds.config()
     }),
