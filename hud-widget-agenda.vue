@@ -28,7 +28,7 @@
     <div v-bind:style="style" class="agenda">
         <div ref="canvas" class="canvas">
             <div v-for="(slot, i) in slotlist"
-                v-bind:key="slot"
+                v-bind:key="slot[0]"
                 v-bind:class="{
                     first: i === 0,
                     done:  i < pos,
@@ -37,11 +37,11 @@
                     last:  i === slotlist.length - 1 }"
                 class="slot">
                 <div class="dots">
-                    <div class="dot"><i v-if="slot === 'BREAK' || slot === 'LUNCH'" class="fas fa-circle"></i></div>
-                    <div class="dot"><i v-if="slot === 'LUNCH'" class="fas fa-circle"></i></div>
+                    <div class="dot"><i v-if="slot[3] === 'BREAK' || slot[3] === 'LUNCH'" class="fas fa-circle"></i></div>
+                    <div class="dot"><i v-if="slot[3] === 'LUNCH'" class="fas fa-circle"></i></div>
                 </div>
                 <div class="num">{{ i + 1 }}</div>
-                <div class="text">{{ slot }}</div>
+                <div class="text">{{ slot[3] }}</div>
             </div>
         </div>
     </div>

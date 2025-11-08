@@ -50,8 +50,11 @@
             v-bind:m5color="config.feeling.m5color"
         ></feeling>
         <timer ref="timer" class="timer"
+            v-bind:background0="config.timer.background0"
             v-bind:background1="config.timer.background1"
             v-bind:background2="config.timer.background2"
+            v-bind:background3="config.timer.background3"
+            v-bind:background4="config.timer.background4"
             v-bind:ticks="config.timer.ticks"
             v-bind:digits="config.timer.digits"
             v-bind:pointer1="config.timer.pointer1"
@@ -61,6 +64,10 @@
             v-bind:segment2="config.timer.segment2"
             v-bind:segment3="config.timer.segment3"
             v-bind:segment4="config.timer.segment4"
+            v-bind:segment5="config.timer.segment5"
+            v-bind:segment6="config.timer.segment6"
+            v-bind:overrun="config.timer.overrun"
+            v-bind:agenda="config.agenda.slots"
         ></timer>
         <agenda ref="agenda" class="agenda"
             v-bind:donecolorbg="config.agenda.donecolorbg"
@@ -195,11 +202,11 @@ export default {
             const a = this.$refs.agenda
             if (event === "progress.prev") {
                 a.prev()
-                t.restart()
+                t.prev()
             }
             else if (event === "progress.next") {
                 a.next()
-                t.restart()
+                t.next()
             }
         })
 

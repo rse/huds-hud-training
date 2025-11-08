@@ -143,18 +143,18 @@ export default {
                         .L(r, h / 2)
                         .L(0, r)
                         .Q(0, 0, r, 0)
-                if (this.slotlist[i].match(/^(?:BREAK|LUNCH)$/)) {
+                if (this.slotlist[i][3].match(/^(?:BREAK|LUNCH)$/)) {
                     const R = Math.floor(h * 0.08)
                     const X = R * 3
                     const Y = R * 2
-                    if (this.slotlist[i] === "BREAK") {
+                    if (this.slotlist[i][3] === "BREAK") {
                         /*  optionally mark break  */
                         p.M(X, h - Y)
                         p.m(-R, 0)
                         p.a(R, R, 0, 1, 0, { x:   R * 2,  y: 0 })
                         p.a(R, R, 0, 1, 0, { x: -(R * 2), y: 0 })
                     }
-                    else if (this.slotlist[i] === "LUNCH") {
+                    else if (this.slotlist[i][3] === "LUNCH") {
                         /*  optionally mark lunch  */
                         p.M(X, h - Y)
                         p.m(-R, 0)

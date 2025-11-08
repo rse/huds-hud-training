@@ -36,8 +36,15 @@
                     todo:  i > pos,
                     last:  i === slotlist.length - 1 }"
                 class="slot">
+                <div class="begin">{{ slot[0] }}</div>
+                <div class="end">{{ slot[1] }}</div>
+                <div class="duration">{{ slot[2] }}</div>
                 <div class="num">{{ i + 1 }}</div>
-                <div class="text">{{ slot }}</div>
+                <div class="dots">
+                    <div class="dot"><i v-if="slot[3] === 'BREAK' || slot[3] === 'LUNCH'" class="fas fa-circle"></i></div>
+                    <div class="dot"><i v-if="slot[3] === 'LUNCH'" class="fas fa-circle"></i></div>
+                </div>
+                <div class="text">{{ slot[3] }}</div>
             </div>
         </div>
     </div>
@@ -55,9 +62,11 @@
         .slot {
             margin-bottom: 2px;
             font-family: "TypoPRO Fira Sans";
-            font-size: 28pt;
+            font-size: 26pt;
             display: flex;
             flex-direction: row;
+            justify-content: center;
+            align-items: center;
             &.first {
                 border-top-left-radius:  10px;
                 border-top-right-radius: 10px;
@@ -78,11 +87,43 @@
                 background-color: var(--todocolorbg);
                 color: var(--todocolorfg);
             }
+            .begin {
+                padding-left: 20px;
+                width: 160px;
+                text-align: left;
+                font-family: "TypoPRO DejaVu Sans Mono";
+                font-size: 85%;
+            }
+            .end {
+                width: 160px;
+                text-align: left;
+                font-family: "TypoPRO DejaVu Sans Mono";
+                font-size: 85%;
+            }
+            .duration {
+                width: 160px;
+                text-align: left;
+                font-weight: bold;
+                font-family: "TypoPRO DejaVu Sans Mono";
+                font-size: 85%;
+            }
             .num {
-                padding-left:  30px;
+                padding-left: 10px;
                 padding-right: 10px;
                 text-align: center;
                 width: 50px;
+            }
+            .dots {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+                width: 40px;
+                font-size: 10px;
+                .dot {
+                    display: block;
+                    margin-left: 2px;
+                }
             }
             .text {
                 padding-left:  10px;
@@ -92,6 +133,7 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                font-weight: 500;
             }
         }
     }

@@ -134,8 +134,11 @@ popup:
 
 timer:
     opacity:               0.80
-    background1:           "#555555"
+    background0:           "#444444"
+    background1:           "#666666"
     background2:           "#f0f0f0"
+    background3:           "#ffcc33"
+    background4:           "#ff3333"
     ticks:                 "#333333"
     digits:                "#666666"
     pointer1:              "#000000"
@@ -145,6 +148,9 @@ timer:
     segment2:              "#f4dbc2"
     segment3:              "#2068b0"
     segment4:              "#c2dbf4"
+    segment5:              "#b04800"
+    segment6:              "#ffbba2"
+    overrun:               true
 
 progress:
     opacity:               0.80
@@ -286,24 +292,24 @@ agenda:
     todocolorbg:           "#f0f0f0"
     todocolorfg:           "#999999"
     slots:
-        -   Lorem Ipsum 1
-        -   Lorem Ipsum 2
-        -   Lorem Ipsum 3
-        -   Lorem Ipsum 4
-        -   BREAK
-        -   Lorem Ipsum 5
-        -   Lorem Ipsum 6
-        -   Lorem Ipsum 7
-        -   LUNCH
-        -   Lorem Ipsum 8
-        -   Lorem Ipsum 9
-        -   Lorem Ipsum 10
-        -   Lorem Ipsum 11
-        -   BREAK
-        -   Lorem Ipsum 12
-        -   Lorem Ipsum 13
-        -   Lorem Ipsum 1
-        -   Lorem Ipsum 2
-        -   Lorem Ipsum 3
-        -   Lorem Ipsum 4
+        - [ "09:00", "09:20", "00:20", "Lorem Ipsum 1" ]
+        - [ "09:20", "09:40", "00:20", "Lorem Ipsum 2" ]
+        - [ "09:40", "10:00", "00:20", "Lorem Ipsum 3" ]
+        - [ "10:00", "10:20", "00:20", "Lorem Ipsum 4" ]
+        - [ "10:20", "10:30", "00:10", "BREAK" ]
+        - [ "10:30", "10:50", "00:20", "Lorem Ipsum 5" ]
+        - [ "10:50", "11:10", "00:20", "Lorem Ipsum 6" ]
+        - [ "11:10", "11:30", "00:20", "Lorem Ipsum 7" ]
+        - [ "11:30", "12:30", "01:00", "LUNCH" ]
+        - [ "12:30", "12:50", "00:20", "Lorem Ipsum 8" ]
+        - [ "12:50", "13:10", "00:20", "Lorem Ipsum 9" ]
+        - [ "13:10", "13:30", "00:20", "Lorem Ipsum 10" ]
+        - [ "13:30", "13:50", "00:20", "Lorem Ipsum 11" ]
+        - [ "13:50", "14:00", "00:10", "BREAK" ]
+        - [ "14:00", "14:20", "00:20", "Lorem Ipsum 12" ]
+        - [ "14:20", "14:40", "00:20", "Lorem Ipsum 13" ]
+        - [ "14:40", "15:00", "00:20", "Lorem Ipsum 1" ]
+        - [ "15:00", "15:20", "00:20", "Lorem Ipsum 2" ]
+        - [ "15:20", "15:40", "00:20", "Lorem Ipsum 3" ]
+        - [ "15:40", "16:00", "00:20", "Lorem Ipsum 4" ]
 
