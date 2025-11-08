@@ -71,8 +71,31 @@ export default {
 
         /*  emit our current position (for agenda widget)  */
         this.$emit("pos", this.pos)
+
+        /*  listen for viewport resize events  */
+        this.resizeHandler = this.handleResize.bind(this)
+        window.addEventListener("resize", this.resizeHandler)
+    },
+    beforeUnmount () {
+        /*  cleanup resize listener  */
+        if (this.resizeHandler)
+            window.removeEventListener("resize", this.resizeHandler)
     },
     methods: {
+        /*  handle viewport resize  */
+        handleResize () {
+            /*  clear existing SVG  */
+            if (this.svg) {
+                this.svg.clear()
+                this.svg.remove()
+                this.svg = null
+                this.box = null
+            }
+
+            /*  re-render with new dimensions  */
+            this.render()
+        },
+
         /*  allow the user to go to previous and next slot  */
         prev () {
             if (this.pos > 0) {
