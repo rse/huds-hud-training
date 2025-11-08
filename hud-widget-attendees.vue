@@ -143,7 +143,7 @@ export default {
             const cells = Object.keys(this.attendees)
                 .map((client) => this.attendees[client])
                 .filter((client) => client.name || client.image)
-                .sort((a, b) => a.name.localeCompare(b.name))
+                .toSorted((a, b) => a.name.localeCompare(b.name))
 
             /*  determine canvas size (can differ on minimize HUD view)  */
             const el = this.$refs.canvas

@@ -14,7 +14,7 @@
     },
     "upd":                                  [ "!animejs" ],
     "dependencies": {
-        "vue":                              "3.5.23",
+        "vue":                              "3.5.24",
         "vue3-sfc-loader":                  "0.9.5",
         "vue3-resize":                      "0.2.0",
         "less":                             "4.4.2",
@@ -45,6 +45,7 @@
         "eslint-plugin-import":             "2.32.0",
         "eslint-plugin-n":                  "17.23.1",
         "eslint-plugin-vue":                "10.5.1",
+        "oxlint":                           "1.26.0",
         "globals":                          "16.5.0",
         "stylelint":                        "16.25.0",
         "stylelint-config-html":            "1.1.0",
@@ -57,6 +58,6 @@
     "scripts": {
         "huds":                             "huds",
         "start":                            "huds -v3 -a 0.0.0.0 -p 9998 -d training:.,training.yaml",
-        "lint":                             "eslint --config etc-eslint.mjs *.vue && stylelint --config etc-stylelint.yaml *.vue"
+        "lint":                             "oxlint --config etc-oxlint.jsonc *.vue && eslint --config etc-eslint.mjs *.vue && stylelint --config etc-stylelint.yaml *.vue"
     }
 }

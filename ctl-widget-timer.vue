@@ -127,7 +127,7 @@ export default {
                 const m = time.match(/^(\d+):(\d+)$/)
                 if (!m)
                     throw new Error(`invalid time format: ${time}`)
-                return moment().hour(parseInt(m[1], 10)).minute(parseInt(m[2], 10)).second(0)
+                return moment().hour(Number.parseInt(m[1], 10)).minute(Number.parseInt(m[2], 10)).second(0)
                     .format("YYYY-MM-DDTHH:mm:ss")
             }
             const from  = parseHHMM(slot[0])
@@ -195,8 +195,8 @@ export default {
             if (options.from !== undefined)
                 this.started = moment(options.from).unix()
             if (options.duration !== undefined) {
-                let duration = parseInt(options.duration, 10)
-                if (isNaN(duration) || duration < 0)
+                let duration = Number.parseInt(options.duration, 10)
+                if (Number.isNaN(duration) || duration < 0)
                     duration = 0
                 else {
                     duration = moment.duration(duration, "m").asSeconds()

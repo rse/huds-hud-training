@@ -317,7 +317,7 @@ export default {
                 else
                     invalid++
             }
-            for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b)))
+            for (const choice of Object.keys(choices).toSorted((a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)))
                 result.push({ name: choice, voters: choices[choice] })
             if (abstain > 0) result.push({ name: "(abstain)", voters: abstain })
             if (invalid > 0) result.push({ name: "(invalid)", voters: invalid })
@@ -354,8 +354,8 @@ export default {
             }
 
             /*  create result  */
-            for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b))) {
-                const i = parseInt(choice) - 1
+            for (const choice of Object.keys(choices).toSorted((a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10))) {
+                const i = Number.parseInt(choice, 10) - 1
                 const item = { choice, name: `${choice}: ${answers[i].name}`, voters: choices[choice] }
                 if (answers[i].win)
                     item.win = true
@@ -384,7 +384,7 @@ export default {
                 else
                     invalid++
             }
-            for (const choice of Object.keys(choices).sort((a, b) => parseInt(a) - parseInt(b)))
+            for (const choice of Object.keys(choices).toSorted((a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)))
                 result.push({ name: choice, voters: choices[choice] })
             if (abstain > 0) result.push({ name: "(abstain)", voters: abstain })
             if (invalid > 0) result.push({ name: "(invalid)", voters: invalid })
@@ -404,14 +404,14 @@ export default {
                 votes[vote]++
             }
             votes = hashTagSimilarity(votes)
-            votes = votes.sort((a, b) => {
-                const A = Object.keys(a).sort((x, y) => a[x] - a[y])[0]
-                const B = Object.keys(b).sort((x, y) => b[x] - b[y])[0]
+            votes.sort((a, b) => {
+                const A = Object.keys(a).toSorted((x, y) => a[x] - a[y])[0]
+                const B = Object.keys(b).toSorted((x, y) => b[x] - b[y])[0]
                 return A.localeCompare(B)
             })
 
             for (const vote of votes) {
-                const name   = Object.keys(vote).sort((x, y) => vote[x] - vote[y])[0]
+                const name   = Object.keys(vote).toSorted((x, y) => vote[x] - vote[y])[0]
                 let voters   = 0
                 const similars = Object.keys(vote).length - 1
                 for (const choice of Object.keys(vote))
@@ -629,7 +629,7 @@ export default {
                     if (vote === undefined)
                         continue
                     const choice = typeof vote.choice === "string" && vote.choice.match(/^[1-9]$/) ?
-                        parseInt(vote.choice, 10) - 1 :
+                        Number.parseInt(vote.choice, 10) - 1 :
                         -1
                     if (choice === -1)
                         continue

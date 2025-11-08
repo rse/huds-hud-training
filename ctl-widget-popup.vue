@@ -172,8 +172,8 @@ export default {
                 this.popups.unshift(data)
                 this.$nextTick(() => {
                     /*  determine DOM elements  */
-                    const els = this.boxes.filter((x) => x !== null).sort((a, b) =>
-                        parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
+                    const els = this.boxes.filter((x) => x !== null).toSorted((a, b) =>
+                        Number.parseInt(b.getAttribute("data-i"), 10) - Number.parseInt(a.getAttribute("data-i"), 10))
                     const newer  = els[0]
                     const others = els.slice(1)
 
@@ -204,8 +204,8 @@ export default {
                 return
             return new Promise((resolve, _reject) => {
                 /*  determine DOM elements  */
-                const els = this.boxes.filter((x) => x !== null).sort((a, b) =>
-                    parseInt(b.getAttribute("data-i")) - parseInt(a.getAttribute("data-i")))
+                const els = this.boxes.filter((x) => x !== null).toSorted((a, b) =>
+                    Number.parseInt(b.getAttribute("data-i"), 10) - Number.parseInt(a.getAttribute("data-i"), 10))
                 const others = els.slice(0, els.length - 1)
                 const older  = els[els.length - 1]
 
@@ -227,9 +227,9 @@ export default {
                     /*  animate all the remaining popups into their new target position  */
                     let i = 0
                     const promises = []
-                    for (const el of others.reverse()) {
+                    for (const el of others.toReversed()) {
                         /*  determine old and new position  */
-                        const posOld = parseInt(el.style.bottom.toString().replace(/px$/, ""))
+                        const posOld = Number.parseInt(el.style.bottom.toString().replace(/px$/, ""), 10)
                         const posNew = posOld - diff
 
                         /*  shift popup into new position  */
