@@ -123,15 +123,13 @@ export default {
                     /*  setup an update interval  */
                     this.timer = setInterval(() => {
                         const now = Math.floor((new Date()).getTime() / 1000)
-                        if (now >= this.ending) {
-                            if (!this.ended) {
-                                /*  end timer  */
-                                this.ended = true
-                                soundfx.play("scale1")
-                                setTimeout(() => {
-                                    this.stop()
-                                }, 5 * 1000)
-                            }
+                        if (now >= this.ending && !this.ended) {
+                            /*  end timer  */
+                            this.ended = true
+                            soundfx.play("scale1")
+                            setTimeout(() => {
+                                this.stop()
+                            }, 5 * 1000)
                         }
                         this.update()
                     }, 2 * (1000 / 30))
