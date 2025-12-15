@@ -90,7 +90,7 @@ export default {
 
             /*  perform ten rounds  */
             soundfx.play("fanfare1")
-            await new Promise((resolve) => setTimeout(resolve, 3.0 * 1000))
+            await new Promise((resolve) => { setTimeout(resolve, 3.0 * 1000) })
             for (let i = 0; i < 10; i++) {
                 /*  fire multiple confetti bombs  */
                 soundfx.play(`cannon${(i % 2) + 1}`)
@@ -99,7 +99,7 @@ export default {
                 fire(0.35, { spread: 100, startVelocity: 60, decay: 0.91 })
                 fire(0.10, { spread: 120, startVelocity: 25, decay: 0.92 })
                 fire(0.10, { spread: 120, startVelocity: 45, decay: 0.94 })
-                await new Promise((resolve) => setTimeout(resolve, randomInRange(0, 300)))
+                await new Promise((resolve) => { setTimeout(resolve, randomInRange(0, 300)) })
             }
         }
     }

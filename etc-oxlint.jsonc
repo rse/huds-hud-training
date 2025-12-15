@@ -154,7 +154,8 @@
         "prefer-query-selector":              "off",
         "prefer-global-this":                 "off",
         "consistent-existence-index-check":   "off",
-        "prefer-negative-index":              "off"
+        "prefer-negative-index":              "off",
+        "no-loop-func":                       "off"
     }
 }
 
