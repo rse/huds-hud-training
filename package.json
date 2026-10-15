@@ -29,7 +29,7 @@
         "svg.screenbbox.js":                "0.1.2",
         "svg.path.js":                      "git+https://github.com/otm/svg.path.js.git#6981166",
         "hashtag-similarity":               "0.9.5",
-        "moment":                           "2.30.1",
+        "moment":                           "2.31.0",
         "canvas-confetti":                  "1.9.4",
         "fitty":                            "2.4.2",
         "@rse/soundfx":                     "1.1.3",
